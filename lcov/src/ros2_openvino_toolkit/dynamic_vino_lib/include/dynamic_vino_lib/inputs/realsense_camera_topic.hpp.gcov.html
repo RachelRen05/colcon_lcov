@@ -1,0 +1,153 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - total_coverage.info - src/ros2_openvino_toolkit/dynamic_vino_lib/include/dynamic_vino_lib/inputs/realsense_camera_topic.hpp</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../../index.html">top level</a> - <a href="index.html">src/ros2_openvino_toolkit/dynamic_vino_lib/include/dynamic_vino_lib/inputs</a> - realsense_camera_topic.hpp<span style="font-size: 80%;"> (source / <a href="realsense_camera_topic.hpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">total_coverage.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">5</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-09-25 21:44:45</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+            | Branches:
+            <span class="coverLegendCov">+</span> taken
+            <span class="coverLegendNoCov">-</span> not taken
+            <span class="coverLegendNoCov">#</span> not executed
+</td>
+            <td></td>
+            <td class="headerItem">Branches:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntryHi">-</td>
+          </tr>
+          <tr><td><img src="../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>                :            : // Copyright (c) 2018 Intel Corporation</a>
+<span class="lineNum">       2 </span>                :            : //
+<span class="lineNum">       3 </span>                :            : // Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+<span class="lineNum">       4 </span>                :            : // you may not use this file except in compliance with the License.
+<span class="lineNum">       5 </span>                :            : // You may obtain a copy of the License at
+<span class="lineNum">       6 </span>                :            : //
+<span class="lineNum">       7 </span>                :            : //     http://www.apache.org/licenses/LICENSE-2.0
+<span class="lineNum">       8 </span>                :            : //
+<span class="lineNum">       9 </span>                :            : // Unless required by applicable law or agreed to in writing, software
+<span class="lineNum">      10 </span>                :            : // distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+<span class="lineNum">      11 </span>                :            : // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+<span class="lineNum">      12 </span>                :            : // See the License for the specific language governing permissions and
+<span class="lineNum">      13 </span>                :            : // limitations under the License.
+<span class="lineNum">      14 </span>                :            : 
+<span class="lineNum">      15 </span>                :            : /**
+<span class="lineNum">      16 </span>                :            :  * @brief A header file with declaration for RealSenseCamera class
+<span class="lineNum">      17 </span>                :            :  * @file realsense_camera.h
+<span class="lineNum">      18 </span>                :            :  */
+<span class="lineNum">      19 </span>                :            : 
+<span class="lineNum">      20 </span>                :            : #ifndef DYNAMIC_VINO_LIB__INPUTS__REALSENSE_CAMERA_TOPIC_HPP_
+<span class="lineNum">      21 </span>                :            : #define DYNAMIC_VINO_LIB__INPUTS__REALSENSE_CAMERA_TOPIC_HPP_
+<span class="lineNum">      22 </span>                :            : 
+<span class="lineNum">      23 </span>                :            : #include &lt;rclcpp/rclcpp.hpp&gt;
+<span class="lineNum">      24 </span>                :            : #include &lt;opencv2/opencv.hpp&gt;
+<span class="lineNum">      25 </span>                :            : #include &lt;sensor_msgs/msg/image.hpp&gt;
+<span class="lineNum">      26 </span>                :            : 
+<span class="lineNum">      27 </span>                :            : #include &lt;memory&gt;
+<span class="lineNum">      28 </span>                :            : 
+<span class="lineNum">      29 </span>                :            : #include &quot;dynamic_vino_lib/inputs/base_input.hpp&quot;
+<span class="lineNum">      30 </span>                :            : 
+<span class="lineNum">      31 </span>                :            : namespace Input
+<span class="lineNum">      32 </span>                :            : {
+<span class="lineNum">      33 </span>                :            : /**
+<span class="lineNum">      34 </span>                :            :  * @class RealSenseCameraTopic
+<a name="35"><span class="lineNum">      35 </span>                :            :  * @brief Class for recieving a realsense camera topic as input.</a>
+<span class="lineNum">      36 </span>                :            :  */
+<span class="lineNum">      37 </span>                :<span class="lineNoCov">          0 : class RealSenseCameraTopic : public BaseInputDevice, public rclcpp::Node</span>
+<span class="lineNum">      38 </span>                :            : {
+<span class="lineNum">      39 </span>                :            : public:
+<a name="40"><span class="lineNum">      40 </span>                :            :   RealSenseCameraTopic();</a>
+<span class="lineNum">      41 </span>                :            :   bool initialize() override;
+<span class="lineNum">      42 </span>                :<span class="lineNoCov">          0 :   bool initialize(int t) override</span>
+<span class="lineNum">      43 </span>                :            :   {
+<a name="44"><span class="lineNum">      44 </span>                :<span class="lineNoCov">          0 :     return true;</span></a>
+<span class="lineNum">      45 </span>                :            :   }
+<span class="lineNum">      46 </span>                :<span class="lineNoCov">          0 :   bool initialize(size_t width, size_t height) override</span>
+<span class="lineNum">      47 </span>                :            :   {
+<span class="lineNum">      48 </span>                :<span class="lineNoCov">          0 :     return true;</span>
+<span class="lineNum">      49 </span>                :            :   }
+<span class="lineNum">      50 </span>                :            :   bool read(cv::Mat * frame) override;
+<span class="lineNum">      51 </span>                :            : 
+<span class="lineNum">      52 </span>                :            : private:
+<span class="lineNum">      53 </span>                :            :   rclcpp::Subscription&lt;sensor_msgs::msg::Image&gt;::SharedPtr sub_;
+<span class="lineNum">      54 </span>                :            :   cv::Mat image_;
+<span class="lineNum">      55 </span>                :            :   MutexCounter image_count_;
+<span class="lineNum">      56 </span>                :            : 
+<span class="lineNum">      57 </span>                :            :   void cb(const sensor_msgs::msg::Image::SharedPtr image_msg);
+<span class="lineNum">      58 </span>                :            : };
+<span class="lineNum">      59 </span>                :            : }  // namespace Input
+<span class="lineNum">      60 </span>                :            : 
+<span class="lineNum">      61 </span>                :            : #endif  // DYNAMIC_VINO_LIB__INPUTS__REALSENSE_CAMERA_TOPIC_HPP_
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.13</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

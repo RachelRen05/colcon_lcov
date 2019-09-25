@@ -1,0 +1,611 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - total_coverage.info - src/ros2_openvino_toolkit/dynamic_vino_lib/src/pipeline_manager.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../index.html">top level</a> - <a href="index.html">src/ros2_openvino_toolkit/dynamic_vino_lib/src</a> - pipeline_manager.cpp<span style="font-size: 80%;"> (source / <a href="pipeline_manager.cpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">total_coverage.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">117</td>
+            <td class="headerCovTableEntry">245</td>
+            <td class="headerCovTableEntryLo">47.8 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-09-25 21:44:45</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">12</td>
+            <td class="headerCovTableEntry">24</td>
+            <td class="headerCovTableEntryLo">50.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+            | Branches:
+            <span class="coverLegendCov">+</span> taken
+            <span class="coverLegendNoCov">-</span> not taken
+            <span class="coverLegendNoCov">#</span> not executed
+</td>
+            <td></td>
+            <td class="headerItem">Branches:</td>
+            <td class="headerCovTableEntry">110</td>
+            <td class="headerCovTableEntry">350</td>
+            <td class="headerCovTableEntryLo">31.4 %</td>
+          </tr>
+          <tr><td><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>                :            : // Copyright (c) 2018 Intel Corporation</a>
+<span class="lineNum">       2 </span>                :            : //
+<span class="lineNum">       3 </span>                :            : // Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+<span class="lineNum">       4 </span>                :            : // you may not use this file except in compliance with the License.
+<span class="lineNum">       5 </span>                :            : // You may obtain a copy of the License at
+<span class="lineNum">       6 </span>                :            : //
+<span class="lineNum">       7 </span>                :            : //     http://www.apache.org/licenses/LICENSE-2.0
+<span class="lineNum">       8 </span>                :            : //
+<span class="lineNum">       9 </span>                :            : // Unless required by applicable law or agreed to in writing, software
+<span class="lineNum">      10 </span>                :            : // distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+<span class="lineNum">      11 </span>                :            : // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+<span class="lineNum">      12 </span>                :            : // See the License for the specific language governing permissions and
+<span class="lineNum">      13 </span>                :            : // limitations under the License.
+<span class="lineNum">      14 </span>                :            : 
+<span class="lineNum">      15 </span>                :            : /**
+<span class="lineNum">      16 </span>                :            :  * @brief a header file with declaration of Pipeline Manager class
+<span class="lineNum">      17 </span>                :            :  * @file pipeline_manager.cpp
+<span class="lineNum">      18 </span>                :            :  */
+<span class="lineNum">      19 </span>                :            : 
+<span class="lineNum">      20 </span>                :            : #include &lt;vino_param_lib/param_manager.hpp&gt;
+<span class="lineNum">      21 </span>                :            : #include &lt;memory&gt;
+<span class="lineNum">      22 </span>                :            : #include &lt;string&gt;
+<span class="lineNum">      23 </span>                :            : #include &lt;utility&gt;
+<span class="lineNum">      24 </span>                :            : #include &lt;map&gt;
+<span class="lineNum">      25 </span>                :            : 
+<span class="lineNum">      26 </span>                :            : #include &quot;dynamic_vino_lib/factory.hpp&quot;
+<span class="lineNum">      27 </span>                :            : #include &quot;dynamic_vino_lib/inferences/age_gender_detection.hpp&quot;
+<span class="lineNum">      28 </span>                :            : #include &quot;dynamic_vino_lib/inferences/emotions_detection.hpp&quot;
+<span class="lineNum">      29 </span>                :            : #include &quot;dynamic_vino_lib/inferences/face_detection.hpp&quot;
+<span class="lineNum">      30 </span>                :            : #include &quot;dynamic_vino_lib/inferences/head_pose_detection.hpp&quot;
+<span class="lineNum">      31 </span>                :            : #include &quot;dynamic_vino_lib/inferences/object_segmentation.hpp&quot;
+<span class="lineNum">      32 </span>                :            : #include &quot;dynamic_vino_lib/inferences/person_reidentification.hpp&quot;
+<span class="lineNum">      33 </span>                :            : #include &quot;dynamic_vino_lib/inferences/person_attribs_detection.hpp&quot;
+<span class="lineNum">      34 </span>                :            : #include &quot;dynamic_vino_lib/inferences/landmarks_detection.hpp&quot;
+<span class="lineNum">      35 </span>                :            : #include &quot;dynamic_vino_lib/inferences/face_reidentification.hpp&quot;
+<span class="lineNum">      36 </span>                :            : #include &quot;dynamic_vino_lib/inferences/vehicle_attribs_detection.hpp&quot;
+<span class="lineNum">      37 </span>                :            : #include &quot;dynamic_vino_lib/inferences/license_plate_detection.hpp&quot;
+<span class="lineNum">      38 </span>                :            : #include &quot;dynamic_vino_lib/inputs/base_input.hpp&quot;
+<span class="lineNum">      39 </span>                :            : #include &quot;dynamic_vino_lib/inputs/image_input.hpp&quot;
+<span class="lineNum">      40 </span>                :            : #include &quot;dynamic_vino_lib/inputs/realsense_camera.hpp&quot;
+<span class="lineNum">      41 </span>                :            : #include &quot;dynamic_vino_lib/inputs/realsense_camera_topic.hpp&quot;
+<span class="lineNum">      42 </span>                :            : #include &quot;dynamic_vino_lib/inputs/standard_camera.hpp&quot;
+<span class="lineNum">      43 </span>                :            : #include &quot;dynamic_vino_lib/inputs/ip_camera.hpp&quot;
+<span class="lineNum">      44 </span>                :            : #include &quot;dynamic_vino_lib/inputs/video_input.hpp&quot;
+<span class="lineNum">      45 </span>                :            : #include &quot;dynamic_vino_lib/models/age_gender_detection_model.hpp&quot;
+<span class="lineNum">      46 </span>                :            : #include &quot;dynamic_vino_lib/models/emotion_detection_model.hpp&quot;
+<span class="lineNum">      47 </span>                :            : #include &quot;dynamic_vino_lib/models/face_detection_model.hpp&quot;
+<span class="lineNum">      48 </span>                :            : #include &quot;dynamic_vino_lib/models/head_pose_detection_model.hpp&quot;
+<span class="lineNum">      49 </span>                :            : #include &quot;dynamic_vino_lib/models/object_segmentation_model.hpp&quot;
+<span class="lineNum">      50 </span>                :            : #include &quot;dynamic_vino_lib/models/person_reidentification_model.hpp&quot;
+<span class="lineNum">      51 </span>                :            : #include &quot;dynamic_vino_lib/models/person_attribs_detection_model.hpp&quot;
+<span class="lineNum">      52 </span>                :            : #include &quot;dynamic_vino_lib/models/face_reidentification_model.hpp&quot;
+<span class="lineNum">      53 </span>                :            : #include &quot;dynamic_vino_lib/models/landmarks_detection_model.hpp&quot;
+<span class="lineNum">      54 </span>                :            : #include &quot;dynamic_vino_lib/models/vehicle_attribs_detection_model.hpp&quot;
+<span class="lineNum">      55 </span>                :            : #include &quot;dynamic_vino_lib/models/license_plate_detection_model.hpp&quot;
+<span class="lineNum">      56 </span>                :            : #include &quot;dynamic_vino_lib/models/object_detection_ssd_model.hpp&quot;
+<span class="lineNum">      57 </span>                :            : #include &quot;dynamic_vino_lib/models/object_detection_yolov2_model.hpp&quot;
+<span class="lineNum">      58 </span>                :            : #include &quot;dynamic_vino_lib/outputs/image_window_output.hpp&quot;
+<span class="lineNum">      59 </span>                :            : #include &quot;dynamic_vino_lib/outputs/ros_topic_output.hpp&quot;
+<span class="lineNum">      60 </span>                :            : #include &quot;dynamic_vino_lib/outputs/rviz_output.hpp&quot;
+<span class="lineNum">      61 </span>                :            : #include &quot;dynamic_vino_lib/outputs/ros_service_output.hpp&quot;
+<span class="lineNum">      62 </span>                :            : #include &quot;dynamic_vino_lib/pipeline.hpp&quot;
+<span class="lineNum">      63 </span>                :            : #include &quot;dynamic_vino_lib/pipeline_manager.hpp&quot;
+<span class="lineNum">      64 </span>                :            : #include &quot;dynamic_vino_lib/pipeline_params.hpp&quot;
+<span class="lineNum">      65 </span>                :            : #include &quot;dynamic_vino_lib/services/pipeline_processing_server.hpp&quot;
+<span class="lineNum">      66 </span>                :            : std::shared_ptr&lt;Pipeline&gt;
+<span class="lineNum">      67 </span>                :<span class="lineCov">         10 : PipelineManager::createPipeline(const Params::ParamManager::PipelineRawData &amp; params)</span>
+<span class="lineNum">      68 </span>                :            : {
+<span class="lineNum">      69 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 10 times"> + </span>]:<span class="lineCov">         10 :   if (params.name == &quot;&quot;) {</span>
+<span class="lineNum">      70 </span>        [<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :     throw std::logic_error(&quot;The name of pipeline won't be empty!&quot;);</span>
+<span class="lineNum">      71 </span>                :            :   }
+<span class="lineNum">      72 </span>                :<span class="lineCov">         10 :   PipelineData data;</span>
+<span class="lineNum">      73 </span>                :            : 
+<span class="lineNum">      74 </span>                :            :   std::shared_ptr&lt;Pipeline&gt; pipeline = std::make_shared&lt;Pipeline&gt;(params.name);
+<span class="lineNum">      75 </span>        [<span class="branchCov" title="Branch 1 was taken 10 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">         10 :   pipeline-&gt;getParameters()-&gt;update(params);</span>
+<span class="lineNum">      76 </span>                :            : 
+<span class="lineNum">      77 </span>        [<span class="branchCov" title="Branch 1 was taken 10 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">         10 :   auto inputs = parseInputDevice(params);</span>
+<span class="lineNum">      78 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 10 times"> + </span>]:<span class="lineCov">         10 :   if (inputs.size() != 1) {</span>
+<span class="lineNum">      79 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :     slog::err &lt;&lt; &quot;currently one pipeline only supports ONE input.&quot; &lt;&lt; slog::endl;</span>
+<span class="lineNum">      80 </span>                :            :     return nullptr;
+<span class="lineNum">      81 </span>                :            :   }
+<span class="lineNum">      82 </span>        [<span class="branchCov" title="Branch 0 was taken 10 times"> + </span><span class="branchCov" title="Branch 1 was taken 10 times"> + </span>]:<span class="lineCov">         20 :   for (auto it = inputs.begin(); it != inputs.end(); ++it) {</span>
+<span class="lineNum">      83 </span>        [<span class="branchCov" title="Branch 1 was taken 10 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">         10 :     pipeline-&gt;add(it-&gt;first, it-&gt;second);</span>
+<span class="lineNum">      84 </span>                :            :     auto node = it-&gt;second-&gt;getHandler();
+<span class="lineNum">      85 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 10 times"> + </span>]:<span class="lineCov">         10 :     if (node != nullptr) {</span>
+<span class="lineNum">      86 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :       data.spin_nodes.emplace_back(node);</span>
+<span class="lineNum">      87 </span>                :            :     }
+<span class="lineNum">      88 </span>                :            :   }
+<span class="lineNum">      89 </span>                :            : 
+<span class="lineNum">      90 </span>        [<span class="branchCov" title="Branch 1 was taken 10 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">         10 :   auto outputs = parseOutput(params);</span>
+<span class="lineNum">      91 </span>        [<span class="branchCov" title="Branch 0 was taken 10 times"> + </span><span class="branchCov" title="Branch 1 was taken 10 times"> + </span>]:<span class="lineCov">         20 :   for (auto it = outputs.begin(); it != outputs.end(); ++it) {</span>
+<span class="lineNum">      92 </span>        [<span class="branchCov" title="Branch 1 was taken 10 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">         10 :     pipeline-&gt;add(it-&gt;first, it-&gt;second);</span>
+<span class="lineNum">      93 </span>                :            :   }
+<span class="lineNum">      94 </span>                :            : 
+<span class="lineNum">      95 </span>        [<span class="branchCov" title="Branch 1 was taken 5 times"> + </span><span class="branchCov" title="Branch 2 was taken 5 times"> + </span>]:<span class="lineCov">         10 :   auto infers = parseInference(params);</span>
+<span class="lineNum">      96 </span>        [<span class="branchCov" title="Branch 0 was taken 14 times"> + </span><span class="branchCov" title="Branch 1 was taken 5 times"> + </span>]:<span class="lineCov">         19 :   for (auto it = infers.begin(); it != infers.end(); ++it) {</span>
+<span class="lineNum">      97 </span>        [<span class="branchCov" title="Branch 1 was taken 14 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">         14 :     pipeline-&gt;add(it-&gt;first, it-&gt;second);</span>
+<span class="lineNum">      98 </span>                :            :   }
+<span class="lineNum">      99 </span>                :            : 
+<span class="lineNum">     100 </span>        [<span class="branchCov" title="Branch 1 was taken 5 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          5 :   slog::info &lt;&lt; &quot;Updating connections ...&quot; &lt;&lt; slog::endl;</span>
+<span class="lineNum">     101 </span>        [<span class="branchCov" title="Branch 0 was taken 28 times"> + </span><span class="branchCov" title="Branch 1 was taken 5 times"> + </span>]:<span class="lineCov">         33 :   for (auto it = params.connects.begin(); it != params.connects.end(); ++it) {</span>
+<span class="lineNum">     102 </span>        [<span class="branchCov" title="Branch 1 was taken 28 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">         28 :     pipeline-&gt;add(it-&gt;first, it-&gt;second);</span>
+<span class="lineNum">     103 </span>                :            :   }
+<span class="lineNum">     104 </span>                :            : 
+<span class="lineNum">     105 </span>                :            :   // slog::info &lt;&lt; &quot;Updateing filters ...&quot; &lt;&lt; slog::endl;
+<span class="lineNum">     106 </span>                :            :   // pipeline-&gt;addFilters(params.filters);
+<span class="lineNum">     107 </span>                :            : 
+<span class="lineNum">     108 </span>                :            :   data.pipeline = pipeline;
+<span class="lineNum">     109 </span>        [<span class="branchCov" title="Branch 1 was taken 5 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          5 :   data.params = params;</span>
+<span class="lineNum">     110 </span>                :<span class="lineCov">          5 :   data.state = PipelineState_ThreadNotCreated;</span>
+<span class="lineNum">     111 </span>        [<span class="branchCov" title="Branch 1 was taken 5 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">         10 :   pipelines_.insert({params.name, data});</span>
+<span class="lineNum">     112 </span>                :            : 
+<span class="lineNum">     113 </span>        [<span class="branchCov" title="Branch 1 was taken 5 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          5 :   pipeline-&gt;setCallback();</span>
+<span class="lineNum">     114 </span>        [<span class="branchCov" title="Branch 1 was taken 5 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          5 :   slog::info &lt;&lt; &quot;One Pipeline Created!&quot; &lt;&lt; slog::endl;</span>
+<span class="lineNum">     115 </span>        [<span class="branchCov" title="Branch 1 was taken 5 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          5 :   pipeline-&gt;printPipeline();</span>
+<span class="lineNum">     116 </span>                :            :   return pipeline;
+<span class="lineNum">     117 </span>                :            : }
+<span class="lineNum">     118 </span>                :            : 
+<span class="lineNum">     119 </span>                :            : std::map&lt;std::string, std::shared_ptr&lt;Input::BaseInputDevice&gt;&gt;
+<span class="lineNum">     120 </span>                :<span class="lineCov">         10 : PipelineManager::parseInputDevice(const Params::ParamManager::PipelineRawData &amp; params)</span>
+<span class="lineNum">     121 </span>                :            : {
+<span class="lineNum">     122 </span>                :            :   std::map&lt;std::string, std::shared_ptr&lt;Input::BaseInputDevice&gt;&gt; inputs;
+<span class="lineNum">     123 </span>        [<span class="branchCov" title="Branch 0 was taken 10 times"> + </span><span class="branchCov" title="Branch 1 was taken 10 times"> + </span>]:<span class="lineCov">         20 :   for (auto &amp; name : params.inputs) {</span>
+<span class="lineNum">     124 </span>[<span class="branchCov" title="Branch 1 was taken 10 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 4 was taken 10 times"> + </span><span class="branchNoCov" title="Branch 5 was not taken"> - </span>]:<span class="lineCov">         10 :     slog::info &lt;&lt; &quot;Parsing InputDvice: &quot; &lt;&lt; name &lt;&lt; slog::endl;</span>
+<span class="lineNum">     125 </span>                :            :     std::shared_ptr&lt;Input::BaseInputDevice&gt; device = nullptr;
+<span class="lineNum">     126 </span>        [<span class="branchCov" title="Branch 0 was taken 6 times"> + </span><span class="branchCov" title="Branch 1 was taken 4 times"> + </span>]:<span class="lineCov">         10 :     if (name == kInputType_RealSenseCamera) {</span>
+<span class="lineNum">     127 </span>                :<span class="lineCov">          6 :       device = std::make_shared&lt;Input::RealSenseCamera&gt;();</span>
+<span class="lineNum">     128 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 4 times"> + </span>]:<span class="lineCov">          4 :     } else if (name == kInputType_StandardCamera) {</span>
+<span class="lineNum">     129 </span>                :<span class="lineNoCov">          0 :       device = std::make_shared&lt;Input::StandardCamera&gt;();</span>
+<span class="lineNum">     130 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 4 times"> + </span>]:<span class="lineCov">          4 :     } else if (name == kInputType_IpCamera) {</span>
+<span class="lineNum">     131 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :       if (params.input_meta != &quot;&quot;) {</span>
+<span class="lineNum">     132 </span>                :<span class="lineNoCov">          0 :         device = std::make_shared&lt;Input::IpCamera&gt;(params.input_meta);</span>
+<span class="lineNum">     133 </span>                :            :       }
+<span class="lineNum">     134 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 4 times"> + </span>]:<span class="lineCov">          4 :     } else if (name == kInputType_CameraTopic) {</span>
+<span class="lineNum">     135 </span>                :<span class="lineNoCov">          0 :       device = std::make_shared&lt;Input::RealSenseCameraTopic&gt;();</span>
+<span class="lineNum">     136 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 4 times"> + </span>]:<span class="lineCov">          4 :     } else if (name == kInputType_Video) {</span>
+<span class="lineNum">     137 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :       if (params.input_meta != &quot;&quot;) {</span>
+<span class="lineNum">     138 </span>                :<span class="lineNoCov">          0 :         device = std::make_shared&lt;Input::Video&gt;(params.input_meta);</span>
+<span class="lineNum">     139 </span>                :            :       }
+<span class="lineNum">     140 </span>        [<span class="branchCov" title="Branch 0 was taken 4 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>]:<span class="lineCov">          4 :     } else if (name == kInputType_Image) {</span>
+<span class="lineNum">     141 </span>        [<span class="branchCov" title="Branch 0 was taken 4 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>]:<span class="lineCov">          4 :       if (params.input_meta != &quot;&quot;) {</span>
+<span class="lineNum">     142 </span>                :<span class="lineCov">          4 :         device = std::make_shared&lt;Input::Image&gt;(params.input_meta);</span>
+<span class="lineNum">     143 </span>                :            :       }
+<span class="lineNum">     144 </span>                :            :     } else {
+<span class="lineNum">     145 </span>[<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineNoCov">          0 :       slog::err &lt;&lt; &quot;Invalid input device name: &quot; &lt;&lt; name &lt;&lt; slog::endl;</span>
+<span class="lineNum">     146 </span>                :            :     }
+<span class="lineNum">     147 </span>                :            : 
+<span class="lineNum">     148 </span>        [<span class="branchCov" title="Branch 0 was taken 10 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>]:<span class="lineCov">         10 :     if (device != nullptr) {</span>
+<span class="lineNum">     149 </span>        [<span class="branchCov" title="Branch 1 was taken 10 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">         10 :       device-&gt;initialize();</span>
+<span class="lineNum">     150 </span>        [<span class="branchCov" title="Branch 1 was taken 10 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">         20 :       inputs.insert({name, device});</span>
+<span class="lineNum">     151 </span>[<span class="branchCov" title="Branch 1 was taken 10 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 4 was taken 10 times"> + </span><span class="branchNoCov" title="Branch 5 was not taken"> - </span>]:<span class="lineCov">         10 :       slog::info &lt;&lt; &quot; ... Adding one Input device: &quot; &lt;&lt; name &lt;&lt; slog::endl;</span>
+<span class="lineNum">     152 </span>                :            :     }
+<span class="lineNum">     153 </span>                :            :   }
+<span class="lineNum">     154 </span>                :            : 
+<span class="lineNum">     155 </span>                :<span class="lineCov">         10 :   return inputs;</span>
+<span class="lineNum">     156 </span>                :            : }
+<span class="lineNum">     157 </span>                :            : 
+<span class="lineNum">     158 </span>                :            : std::map&lt;std::string, std::shared_ptr&lt;Outputs::BaseOutput&gt;&gt;
+<span class="lineNum">     159 </span>                :<span class="lineCov">         10 : PipelineManager::parseOutput(const Params::ParamManager::PipelineRawData &amp; params)</span>
+<span class="lineNum">     160 </span>                :            : {
+<span class="lineNum">     161 </span>                :            :   std::map&lt;std::string, std::shared_ptr&lt;Outputs::BaseOutput&gt;&gt; outputs;
+<span class="lineNum">     162 </span>        [<span class="branchCov" title="Branch 0 was taken 10 times"> + </span><span class="branchCov" title="Branch 1 was taken 10 times"> + </span>]:<span class="lineCov">         20 :   for (auto &amp; name : params.outputs) {</span>
+<span class="lineNum">     163 </span>[<span class="branchCov" title="Branch 1 was taken 10 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 4 was taken 10 times"> + </span><span class="branchNoCov" title="Branch 5 was not taken"> - </span>]:<span class="lineCov">         10 :     slog::info &lt;&lt; &quot;Parsing Output: &quot; &lt;&lt; name &lt;&lt; slog::endl;</span>
+<span class="lineNum">     164 </span>                :            :     std::shared_ptr&lt;Outputs::BaseOutput&gt; object = nullptr;
+<span class="lineNum">     165 </span>        [<span class="branchCov" title="Branch 0 was taken 6 times"> + </span><span class="branchCov" title="Branch 1 was taken 4 times"> + </span>]:<span class="lineCov">         10 :     if (name == kOutputTpye_RosTopic) {</span>
+<span class="lineNum">     166 </span>                :<span class="lineCov">          6 :       object = std::make_shared&lt;Outputs::RosTopicOutput&gt;(params.name);</span>
+<span class="lineNum">     167 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 4 times"> + </span>]:<span class="lineCov">          4 :     } else if (name == kOutputTpye_ImageWindow) {</span>
+<span class="lineNum">     168 </span>                :<span class="lineNoCov">          0 :       object = std::make_shared&lt;Outputs::ImageWindowOutput&gt;(params.name);</span>
+<span class="lineNum">     169 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 4 times"> + </span>]:<span class="lineCov">          4 :     } else if (name == kOutputTpye_RViz) {</span>
+<span class="lineNum">     170 </span>                :<span class="lineNoCov">          0 :       object = std::make_shared&lt;Outputs::RvizOutput&gt;(params.name);</span>
+<span class="lineNum">     171 </span>        [<span class="branchCov" title="Branch 0 was taken 4 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>]:<span class="lineCov">          4 :     } else if (name == kOutputTpye_RosService) {</span>
+<span class="lineNum">     172 </span>                :<span class="lineCov">          4 :       object = std::make_shared&lt;Outputs::RosServiceOutput&gt;(params.name);</span>
+<span class="lineNum">     173 </span>                :            :     } else {
+<span class="lineNum">     174 </span>[<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineNoCov">          0 :       slog::err &lt;&lt; &quot;Invalid output name: &quot; &lt;&lt; name &lt;&lt; slog::endl;</span>
+<span class="lineNum">     175 </span>                :            :     }
+<span class="lineNum">     176 </span>        [<span class="branchCov" title="Branch 0 was taken 10 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>]:<span class="lineCov">         10 :     if (object != nullptr) {</span>
+<span class="lineNum">     177 </span>        [<span class="branchCov" title="Branch 1 was taken 10 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">         20 :       outputs.insert({name, object});</span>
+<span class="lineNum">     178 </span>[<span class="branchCov" title="Branch 1 was taken 10 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 4 was taken 10 times"> + </span><span class="branchNoCov" title="Branch 5 was not taken"> - </span>]:<span class="lineCov">         10 :       slog::info &lt;&lt; &quot; ... Adding one Output: &quot; &lt;&lt; name &lt;&lt; slog::endl;</span>
+<span class="lineNum">     179 </span>                :            :     }
+<span class="lineNum">     180 </span>                :            :   }
+<span class="lineNum">     181 </span>                :            : 
+<span class="lineNum">     182 </span>                :<span class="lineCov">         10 :   return outputs;</span>
+<span class="lineNum">     183 </span>                :            : }
+<span class="lineNum">     184 </span>                :            : 
+<span class="lineNum">     185 </span>                :            : std::map&lt;std::string, std::shared_ptr&lt;dynamic_vino_lib::BaseInference&gt;&gt;
+<span class="lineNum">     186 </span>                :<span class="lineCov">         10 : PipelineManager::parseInference(const Params::ParamManager::PipelineRawData &amp; params)</span>
+<span class="lineNum">     187 </span>                :            : {
+<span class="lineNum">     188 </span>                :            :   /**&lt; update plugins for devices &gt;**/
+<span class="lineNum">     189 </span>                :<span class="lineCov">         20 :   auto pcommon = Params::ParamManager::getInstance().getCommon();</span>
+<span class="lineNum">     190 </span>                :            :   std::string FLAGS_l = pcommon.custom_cpu_library;
+<span class="lineNum">     191 </span>                :            :   std::string FLAGS_c = pcommon.custom_cldnn_library;
+<span class="lineNum">     192 </span>                :<span class="lineCov">         10 :   bool FLAGS_pc = pcommon.enable_performance_count;</span>
+<span class="lineNum">     193 </span>                :            : 
+<span class="lineNum">     194 </span>                :            :   std::map&lt;std::string, std::shared_ptr&lt;dynamic_vino_lib::BaseInference&gt;&gt; inferences;
+<span class="lineNum">     195 </span>        [<span class="branchCov" title="Branch 0 was taken 19 times"> + </span><span class="branchCov" title="Branch 1 was taken 5 times"> + </span>]:<span class="lineCov">         24 :   for (auto &amp; infer : params.infers) {</span>
+<span class="lineNum">     196 </span>[<span class="branchCov" title="Branch 0 was taken 19 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>][<span class="branchNoCov" title="Branch 2 was not taken"> - </span><span class="branchCov" title="Branch 3 was taken 19 times"> + </span>]:<span class="lineCov">         19 :     if (infer.name.empty() || infer.model.empty()) {</span>
+<span class="lineNum">     197 </span>                :<span class="lineNoCov">          0 :       continue;</span>
+<span class="lineNum">     198 </span>                :            :     }
+<span class="lineNum">     199 </span>[<span class="branchCov" title="Branch 1 was taken 19 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 4 was taken 19 times"> + </span><span class="branchNoCov" title="Branch 5 was not taken"> - </span>]:<span class="lineCov">         19 :     slog::info &lt;&lt; &quot;Parsing Inference: &quot; &lt;&lt; infer.name &lt;&lt; slog::endl;</span>
+<span class="lineNum">     200 </span>                :            :     std::shared_ptr&lt;dynamic_vino_lib::BaseInference&gt; object = nullptr;
+<span class="lineNum">     201 </span>        [<span class="branchCov" title="Branch 0 was taken 10 times"> + </span><span class="branchCov" title="Branch 1 was taken 9 times"> + </span>]:<span class="lineCov">         19 :     if (plugins_for_devices_.find(infer.engine) == plugins_for_devices_.end()) {</span>
+<span class="lineNum">     202 </span>        [<span class="branchCov" title="Branch 1 was taken 10 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">         10 :       plugins_for_devices_[infer.engine] =</span>
+<span class="lineNum">     203 </span>        [<span class="branchCov" title="Branch 1 was taken 10 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">         20 :         *Factory::makePluginByName(infer.engine, FLAGS_l, FLAGS_c, FLAGS_pc);</span>
+<span class="lineNum">     204 </span>                :            :     }
+<span class="lineNum">     205 </span>                :            : 
+<span class="lineNum">     206 </span>        [<span class="branchCov" title="Branch 0 was taken 3 times"> + </span><span class="branchCov" title="Branch 1 was taken 16 times"> + </span>]:<span class="lineCov">         19 :     if (infer.name == kInferTpye_FaceDetection) {</span>
+<span class="lineNum">     207 </span>        [<span class="branchCov" title="Branch 1 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          6 :       object = createFaceDetection(infer);</span>
+<span class="lineNum">     208 </span>        [<span class="branchCov" title="Branch 0 was taken 3 times"> + </span><span class="branchCov" title="Branch 1 was taken 13 times"> + </span>]:<span class="lineCov">         16 :     } else if (infer.name == kInferTpye_AgeGenderRecognition) {</span>
+<span class="lineNum">     209 </span>        [<span class="branchCov" title="Branch 1 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          6 :       object = createAgeGenderRecognition(infer);</span>
+<span class="lineNum">     210 </span>        [<span class="branchCov" title="Branch 0 was taken 3 times"> + </span><span class="branchCov" title="Branch 1 was taken 10 times"> + </span>]:<span class="lineCov">         13 :     } else if (infer.name == kInferTpye_EmotionRecognition) {</span>
+<span class="lineNum">     211 </span>        [<span class="branchCov" title="Branch 1 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          6 :       object = createEmotionRecognition(infer);</span>
+<span class="lineNum">     212 </span>        [<span class="branchCov" title="Branch 0 was taken 3 times"> + </span><span class="branchCov" title="Branch 1 was taken 7 times"> + </span>]:<span class="lineCov">         10 :     } else if (infer.name == kInferTpye_HeadPoseEstimation) {</span>
+<span class="lineNum">     213 </span>        [<span class="branchCov" title="Branch 1 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          6 :       object = createHeadPoseEstimation(infer);</span>
+<span class="lineNum">     214 </span>        [<span class="branchCov" title="Branch 0 was taken 5 times"> + </span><span class="branchCov" title="Branch 1 was taken 2 times"> + </span>]:<span class="lineCov">          7 :     } else if (infer.name == kInferTpye_ObjectDetection) {</span>
+<span class="lineNum">     215 </span>        [<span class="branchCov" title="Branch 1 was taken 2 times"> + </span><span class="branchCov" title="Branch 2 was taken 3 times"> + </span>]:<span class="lineCov">          7 :       object = createObjectDetection(infer);</span>
+<span class="lineNum">     216 </span>        [<span class="branchCov" title="Branch 0 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>]:<span class="lineCov">          2 :     } else if (infer.name == kInferTpye_ObjectSegmentation) {</span>
+<span class="lineNum">     217 </span>        [<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 2 times"> + </span>]:<span class="lineCov">          2 :       object = createObjectSegmentation(infer);</span>
+<span class="lineNum">     218 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     } else if (infer.name == kInferTpye_PersonReidentification) {</span>
+<span class="lineNum">     219 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :       object = createPersonReidentification(infer);</span>
+<span class="lineNum">     220 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     } else if (infer.name == kInferTpye_PersonAttribsDetection) {</span>
+<span class="lineNum">     221 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :       object = createPersonAttribsDetection(infer);</span>
+<span class="lineNum">     222 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     } else if (infer.name == kInferTpye_LandmarksDetection) {</span>
+<span class="lineNum">     223 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :       object = createLandmarksDetection(infer);</span>
+<span class="lineNum">     224 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     } else if (infer.name == kInferTpye_FaceReidentification) {</span>
+<span class="lineNum">     225 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :       object = createFaceReidentification(infer);</span>
+<span class="lineNum">     226 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     } else if (infer.name == kInferTpye_VehicleAttribsDetection) {</span>
+<span class="lineNum">     227 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :       object = createVehicleAttribsDetection(infer);</span>
+<span class="lineNum">     228 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     } else if (infer.name == kInferTpye_LicensePlateDetection) {</span>
+<span class="lineNum">     229 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :       object = createLicensePlateDetection(infer);</span>
+<span class="lineNum">     230 </span>                :            :     } else {
+<span class="lineNum">     231 </span>[<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineNoCov">          0 :       slog::err &lt;&lt; &quot;Invalid inference name: &quot; &lt;&lt; infer.name &lt;&lt; slog::endl;</span>
+<span class="lineNum">     232 </span>                :            :     }
+<span class="lineNum">     233 </span>                :            : 
+<span class="lineNum">     234 </span>        [<span class="branchCov" title="Branch 0 was taken 14 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>]:<span class="lineCov">         14 :     if (object != nullptr) {</span>
+<span class="lineNum">     235 </span>        [<span class="branchCov" title="Branch 1 was taken 14 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">         28 :       inferences.insert({infer.name, object});</span>
+<span class="lineNum">     236 </span>[<span class="branchCov" title="Branch 1 was taken 14 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 4 was taken 14 times"> + </span><span class="branchNoCov" title="Branch 5 was not taken"> - </span>]:<span class="lineCov">         14 :       slog::info &lt;&lt; &quot; ... Adding one Inference: &quot; &lt;&lt; infer.name &lt;&lt; slog::endl;</span>
+<span class="lineNum">     237 </span>                :            :     }
+<span class="lineNum">     238 </span>                :            :   }
+<span class="lineNum">     239 </span>                :            : 
+<span class="lineNum">     240 </span>                :<span class="lineCov">          5 :   return inferences;</span>
+<span class="lineNum">     241 </span>                :            : }
+<a name="242"><span class="lineNum">     242 </span>                :            : </a>
+<span class="lineNum">     243 </span>                :            : std::shared_ptr&lt;dynamic_vino_lib::BaseInference&gt;
+<span class="lineNum">     244 </span>                :<span class="lineCov">          3 : PipelineManager::createFaceDetection(</span>
+<span class="lineNum">     245 </span>                :            :   const Params::ParamManager::InferenceRawData &amp; infer)
+<span class="lineNum">     246 </span>                :            : {
+<span class="lineNum">     247 </span>                :<span class="lineCov">          3 :   return createObjectDetection(infer);</span>
+<span class="lineNum">     248 </span>                :            : }
+<span class="lineNum">     249 </span>                :            : 
+<span class="lineNum">     250 </span>                :            : std::shared_ptr&lt;dynamic_vino_lib::BaseInference&gt;
+<span class="lineNum">     251 </span>                :<span class="lineCov">          3 : PipelineManager::createAgeGenderRecognition(const Params::ParamManager::InferenceRawData &amp; param)</span>
+<span class="lineNum">     252 </span>                :            : {
+<span class="lineNum">     253 </span>                :<span class="lineCov">          6 :   auto model = std::make_shared&lt;Models::AgeGenderDetectionModel&gt;(param.model, 1, 2, param.batch);</span>
+<span class="lineNum">     254 </span>        [<span class="branchCov" title="Branch 1 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          3 :   model-&gt;modelInit();</span>
+<span class="lineNum">     255 </span>        [<span class="branchCov" title="Branch 1 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          3 :   auto engine = std::make_shared&lt;Engines::Engine&gt;(plugins_for_devices_[param.engine], model);</span>
+<span class="lineNum">     256 </span>                :            :   auto infer = std::make_shared&lt;dynamic_vino_lib::AgeGenderDetection&gt;();
+<span class="lineNum">     257 </span>        [<span class="branchCov" title="Branch 1 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          3 :   infer-&gt;loadNetwork(model);</span>
+<span class="lineNum">     258 </span>        [<span class="branchCov" title="Branch 1 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          3 :   infer-&gt;loadEngine(engine);</span>
+<span class="lineNum">     259 </span>                :            : 
+<span class="lineNum">     260 </span>                :<span class="lineCov">          3 :   return infer;</span>
+<span class="lineNum">     261 </span>                :            : }
+<span class="lineNum">     262 </span>                :            : 
+<span class="lineNum">     263 </span>                :            : std::shared_ptr&lt;dynamic_vino_lib::BaseInference&gt;
+<span class="lineNum">     264 </span>                :<span class="lineCov">          3 : PipelineManager::createEmotionRecognition(const Params::ParamManager::InferenceRawData &amp; param)</span>
+<span class="lineNum">     265 </span>                :            : {
+<span class="lineNum">     266 </span>                :<span class="lineCov">          6 :   auto model = std::make_shared&lt;Models::EmotionDetectionModel&gt;(param.model, 1, 1, param.batch);</span>
+<span class="lineNum">     267 </span>        [<span class="branchCov" title="Branch 1 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          3 :   model-&gt;modelInit();</span>
+<span class="lineNum">     268 </span>        [<span class="branchCov" title="Branch 1 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          3 :   auto engine = std::make_shared&lt;Engines::Engine&gt;(plugins_for_devices_[param.engine], model);</span>
+<span class="lineNum">     269 </span>                :            :   auto infer = std::make_shared&lt;dynamic_vino_lib::EmotionsDetection&gt;();
+<span class="lineNum">     270 </span>        [<span class="branchCov" title="Branch 1 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          3 :   infer-&gt;loadNetwork(model);</span>
+<span class="lineNum">     271 </span>        [<span class="branchCov" title="Branch 1 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          3 :   infer-&gt;loadEngine(engine);</span>
+<span class="lineNum">     272 </span>                :            : 
+<span class="lineNum">     273 </span>                :<span class="lineCov">          3 :   return infer;</span>
+<span class="lineNum">     274 </span>                :            : }
+<span class="lineNum">     275 </span>                :            : 
+<span class="lineNum">     276 </span>                :            : std::shared_ptr&lt;dynamic_vino_lib::BaseInference&gt;
+<span class="lineNum">     277 </span>                :<span class="lineCov">          3 : PipelineManager::createHeadPoseEstimation(const Params::ParamManager::InferenceRawData &amp; param)</span>
+<span class="lineNum">     278 </span>                :            : {
+<span class="lineNum">     279 </span>                :<span class="lineCov">          6 :   auto model = std::make_shared&lt;Models::HeadPoseDetectionModel&gt;(param.model, 1, 3, param.batch);</span>
+<span class="lineNum">     280 </span>        [<span class="branchCov" title="Branch 1 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          3 :   model-&gt;modelInit();</span>
+<span class="lineNum">     281 </span>        [<span class="branchCov" title="Branch 1 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          3 :   auto engine = std::make_shared&lt;Engines::Engine&gt;(plugins_for_devices_[param.engine], model);</span>
+<span class="lineNum">     282 </span>                :            :   auto infer = std::make_shared&lt;dynamic_vino_lib::HeadPoseDetection&gt;();
+<span class="lineNum">     283 </span>        [<span class="branchCov" title="Branch 1 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          3 :   infer-&gt;loadNetwork(model);</span>
+<span class="lineNum">     284 </span>        [<span class="branchCov" title="Branch 1 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          3 :   infer-&gt;loadEngine(engine);</span>
+<span class="lineNum">     285 </span>                :            : 
+<span class="lineNum">     286 </span>                :<span class="lineCov">          3 :   return infer;</span>
+<span class="lineNum">     287 </span>                :            : }
+<span class="lineNum">     288 </span>                :            : 
+<span class="lineNum">     289 </span>                :            : std::shared_ptr&lt;dynamic_vino_lib::BaseInference&gt;
+<span class="lineNum">     290 </span>                :<span class="lineCov">          8 : PipelineManager::createObjectDetection(</span>
+<span class="lineNum">     291 </span>                :            :   const Params::ParamManager::InferenceRawData &amp; infer)
+<span class="lineNum">     292 </span>                :            : {
+<span class="lineNum">     293 </span>                :<span class="lineCov">          8 :   std::shared_ptr&lt;Models::ObjectDetectionModel&gt; object_detection_model;</span>
+<span class="lineNum">     294 </span>                :            :   std::shared_ptr&lt;dynamic_vino_lib::ObjectDetection&gt; object_inference_ptr;
+<span class="lineNum">     295 </span>                :            : 
+<span class="lineNum">     296 </span>        [<span class="branchCov" title="Branch 0 was taken 8 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>]:<span class="lineCov">          8 :   if (infer.model_type == kInferTpye_ObjectDetectionTypeSSD) {</span>
+<span class="lineNum">     297 </span>                :            :     object_detection_model =
+<span class="lineNum">     298 </span>                :<span class="lineCov">          8 :       std::make_shared&lt;Models::ObjectDetectionSSDModel&gt;(infer.model, 1, 1, infer.batch);</span>
+<span class="lineNum">     299 </span>                :            :   }
+<span class="lineNum">     300 </span>                :            : 
+<span class="lineNum">     301 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 8 times"> + </span>]:<span class="lineCov">          8 :   if (infer.model_type == kInferTpye_ObjectDetectionTypeYolov2) {</span>
+<span class="lineNum">     302 </span>                :            :     object_detection_model =
+<span class="lineNum">     303 </span>                :<span class="lineNoCov">          0 :       std::make_shared&lt;Models::ObjectDetectionYolov2Model&gt;(infer.model, 1, 1, infer.batch);</span>
+<span class="lineNum">     304 </span>                :            :   }
+<span class="lineNum">     305 </span>                :            : 
+<span class="lineNum">     306 </span>                :<span class="lineCov">         16 :   object_inference_ptr = std::make_shared&lt;dynamic_vino_lib::ObjectDetection&gt;(</span>
+<span class="lineNum">     307 </span>                :            :     infer.enable_roi_constraint, infer.confidence_threshold);  // To-do theshold configuration
+<span class="lineNum">     308 </span>                :            : 
+<span class="lineNum">     309 </span>        [<span class="branchCov" title="Branch 1 was taken 5 times"> + </span><span class="branchCov" title="Branch 2 was taken 3 times"> + </span>]:<span class="lineCov">          8 :   object_detection_model-&gt;modelInit();</span>
+<span class="lineNum">     310 </span>                :            :   auto object_detection_engine = std::make_shared&lt;Engines::Engine&gt;(
+<span class="lineNum">     311 </span>        [<span class="branchCov" title="Branch 1 was taken 5 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          5 :     plugins_for_devices_[infer.engine], object_detection_model);</span>
+<span class="lineNum">     312 </span>        [<span class="branchCov" title="Branch 1 was taken 5 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          5 :   object_inference_ptr-&gt;loadNetwork(object_detection_model);</span>
+<span class="lineNum">     313 </span>        [<span class="branchCov" title="Branch 1 was taken 5 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          5 :   object_inference_ptr-&gt;loadEngine(object_detection_engine);</span>
+<span class="lineNum">     314 </span>                :            : 
+<span class="lineNum">     315 </span>                :<span class="lineCov">          5 :   return object_inference_ptr;</span>
+<span class="lineNum">     316 </span>                :            : }
+<span class="lineNum">     317 </span>                :            : 
+<span class="lineNum">     318 </span>                :            : std::shared_ptr&lt;dynamic_vino_lib::BaseInference&gt;
+<span class="lineNum">     319 </span>                :<span class="lineCov">          2 : PipelineManager::createObjectSegmentation(const Params::ParamManager::InferenceRawData &amp; infer)</span>
+<span class="lineNum">     320 </span>                :            : {
+<span class="lineNum">     321 </span>                :            :   auto obejct_segmentation_model =
+<span class="lineNum">     322 </span>                :<span class="lineCov">          4 :     std::make_shared&lt;Models::ObjectSegmentationModel&gt;(infer.model, 1, 2, infer.batch);</span>
+<span class="lineNum">     323 </span>        [<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 2 times"> + </span>]:<span class="lineCov">          2 :   obejct_segmentation_model-&gt;modelInit();</span>
+<span class="lineNum">     324 </span>                :            :   auto obejct_segmentation_engine = std::make_shared&lt;Engines::Engine&gt;(
+<span class="lineNum">     325 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :     plugins_for_devices_[infer.engine], obejct_segmentation_model);</span>
+<span class="lineNum">     326 </span>                :            :   auto segmentation_inference_ptr = std::make_shared&lt;dynamic_vino_lib::ObjectSegmentation&gt;(
+<span class="lineNum">     327 </span>                :<span class="lineNoCov">          0 :     infer.confidence_threshold);</span>
+<span class="lineNum">     328 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :   segmentation_inference_ptr-&gt;loadNetwork(obejct_segmentation_model);</span>
+<span class="lineNum">     329 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :   segmentation_inference_ptr-&gt;loadEngine(obejct_segmentation_engine);</span>
+<span class="lineNum">     330 </span>                :            : 
+<span class="lineNum">     331 </span>                :<span class="lineNoCov">          0 :   return segmentation_inference_ptr;</span>
+<span class="lineNum">     332 </span>                :            : }
+<span class="lineNum">     333 </span>                :            : 
+<span class="lineNum">     334 </span>                :            : std::shared_ptr&lt;dynamic_vino_lib::BaseInference&gt;
+<span class="lineNum">     335 </span>                :<span class="lineNoCov">          0 : PipelineManager::createPersonReidentification(</span>
+<span class="lineNum">     336 </span>                :            :   const Params::ParamManager::InferenceRawData &amp; infer)
+<span class="lineNum">     337 </span>                :            : {
+<span class="lineNum">     338 </span>                :            :   auto person_reidentification_model =
+<span class="lineNum">     339 </span>                :<span class="lineNoCov">          0 :     std::make_shared&lt;Models::PersonReidentificationModel&gt;(infer.model, 1, 1, infer.batch);</span>
+<span class="lineNum">     340 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :   person_reidentification_model-&gt;modelInit();</span>
+<span class="lineNum">     341 </span>                :            :   auto person_reidentification_engine = std::make_shared&lt;Engines::Engine&gt;(
+<span class="lineNum">     342 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :     plugins_for_devices_[infer.engine], person_reidentification_model);</span>
+<span class="lineNum">     343 </span>                :            :   auto reidentification_inference_ptr =
+<span class="lineNum">     344 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :     std::make_shared&lt;dynamic_vino_lib::PersonReidentification&gt;(infer.confidence_threshold);</span>
+<span class="lineNum">     345 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :   reidentification_inference_ptr-&gt;loadNetwork(person_reidentification_model);</span>
+<span class="lineNum">     346 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :   reidentification_inference_ptr-&gt;loadEngine(person_reidentification_engine);</span>
+<span class="lineNum">     347 </span>                :            : 
+<span class="lineNum">     348 </span>                :<span class="lineNoCov">          0 :   return reidentification_inference_ptr;</span>
+<span class="lineNum">     349 </span>                :            : }
+<span class="lineNum">     350 </span>                :            : 
+<span class="lineNum">     351 </span>                :            : std::shared_ptr&lt;dynamic_vino_lib::BaseInference&gt;
+<span class="lineNum">     352 </span>                :<span class="lineNoCov">          0 : PipelineManager::createPersonAttribsDetection(</span>
+<span class="lineNum">     353 </span>                :            :   const Params::ParamManager::InferenceRawData &amp; infer)
+<span class="lineNum">     354 </span>                :            : {
+<span class="lineNum">     355 </span>                :            :   auto person_attribs_detection_model =
+<span class="lineNum">     356 </span>                :<span class="lineNoCov">          0 :     std::make_shared&lt;Models::PersonAttribsDetectionModel&gt;(infer.model, 1, 1, infer.batch);</span>
+<span class="lineNum">     357 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :   person_attribs_detection_model-&gt;modelInit();</span>
+<span class="lineNum">     358 </span>                :            :   auto person_attribs_detection_engine = std::make_shared&lt;Engines::Engine&gt;(
+<span class="lineNum">     359 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :     plugins_for_devices_[infer.engine], person_attribs_detection_model);</span>
+<span class="lineNum">     360 </span>                :            :   auto attribs_inference_ptr =
+<span class="lineNum">     361 </span>                :<span class="lineNoCov">          0 :     std::make_shared&lt;dynamic_vino_lib::PersonAttribsDetection&gt;(infer.confidence_threshold);</span>
+<span class="lineNum">     362 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :   attribs_inference_ptr-&gt;loadNetwork(person_attribs_detection_model);</span>
+<span class="lineNum">     363 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :   attribs_inference_ptr-&gt;loadEngine(person_attribs_detection_engine);</span>
+<span class="lineNum">     364 </span>                :            : 
+<span class="lineNum">     365 </span>                :<span class="lineNoCov">          0 :   return attribs_inference_ptr;</span>
+<span class="lineNum">     366 </span>                :            : }
+<span class="lineNum">     367 </span>                :            : 
+<span class="lineNum">     368 </span>                :            : std::shared_ptr&lt;dynamic_vino_lib::BaseInference&gt;
+<span class="lineNum">     369 </span>                :<span class="lineNoCov">          0 : PipelineManager::createLandmarksDetection(</span>
+<span class="lineNum">     370 </span>                :            :   const Params::ParamManager::InferenceRawData &amp; infer)
+<span class="lineNum">     371 </span>                :            : {
+<span class="lineNum">     372 </span>                :            :   auto landmarks_detection_model =
+<span class="lineNum">     373 </span>                :<span class="lineNoCov">          0 :     std::make_shared&lt;Models::LandmarksDetectionModel&gt;(infer.model, 1, 1, infer.batch);</span>
+<span class="lineNum">     374 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :   landmarks_detection_model-&gt;modelInit();</span>
+<span class="lineNum">     375 </span>                :            :   auto landmarks_detection_engine = std::make_shared&lt;Engines::Engine&gt;(
+<span class="lineNum">     376 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :     plugins_for_devices_[infer.engine], landmarks_detection_model);</span>
+<span class="lineNum">     377 </span>                :            :   auto landmarks_inference_ptr =
+<span class="lineNum">     378 </span>                :            :     std::make_shared&lt;dynamic_vino_lib::LandmarksDetection&gt;();
+<span class="lineNum">     379 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :   landmarks_inference_ptr-&gt;loadNetwork(landmarks_detection_model);</span>
+<span class="lineNum">     380 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :   landmarks_inference_ptr-&gt;loadEngine(landmarks_detection_engine);</span>
+<span class="lineNum">     381 </span>                :            : 
+<span class="lineNum">     382 </span>                :<span class="lineNoCov">          0 :   return landmarks_inference_ptr;</span>
+<span class="lineNum">     383 </span>                :            : }
+<span class="lineNum">     384 </span>                :            : 
+<span class="lineNum">     385 </span>                :            : std::shared_ptr&lt;dynamic_vino_lib::BaseInference&gt;
+<span class="lineNum">     386 </span>                :<span class="lineNoCov">          0 : PipelineManager::createFaceReidentification(</span>
+<span class="lineNum">     387 </span>                :            :   const Params::ParamManager::InferenceRawData &amp; infer)
+<span class="lineNum">     388 </span>                :            : {
+<span class="lineNum">     389 </span>                :            :   auto face_reidentification_model =
+<span class="lineNum">     390 </span>                :<span class="lineNoCov">          0 :     std::make_shared&lt;Models::FaceReidentificationModel&gt;(infer.model, 1, 1, infer.batch);</span>
+<span class="lineNum">     391 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :   face_reidentification_model-&gt;modelInit();</span>
+<span class="lineNum">     392 </span>                :            :   auto face_reidentification_engine = std::make_shared&lt;Engines::Engine&gt;(
+<span class="lineNum">     393 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :     plugins_for_devices_[infer.engine], face_reidentification_model);</span>
+<span class="lineNum">     394 </span>                :            :   auto face_reid_ptr =
+<span class="lineNum">     395 </span>                :<span class="lineNoCov">          0 :     std::make_shared&lt;dynamic_vino_lib::FaceReidentification&gt;(infer.confidence_threshold);</span>
+<span class="lineNum">     396 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :   face_reid_ptr-&gt;loadNetwork(face_reidentification_model);</span>
+<span class="lineNum">     397 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :   face_reid_ptr-&gt;loadEngine(face_reidentification_engine);</span>
+<span class="lineNum">     398 </span>                :            : 
+<span class="lineNum">     399 </span>                :<span class="lineNoCov">          0 :   return face_reid_ptr;</span>
+<span class="lineNum">     400 </span>                :            : }
+<span class="lineNum">     401 </span>                :            : 
+<span class="lineNum">     402 </span>                :            : std::shared_ptr&lt;dynamic_vino_lib::BaseInference&gt;
+<span class="lineNum">     403 </span>                :<span class="lineNoCov">          0 : PipelineManager::createVehicleAttribsDetection(</span>
+<span class="lineNum">     404 </span>                :            :   const Params::ParamManager::InferenceRawData &amp; infer)
+<span class="lineNum">     405 </span>                :            : {
+<span class="lineNum">     406 </span>                :            :   auto vehicle_attribs_model =
+<span class="lineNum">     407 </span>                :<span class="lineNoCov">          0 :     std::make_shared&lt;Models::VehicleAttribsDetectionModel&gt;(infer.model, 1, 2, infer.batch);</span>
+<span class="lineNum">     408 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :   vehicle_attribs_model-&gt;modelInit();</span>
+<span class="lineNum">     409 </span>                :            :   auto vehicle_attribs_engine = std::make_shared&lt;Engines::Engine&gt;(
+<span class="lineNum">     410 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :     plugins_for_devices_[infer.engine], vehicle_attribs_model);</span>
+<span class="lineNum">     411 </span>                :            :   auto vehicle_attribs_ptr =
+<span class="lineNum">     412 </span>                :            :     std::make_shared&lt;dynamic_vino_lib::VehicleAttribsDetection&gt;();
+<span class="lineNum">     413 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :   vehicle_attribs_ptr-&gt;loadNetwork(vehicle_attribs_model);</span>
+<span class="lineNum">     414 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :   vehicle_attribs_ptr-&gt;loadEngine(vehicle_attribs_engine);</span>
+<span class="lineNum">     415 </span>                :            : 
+<span class="lineNum">     416 </span>                :<span class="lineNoCov">          0 :   return vehicle_attribs_ptr;</span>
+<span class="lineNum">     417 </span>                :            : }
+<span class="lineNum">     418 </span>                :            : 
+<span class="lineNum">     419 </span>                :            : std::shared_ptr&lt;dynamic_vino_lib::BaseInference&gt;
+<span class="lineNum">     420 </span>                :<span class="lineNoCov">          0 : PipelineManager::createLicensePlateDetection(</span>
+<span class="lineNum">     421 </span>                :            :   const Params::ParamManager::InferenceRawData &amp; infer)
+<span class="lineNum">     422 </span>                :            : {
+<span class="lineNum">     423 </span>                :            :   auto license_plate_model =
+<span class="lineNum">     424 </span>                :<span class="lineNoCov">          0 :     std::make_shared&lt;Models::LicensePlateDetectionModel&gt;(infer.model, 2, 1, infer.batch);</span>
+<span class="lineNum">     425 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :   license_plate_model-&gt;modelInit();</span>
+<span class="lineNum">     426 </span>                :            :   auto license_plate_engine = std::make_shared&lt;Engines::Engine&gt;(
+<span class="lineNum">     427 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :     plugins_for_devices_[infer.engine], license_plate_model);</span>
+<span class="lineNum">     428 </span>                :            :   auto license_plate_ptr =
+<span class="lineNum">     429 </span>                :            :     std::make_shared&lt;dynamic_vino_lib::LicensePlateDetection&gt;();
+<span class="lineNum">     430 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :   license_plate_ptr-&gt;loadNetwork(license_plate_model);</span>
+<span class="lineNum">     431 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :   license_plate_ptr-&gt;loadEngine(license_plate_engine);</span>
+<span class="lineNum">     432 </span>                :            : 
+<span class="lineNum">     433 </span>                :<span class="lineNoCov">          0 :   return license_plate_ptr;</span>
+<a name="434"><span class="lineNum">     434 </span>                :            : }</a>
+<span class="lineNum">     435 </span>                :            : 
+<span class="lineNum">     436 </span>                :<span class="lineNoCov">          0 : void PipelineManager::threadPipeline(const char * name)</span>
+<span class="lineNum">     437 </span>                :            : {
+<span class="lineNum">     438 </span>[<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineNoCov">          0 :   PipelineData &amp; p = pipelines_[name];</span>
+<span class="lineNum">     439 </span>[<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>][<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :   while (p.state != PipelineState_ThreadStopped &amp;&amp; p.pipeline != nullptr) {</span>
+<span class="lineNum">     440 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (p.state == PipelineState_ThreadRunning) {</span>
+<span class="lineNum">     441 </span>                :<span class="lineNoCov">          0 :       p.pipeline-&gt;runOnce();</span>
+<span class="lineNum">     442 </span>                :            :     }
+<span class="lineNum">     443 </span>                :<span class="lineNoCov">          0 :     std::this_thread::sleep_for(std::chrono::milliseconds(1));</span>
+<span class="lineNum">     444 </span>                :            :   }
+<span class="lineNum">     445 </span>                :<span class="lineNoCov">          0 : }</span>
+<span class="lineNum">     446 </span>                :<span class="lineNoCov">          0 : void PipelineManager::threadSpinNodes(const char * name)</span>
+<span class="lineNum">     447 </span>                :            : {
+<span class="lineNum">     448 </span>[<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineNoCov">          0 :   PipelineData &amp; p = pipelines_[name];</span>
+<span class="lineNum">     449 </span>[<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>][<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :   while (p.state != PipelineState_ThreadStopped &amp;&amp; p.pipeline != nullptr) {</span>
+<span class="lineNum">     450 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     for (auto &amp; node : p.spin_nodes) {</span>
+<span class="lineNum">     451 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :       rclcpp::spin_some(node);</span>
+<span class="lineNum">     452 </span>                :            :     }
+<span class="lineNum">     453 </span>                :<span class="lineNoCov">          0 :     std::this_thread::sleep_for(std::chrono::milliseconds(1));</span>
+<span class="lineNum">     454 </span>                :            :   }
+<span class="lineNum">     455 </span>                :<span class="lineNoCov">          0 : }</span>
+<span class="lineNum">     456 </span>                :            : 
+<span class="lineNum">     457 </span>                :<span class="lineNoCov">          0 : void PipelineManager::runAll()</span>
+<span class="lineNum">     458 </span>                :            : {
+<span class="lineNum">     459 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   for (auto it = pipelines_.begin(); it != pipelines_.end(); ++it) {</span>
+<span class="lineNum">     460 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (it-&gt;second.state != PipelineState_ThreadRunning) {</span>
+<span class="lineNum">     461 </span>                :<span class="lineNoCov">          0 :       it-&gt;second.state = PipelineState_ThreadRunning;</span>
+<span class="lineNum">     462 </span>                :            :     }
+<span class="lineNum">     463 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (service_.state != PipelineState_ThreadRunning) {</span>
+<span class="lineNum">     464 </span>                :<span class="lineNoCov">          0 :       service_.state = PipelineState_ThreadRunning;</span>
+<span class="lineNum">     465 </span>                :            :     }
+<span class="lineNum">     466 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (service_.thread == nullptr) {</span>
+<span class="lineNum">     467 </span>                :<span class="lineNoCov">          0 :       service_.thread = std::make_shared&lt;std::thread&gt;(&amp;PipelineManager::runService, this);</span>
+<span class="lineNum">     468 </span>                :            :     }
+<span class="lineNum">     469 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (it-&gt;second.thread == nullptr) {</span>
+<span class="lineNum">     470 </span>                :<span class="lineNoCov">          0 :       it-&gt;second.thread = std::make_shared&lt;std::thread&gt;(&amp;PipelineManager::threadPipeline, this,</span>
+<span class="lineNum">     471 </span>                :<span class="lineNoCov">          0 :           it-&gt;second.params.name.c_str());</span>
+<span class="lineNum">     472 </span>                :            :     }
+<span class="lineNum">     473 </span>[<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>][<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (it-&gt;second.spin_nodes.size() &gt; 0 &amp;&amp; it-&gt;second.thread_spin_nodes == nullptr) {</span>
+<span class="lineNum">     474 </span>                :<span class="lineNoCov">          0 :       it-&gt;second.thread_spin_nodes = std::make_shared&lt;std::thread&gt;(</span>
+<span class="lineNum">     475 </span>                :            :         &amp;PipelineManager::threadSpinNodes, this,
+<span class="lineNum">     476 </span>                :<span class="lineNoCov">          0 :         it-&gt;second.params.name.c_str());</span>
+<span class="lineNum">     477 </span>                :            :     }
+<span class="lineNum">     478 </span>                :            :   }
+<span class="lineNum">     479 </span>                :<span class="lineNoCov">          0 : }</span>
+<span class="lineNum">     480 </span>                :            : 
+<span class="lineNum">     481 </span>                :<span class="lineNoCov">          0 : void PipelineManager::runService()</span>
+<span class="lineNum">     482 </span>                :            : {
+<span class="lineNum">     483 </span>                :            :   auto node = std::make_shared&lt;vino_service::PipelineProcessingServer
+<span class="lineNum">     484 </span>                :            :       &lt;pipeline_srv_msgs::srv::PipelineSrv&gt;&gt;(&quot;pipeline_service&quot;);
+<span class="lineNum">     485 </span>[<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>][<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :   while (service_.state != PipelineState_ThreadStopped &amp;&amp; service_.thread != nullptr) {</span>
+<span class="lineNum">     486 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :     rclcpp::spin_some(node);</span>
+<span class="lineNum">     487 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :     std::this_thread::sleep_for(std::chrono::milliseconds(1));</span>
+<span class="lineNum">     488 </span>                :            :   }
+<a name="489"><span class="lineNum">     489 </span>                :<span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     490 </span>                :            : 
+<span class="lineNum">     491 </span>                :<span class="lineNoCov">          0 : void PipelineManager::stopAll()</span>
+<span class="lineNum">     492 </span>                :            : {
+<span class="lineNum">     493 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   for (auto it = pipelines_.begin(); it != pipelines_.end(); ++it) {</span>
+<span class="lineNum">     494 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (it-&gt;second.state == PipelineState_ThreadRunning) {</span>
+<span class="lineNum">     495 </span>                :<span class="lineNoCov">          0 :       it-&gt;second.state = PipelineState_ThreadStopped;</span>
+<span class="lineNum">     496 </span>                :            :     }
+<span class="lineNum">     497 </span>                :            :   }
+<span class="lineNum">     498 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if (service_.state == PipelineState_ThreadRunning) {</span>
+<span class="lineNum">     499 </span>                :<span class="lineNoCov">          0 :     service_.state = PipelineState_ThreadStopped;</span>
+<span class="lineNum">     500 </span>                :            :   }
+<a name="501"><span class="lineNum">     501 </span>                :<span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     502 </span>                :            : 
+<span class="lineNum">     503 </span>                :<span class="lineNoCov">          0 : void PipelineManager::joinAll()</span>
+<span class="lineNum">     504 </span>                :            : {
+<span class="lineNum">     505 </span>[<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>][<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if (service_.thread != nullptr &amp;&amp; service_.state == PipelineState_ThreadRunning) {</span>
+<span class="lineNum">     506 </span>                :<span class="lineNoCov">          0 :     service_.thread-&gt;join();  // pipeline service</span>
+<span class="lineNum">     507 </span>                :            :   }
+<span class="lineNum">     508 </span>                :            : 
+<span class="lineNum">     509 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   for (auto it = pipelines_.begin(); it != pipelines_.end(); ++it) {</span>
+<span class="lineNum">     510 </span>[<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>][<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (it-&gt;second.thread != nullptr &amp;&amp; it-&gt;second.state == PipelineState_ThreadRunning) {</span>
+<span class="lineNum">     511 </span>                :<span class="lineNoCov">          0 :       it-&gt;second.thread-&gt;join();</span>
+<span class="lineNum">     512 </span>                :            :     }
+<span class="lineNum">     513 </span>[<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>][<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (it-&gt;second.thread_spin_nodes != nullptr &amp;&amp;</span>
+<span class="lineNum">     514 </span>                :<span class="lineNoCov">          0 :       it-&gt;second.state == PipelineState_ThreadRunning)</span>
+<span class="lineNum">     515 </span>                :            :     {
+<span class="lineNum">     516 </span>                :<span class="lineNoCov">          0 :       it-&gt;second.thread_spin_nodes-&gt;join();</span>
+<a name="517"><span class="lineNum">     517 </span>                :            :     }</a>
+<span class="lineNum">     518 </span>                :            :   }
+<span class="lineNum">     519 </span>[<span class="branchCov" title="Branch 1 was taken 20 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 3 was taken 20 times"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>]:<span class="lineCov">         80 : }</span>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.13</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

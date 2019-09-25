@@ -1,0 +1,199 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - total_coverage.info - src/ros2_openvino_toolkit/sample/tests/topic/unittest_objectDetectionCheck.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../index.html">top level</a> - <a href="index.html">src/ros2_openvino_toolkit/sample/tests/topic</a> - unittest_objectDetectionCheck.cpp<span style="font-size: 80%;"> (source / <a href="unittest_objectDetectionCheck.cpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">total_coverage.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">36</td>
+            <td class="headerCovTableEntry">36</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-09-25 21:44:45</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">9</td>
+            <td class="headerCovTableEntry">9</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+            | Branches:
+            <span class="coverLegendCov">+</span> taken
+            <span class="coverLegendNoCov">-</span> not taken
+            <span class="coverLegendNoCov">#</span> not executed
+</td>
+            <td></td>
+            <td class="headerItem">Branches:</td>
+            <td class="headerCovTableEntry">50</td>
+            <td class="headerCovTableEntry">96</td>
+            <td class="headerCovTableEntryLo">52.1 %</td>
+          </tr>
+          <tr><td><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>                :            : // Copyright (c) 2018 Intel Corporation</a>
+<span class="lineNum">       2 </span>                :            : //
+<span class="lineNum">       3 </span>                :            : // Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+<span class="lineNum">       4 </span>                :            : // you may not use this file except in compliance with the License.
+<span class="lineNum">       5 </span>                :            : // You may obtain a copy of the License at
+<span class="lineNum">       6 </span>                :            : //
+<span class="lineNum">       7 </span>                :            : //     http://www.apache.org/licenses/LICENSE-2.0
+<span class="lineNum">       8 </span>                :            : //
+<span class="lineNum">       9 </span>                :            : // Unless required by applicable law or agreed to in writing, software
+<span class="lineNum">      10 </span>                :            : // distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+<span class="lineNum">      11 </span>                :            : // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+<span class="lineNum">      12 </span>                :            : // See the License for the specific language governing permissions and
+<span class="lineNum">      13 </span>                :            : // limitations under the License.
+<span class="lineNum">      14 </span>                :            : 
+<span class="lineNum">      15 </span>                :            : #include &lt;rclcpp/rclcpp.hpp&gt;
+<span class="lineNum">      16 </span>                :            : #include &lt;gtest/gtest.h&gt;
+<span class="lineNum">      17 </span>                :            : #include &lt;ament_index_cpp/get_resource.hpp&gt;
+<span class="lineNum">      18 </span>                :            : #include &lt;vino_param_lib/param_manager.hpp&gt;
+<span class="lineNum">      19 </span>                :            : 
+<span class="lineNum">      20 </span>                :            : #include &lt;unistd.h&gt;
+<span class="lineNum">      21 </span>                :            : #include &lt;algorithm&gt;
+<span class="lineNum">      22 </span>                :            : #include &lt;chrono&gt;
+<span class="lineNum">      23 </span>                :            : #include &lt;fstream&gt;
+<span class="lineNum">      24 </span>                :            : #include &lt;functional&gt;
+<span class="lineNum">      25 </span>                :            : #include &lt;iostream&gt;
+<span class="lineNum">      26 </span>                :            : #include &lt;iterator&gt;
+<span class="lineNum">      27 </span>                :            : #include &lt;map&gt;
+<span class="lineNum">      28 </span>                :            : #include &lt;memory&gt;
+<span class="lineNum">      29 </span>                :            : #include &lt;random&gt;
+<span class="lineNum">      30 </span>                :            : #include &lt;string&gt;
+<span class="lineNum">      31 </span>                :            : #include &lt;thread&gt;
+<span class="lineNum">      32 </span>                :            : #include &lt;utility&gt;
+<span class="lineNum">      33 </span>                :            : #include &lt;vector&gt;
+<span class="lineNum">      34 </span>                :            : 
+<span class="lineNum">      35 </span>                :            : #include &quot;dynamic_vino_lib/pipeline.hpp&quot;
+<span class="lineNum">      36 </span>                :            : #include &quot;dynamic_vino_lib/pipeline_manager.hpp&quot;
+<span class="lineNum">      37 </span>                :            : #include &quot;dynamic_vino_lib/slog.hpp&quot;
+<span class="lineNum">      38 </span>                :            : #include &quot;extension/ext_list.hpp&quot;
+<span class="lineNum">      39 </span>                :            : #include &quot;inference_engine.hpp&quot;
+<span class="lineNum">      40 </span>                :            : #include &quot;librealsense2/rs.hpp&quot;
+<span class="lineNum">      41 </span>                :            : #include &quot;opencv2/opencv.hpp&quot;
+<span class="lineNum">      42 </span>                :            : static bool test_pass = false;
+<a name="43"><span class="lineNum">      43 </span>                :            : </a>
+<span class="lineNum">      44 </span>                :            : template&lt;typename DurationT&gt;
+<span class="lineNum">      45 </span>                :<span class="lineCov">          3 : void wait_for_future(</span>
+<span class="lineNum">      46 </span>                :            :   rclcpp::executor::Executor &amp; executor, std::shared_future&lt;bool&gt; &amp; future,
+<span class="lineNum">      47 </span>                :            :   const DurationT &amp; timeout)
+<span class="lineNum">      48 </span>                :            : {
+<span class="lineNum">      49 </span>                :            :   using rclcpp::executor::FutureReturnCode;
+<span class="lineNum">      50 </span>                :            :   rclcpp::executor::FutureReturnCode future_ret;
+<span class="lineNum">      51 </span>                :<span class="lineCov">          3 :   auto start_time = std::chrono::steady_clock::now();</span>
+<span class="lineNum">      52 </span>        [<span class="branchCov" title="Branch 1 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          3 :   future_ret = executor.spin_until_future_complete(future, timeout);</span>
+<span class="lineNum">      53 </span>        [<span class="branchCov" title="Branch 2 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">          3 :   auto elapsed_time = std::chrono::steady_clock::now() - start_time;</span>
+<span class="lineNum">      54 </span>[<span class="branchCov" title="Branch 1 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 4 was taken 1 time"> + </span><span class="branchCov" title="Branch 5 was taken 2 times"> + </span>]:<span class="lineCov">          4 :   EXPECT_EQ(FutureReturnCode::SUCCESS, future_ret) &lt;&lt;</span>
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 7 was taken 1 time"> + </span><span class="branchNoCov" title="Branch 8 was not taken"> - </span>][<span class="branchCov" title="Branch 10 was taken 1 time"> + </span><span class="branchNoCov" title="Branch 11 was not taken"> - </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 14 was taken 1 time"> + </span><span class="branchNoCov" title="Branch 15 was not taken"> - </span>][<span class="branchCov" title="Branch 17 was taken 1 time"> + </span><span class="branchNoCov" title="Branch 18 was not taken"> - </span>]
+<span class="lineNum">      55 </span>        [<span class="branchCov" title="Branch 1 was taken 1 time"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          1 :     &quot;the usb camera don't publish data to topic\n&quot; &lt;&lt;</span>
+<span class="lineNum">      56 </span>        [<span class="branchCov" title="Branch 1 was taken 1 time"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          1 :     &quot;future failed to be set after: &quot; &lt;&lt;</span>
+<span class="lineNum">      57 </span>[<span class="branchCov" title="Branch 1 was taken 1 time"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 5 was taken 1 time"> + </span><span class="branchNoCov" title="Branch 6 was not taken"> - </span>]:<span class="lineCov">          2 :     std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(elapsed_time).count() &lt;&lt;</span>
+<span class="lineNum">      58 </span>                :            :     &quot; milliseconds\n&quot;;
+<a name="59"><span class="lineNum">      59 </span>                :<span class="lineCov">          3 : }</span></a>
+<span class="lineNum">      60 </span>                :            : 
+<span class="lineNum">      61 </span>[<span class="branchCov" title="Branch 5 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 6 was not taken"> - </span>][<span class="branchCov" title="Branch 8 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 9 was not taken"> - </span>]:<span class="lineCov">         24 : TEST(UnitTestObjectDetection, testObjectDetection)</span>
+<span class="lineNum">         </span>        [<span class="branchCov" title="Branch 11 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 12 was not taken"> - </span>]
+<span class="lineNum">      62 </span>                :            : {
+<span class="lineNum">      63 </span>        [<span class="branchCov" title="Branch 1 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          6 :   auto node = rclcpp::Node::make_shared(&quot;openvino_objectDetection_test&quot;);</span>
+<span class="lineNum">      64 </span>[<span class="branchCov" title="Branch 1 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 4 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 5 was not taken"> - </span>]:<span class="lineCov">          3 :   auto qos = rclcpp::QoS(rclcpp::KeepLast(1)).best_effort();</span>
+<span class="lineNum">         </span>        [<span class="branchCov" title="Branch 7 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 8 was not taken"> - </span>]
+<span class="lineNum">      65 </span>        [<span class="branchCov" title="Branch 1 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          6 :   std::promise&lt;bool&gt; sub_called;</span>
+<span class="lineNum">      66 </span>        [<span class="branchCov" title="Branch 1 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          6 :   std::shared_future&lt;bool&gt; sub_called_future(sub_called.get_future());</span>
+<a name="67"><span class="lineNum">      67 </span>                :            : </a>
+<span class="lineNum">      68 </span>                :            :   auto openvino_faceDetection_callback =
+<span class="lineNum">      69 </span>                :<span class="lineCov">          2 :     [&amp;sub_called](const object_msgs::msg::ObjectsInBoxes::SharedPtr msg) -&gt; void {</span>
+<span class="lineNum">      70 </span>                :<span class="lineCov">          2 :       test_pass = true;</span>
+<span class="lineNum">      71 </span>        [<span class="branchCov" title="Branch 1 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          2 :       sub_called.set_value(true);</span>
+<span class="lineNum">      72 </span>                :<span class="lineCov">          2 :     };</span>
+<span class="lineNum">      73 </span>                :            : 
+<span class="lineNum">      74 </span>[<span class="branchCov" title="Branch 1 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 4 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 5 was not taken"> - </span>]:<span class="lineCov">          6 :   rclcpp::executors::SingleThreadedExecutor executor;</span>
+<span class="lineNum">      75 </span>        [<span class="branchCov" title="Branch 2 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">          3 :   executor.add_node(node);</span>
+<span class="lineNum">      76 </span>                :            : 
+<span class="lineNum">      77 </span>                :            :   {
+<span class="lineNum">      78 </span>                :            :     auto sub1 = node-&gt;create_subscription&lt;object_msgs::msg::ObjectsInBoxes&gt;(
+<span class="lineNum">      79 </span>[<span class="branchCov" title="Branch 5 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 6 was not taken"> - </span>][<span class="branchCov" title="Branch 8 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 9 was not taken"> - </span>]:<span class="lineCov">          6 :       &quot;/ros2_openvino_toolkit/detected_objects&quot;, qos, openvino_faceDetection_callback);</span>
+<span class="lineNum">      80 </span>                :            : 
+<span class="lineNum">      81 </span>[<span class="branchCov" title="Branch 2 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>][<span class="branchCov" title="Branch 5 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 6 was not taken"> - </span>]:<span class="lineCov">         29 :     executor.spin_once(std::chrono::seconds(0));</span>
+<span class="lineNum">      82 </span>                :            : 
+<span class="lineNum">      83 </span>        [<span class="branchCov" title="Branch 2 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">          3 :     wait_for_future(executor, sub_called_future, std::chrono::seconds(10));</span>
+<span class="lineNum">      84 </span>                :            : 
+<span class="lineNum">      85 </span>[<span class="branchCov" title="Branch 2 was taken 1 time"> + </span><span class="branchCov" title="Branch 3 was taken 2 times"> + </span>][<span class="branchCov" title="Branch 5 was taken 1 time"> + </span><span class="branchNoCov" title="Branch 6 was not taken"> - </span>]:<span class="lineCov">          3 :     EXPECT_TRUE(test_pass);</span>
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 8 was taken 1 time"> + </span><span class="branchNoCov" title="Branch 9 was not taken"> - </span>][<span class="branchCov" title="Branch 12 was taken 1 time"> + </span><span class="branchNoCov" title="Branch 13 was not taken"> - </span>]
+<span class="lineNum">         </span>        [<span class="branchCov" title="Branch 15 was taken 1 time"> + </span><span class="branchNoCov" title="Branch 16 was not taken"> - </span>]
+<span class="lineNum">      86 </span>                :            :   }
+<a name="87"><span class="lineNum">      87 </span>                :<span class="lineCov">          3 : }</span></a>
+<span class="lineNum">      88 </span>                :            : 
+<span class="lineNum">      89 </span>                :<span class="lineCov">          3 : int main(int argc, char * argv[])</span>
+<span class="lineNum">      90 </span>                :            : {
+<span class="lineNum">      91 </span>        [<span class="branchCov" title="Branch 1 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          3 :   testing::InitGoogleTest(&amp;argc, argv);</span>
+<span class="lineNum">      92 </span>[<span class="branchCov" title="Branch 1 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 4 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 5 was not taken"> - </span>]:<span class="lineCov">          3 :   rclcpp::init(argc, argv);</span>
+<span class="lineNum">         </span>        [<span class="branchCov" title="Branch 7 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 8 was not taken"> - </span>]
+<span class="lineNum">      93 </span>                :<span class="lineCov">          3 :   auto offset = std::chrono::seconds(20);</span>
+<span class="lineNum">      94 </span>        [<span class="branchCov" title="Branch 1 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          3 :   system(&quot;ros2 launch dynamic_vino_sample pipeline_object_test.launch.py &amp;&quot;);</span>
+<span class="lineNum">      95 </span>        [<span class="branchCov" title="Branch 1 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          3 :   int ret = RUN_ALL_TESTS();</span>
+<span class="lineNum">      96 </span>[<span class="branchCov" title="Branch 2 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>][<span class="branchCov" title="Branch 5 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 6 was not taken"> - </span>]:<span class="lineCov">          3 :   rclcpp::sleep_for(offset);</span>
+<span class="lineNum">      97 </span>        [<span class="branchCov" title="Branch 1 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          3 :   system(&quot;killall -s SIGINT pipeline_with_params &amp;&quot;);</span>
+<a name="98"><span class="lineNum">      98 </span>[<span class="branchCov" title="Branch 2 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>][<span class="branchCov" title="Branch 6 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 7 was not taken"> - </span>]:<span class="lineCov">          3 :   rclcpp::shutdown();</span></a>
+<span class="lineNum">      99 </span>                :<span class="lineCov">          3 :   return ret;</span>
+<span class="lineNum">     100 </span>[<span class="branchCov" title="Branch 1 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 3 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>]:<span class="lineCov">         12 : }</span>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.13</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

@@ -1,0 +1,448 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - total_coverage.info - src/ros2_openvino_toolkit/dynamic_vino_lib/src/outputs/image_window_output.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../index.html">top level</a> - <a href="index.html">src/ros2_openvino_toolkit/dynamic_vino_lib/src/outputs</a> - image_window_output.cpp<span style="font-size: 80%;"> (source / <a href="image_window_output.cpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">total_coverage.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntry">193</td>
+            <td class="headerCovTableEntryLo">0.5 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-09-25 21:44:45</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">2</td>
+            <td class="headerCovTableEntry">22</td>
+            <td class="headerCovTableEntryLo">9.1 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+            | Branches:
+            <span class="coverLegendCov">+</span> taken
+            <span class="coverLegendNoCov">-</span> not taken
+            <span class="coverLegendNoCov">#</span> not executed
+</td>
+            <td></td>
+            <td class="headerItem">Branches:</td>
+            <td class="headerCovTableEntry">2</td>
+            <td class="headerCovTableEntry">210</td>
+            <td class="headerCovTableEntryLo">1.0 %</td>
+          </tr>
+          <tr><td><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>                :            : // Copyright (c) 2018 Intel Corporation</a>
+<span class="lineNum">       2 </span>                :            : //
+<span class="lineNum">       3 </span>                :            : // Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+<span class="lineNum">       4 </span>                :            : // you may not use this file except in compliance with the License.
+<span class="lineNum">       5 </span>                :            : // You may obtain a copy of the License at
+<span class="lineNum">       6 </span>                :            : //
+<span class="lineNum">       7 </span>                :            : //     http://www.apache.org/licenses/LICENSE-2.0
+<span class="lineNum">       8 </span>                :            : //
+<span class="lineNum">       9 </span>                :            : // Unless required by applicable law or agreed to in writing, software
+<span class="lineNum">      10 </span>                :            : // distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+<span class="lineNum">      11 </span>                :            : // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+<span class="lineNum">      12 </span>                :            : // See the License for the specific language governing permissions and
+<span class="lineNum">      13 </span>                :            : // limitations under the License.
+<span class="lineNum">      14 </span>                :            : 
+<span class="lineNum">      15 </span>                :            : /**
+<span class="lineNum">      16 </span>                :            :  * @brief a header file with declaration of ImageWindowOutput class
+<span class="lineNum">      17 </span>                :            :  * @file image_window_output.cpp
+<span class="lineNum">      18 </span>                :            :  */
+<span class="lineNum">      19 </span>                :            : 
+<span class="lineNum">      20 </span>                :            : #include &lt;algorithm&gt;
+<span class="lineNum">      21 </span>                :            : #include &lt;string&gt;
+<span class="lineNum">      22 </span>                :            : #include &lt;vector&gt;
+<span class="lineNum">      23 </span>                :            : #include &lt;map&gt;
+<span class="lineNum">      24 </span>                :            : 
+<span class="lineNum">      25 </span>                :            : #include &quot;dynamic_vino_lib/outputs/image_window_output.hpp&quot;
+<a name="26"><span class="lineNum">      26 </span>                :            : #include &quot;dynamic_vino_lib/pipeline.hpp&quot;</a>
+<span class="lineNum">      27 </span>                :            : 
+<span class="lineNum">      28 </span>                :<span class="lineNoCov">          0 : Outputs::ImageWindowOutput::ImageWindowOutput(const std::string &amp; output_name, int focal_length)</span>
+<span class="lineNum">      29 </span>[<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineNoCov">          0 : : BaseOutput(output_name), focal_length_(focal_length)</span>
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 7 was not executed"> # </span><span class="branchNoExec" title="Branch 8 was not executed"> # </span>][<span class="branchNoExec" title="Branch 10 was not executed"> # </span><span class="branchNoExec" title="Branch 11 was not executed"> # </span>]
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 13 was not executed"> # </span><span class="branchNoExec" title="Branch 14 was not executed"> # </span>][<span class="branchNoExec" title="Branch 16 was not executed"> # </span><span class="branchNoExec" title="Branch 17 was not executed"> # </span>]
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 19 was not executed"> # </span><span class="branchNoExec" title="Branch 20 was not executed"> # </span>][<span class="branchNoExec" title="Branch 22 was not executed"> # </span><span class="branchNoExec" title="Branch 23 was not executed"> # </span>]
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 25 was not executed"> # </span><span class="branchNoExec" title="Branch 26 was not executed"> # </span>][<span class="branchNoExec" title="Branch 28 was not executed"> # </span><span class="branchNoExec" title="Branch 29 was not executed"> # </span>]
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 31 was not executed"> # </span><span class="branchNoExec" title="Branch 32 was not executed"> # </span>][<span class="branchNoExec" title="Branch 34 was not executed"> # </span><span class="branchNoExec" title="Branch 35 was not executed"> # </span>]
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 37 was not executed"> # </span><span class="branchNoExec" title="Branch 38 was not executed"> # </span>][<span class="branchNoExec" title="Branch 40 was not executed"> # </span><span class="branchNoExec" title="Branch 41 was not executed"> # </span>]
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 43 was not executed"> # </span><span class="branchNoExec" title="Branch 44 was not executed"> # </span>][<span class="branchNoExec" title="Branch 46 was not executed"> # </span><span class="branchNoExec" title="Branch 47 was not executed"> # </span>]
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 49 was not executed"> # </span><span class="branchNoExec" title="Branch 50 was not executed"> # </span>][<span class="branchNoExec" title="Branch 52 was not executed"> # </span><span class="branchNoExec" title="Branch 53 was not executed"> # </span>]
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 55 was not executed"> # </span><span class="branchNoExec" title="Branch 56 was not executed"> # </span>][<span class="branchNoExec" title="Branch 58 was not executed"> # </span><span class="branchNoExec" title="Branch 59 was not executed"> # </span>]
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 61 was not executed"> # </span><span class="branchNoExec" title="Branch 62 was not executed"> # </span>][<span class="branchNoExec" title="Branch 64 was not executed"> # </span><span class="branchNoExec" title="Branch 65 was not executed"> # </span>]
+<span class="lineNum">         </span>        [<span class="branchNoExec" title="Branch 67 was not executed"> # </span><span class="branchNoExec" title="Branch 68 was not executed"> # </span>]
+<span class="lineNum">         </span>  [<span class="branchNoExec" title="Branch 69 was not executed"> # </span><span class="branchNoExec" title="Branch 70 was not executed"> # </span><span class="branchNoExec" title="Branch 71 was not executed"> # </span><span class="branchNoExec" title="Branch 72 was not executed"> # </span>]
+<span class="lineNum">      30 </span>                :            : {
+<span class="lineNum">      31 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :   cv::namedWindow(output_name_, cv::WINDOW_AUTOSIZE);</span>
+<a name="32"><span class="lineNum">      32 </span>                :<span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">      33 </span>                :            : 
+<span class="lineNum">      34 </span>                :<span class="lineNoCov">          0 : void Outputs::ImageWindowOutput::feedFrame(const cv::Mat &amp; frame)</span>
+<span class="lineNum">      35 </span>                :            : {
+<span class="lineNum">      36 </span>                :            :   // frame_ = frame;
+<span class="lineNum">      37 </span>        [<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :   frame_ = frame.clone();</span>
+<span class="lineNum">      38 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if (camera_matrix_.empty()) {</span>
+<span class="lineNum">      39 </span>                :<span class="lineNoCov">          0 :     int cx = frame.cols / 2;</span>
+<span class="lineNum">      40 </span>                :<span class="lineNoCov">          0 :     int cy = frame.rows / 2;</span>
+<span class="lineNum">      41 </span>                :<span class="lineNoCov">          0 :     camera_matrix_ = cv::Mat::zeros(3, 3, CV_32F);</span>
+<span class="lineNum">      42 </span>                :<span class="lineNoCov">          0 :     camera_matrix_.at&lt;float&gt;(0) = focal_length_;</span>
+<span class="lineNum">      43 </span>                :<span class="lineNoCov">          0 :     camera_matrix_.at&lt;float&gt;(2) = static_cast&lt;float&gt;(cx);</span>
+<span class="lineNum">      44 </span>                :<span class="lineNoCov">          0 :     camera_matrix_.at&lt;float&gt;(4) = focal_length_;</span>
+<span class="lineNum">      45 </span>                :<span class="lineNoCov">          0 :     camera_matrix_.at&lt;float&gt;(5) = static_cast&lt;float&gt;(cy);</span>
+<span class="lineNum">      46 </span>                :<span class="lineNoCov">          0 :     camera_matrix_.at&lt;float&gt;(8) = 1;</span>
+<span class="lineNum">      47 </span>                :            :   }
+<a name="48"><span class="lineNum">      48 </span>                :<span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">      49 </span>                :            : 
+<span class="lineNum">      50 </span>                :<span class="lineNoCov">          0 : unsigned Outputs::ImageWindowOutput::findOutput(</span>
+<span class="lineNum">      51 </span>                :            :   const cv::Rect &amp; result_rect)
+<span class="lineNum">      52 </span>                :            : {
+<span class="lineNum">      53 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   for (unsigned i = 0; i &lt; outputs_.size(); i++) {</span>
+<span class="lineNum">      54 </span>                :            :     if (outputs_[i].rect == result_rect) {
+<span class="lineNum">      55 </span>                :            :       return i;
+<span class="lineNum">      56 </span>                :            :     }
+<span class="lineNum">      57 </span>                :            :   }
+<span class="lineNum">      58 </span>                :<span class="lineNoCov">          0 :   OutputData output;</span>
+<span class="lineNum">      59 </span>                :            :   output.desc = &quot;&quot;;
+<span class="lineNum">      60 </span>                :            :   output.scalar = cv::Scalar(255, 0, 0);
+<span class="lineNum">      61 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :   outputs_.push_back(output);</span>
+<span class="lineNum">      62 </span>                :<span class="lineNoCov">          0 :   return outputs_.size() - 1;</span>
+<a name="63"><span class="lineNum">      63 </span>                :            : }</a>
+<span class="lineNum">      64 </span>                :            : 
+<span class="lineNum">      65 </span>                :<span class="lineNoCov">          0 : void Outputs::ImageWindowOutput::accept(</span>
+<span class="lineNum">      66 </span>                :            :   const std::vector&lt;dynamic_vino_lib::LicensePlateDetectionResult&gt; &amp; results)
+<span class="lineNum">      67 </span>                :            : {
+<span class="lineNum">      68 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   for (unsigned i = 0; i &lt; results.size(); i++) {</span>
+<span class="lineNum">      69 </span>                :            :     cv::Rect result_rect = results[i].getLocation();
+<span class="lineNum">      70 </span>                :<span class="lineNoCov">          0 :     unsigned target_index = findOutput(result_rect);</span>
+<span class="lineNum">      71 </span>                :<span class="lineNoCov">          0 :     outputs_[target_index].rect = result_rect;</span>
+<span class="lineNum">      72 </span>[<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineNoCov">          0 :     outputs_[target_index].desc += (&quot;[&quot; + results[i].getLicense() + &quot;]&quot;);</span>
+<span class="lineNum">      73 </span>                :            :   }
+<a name="74"><span class="lineNum">      74 </span>                :<span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">      75 </span>                :            : 
+<span class="lineNum">      76 </span>                :<span class="lineNoCov">          0 : void Outputs::ImageWindowOutput::accept(</span>
+<span class="lineNum">      77 </span>                :            :   const std::vector&lt;dynamic_vino_lib::VehicleAttribsDetectionResult&gt; &amp; results)
+<span class="lineNum">      78 </span>                :            : {
+<span class="lineNum">      79 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   for (unsigned i = 0; i &lt; results.size(); i++) {</span>
+<span class="lineNum">      80 </span>                :            :     cv::Rect result_rect = results[i].getLocation();
+<span class="lineNum">      81 </span>                :<span class="lineNoCov">          0 :     unsigned target_index = findOutput(result_rect);</span>
+<span class="lineNum">      82 </span>                :<span class="lineNoCov">          0 :     outputs_[target_index].rect = result_rect;</span>
+<span class="lineNum">      83 </span>                :<span class="lineNoCov">          0 :     outputs_[target_index].desc +=</span>
+<span class="lineNum">      84 </span>[<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineNoCov">          0 :       (&quot;[&quot; + results[i].getColor() + &quot;,&quot; + results[i].getType() + &quot;]&quot;);</span>
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 7 was not executed"> # </span><span class="branchNoExec" title="Branch 8 was not executed"> # </span>][<span class="branchNoExec" title="Branch 10 was not executed"> # </span><span class="branchNoExec" title="Branch 11 was not executed"> # </span>]
+<span class="lineNum">      85 </span>                :            :   }
+<a name="86"><span class="lineNum">      86 </span>                :<span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">      87 </span>                :            : 
+<span class="lineNum">      88 </span>                :<span class="lineNoCov">          0 : void Outputs::ImageWindowOutput::accept(</span>
+<span class="lineNum">      89 </span>                :            :   const std::vector&lt;dynamic_vino_lib::FaceReidentificationResult&gt; &amp; results)
+<span class="lineNum">      90 </span>                :            : {
+<span class="lineNum">      91 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   for (unsigned i = 0; i &lt; results.size(); i++) {</span>
+<span class="lineNum">      92 </span>                :            :     cv::Rect result_rect = results[i].getLocation();
+<span class="lineNum">      93 </span>                :<span class="lineNoCov">          0 :     unsigned target_index = findOutput(result_rect);</span>
+<span class="lineNum">      94 </span>                :<span class="lineNoCov">          0 :     outputs_[target_index].rect = result_rect;</span>
+<span class="lineNum">      95 </span>[<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineNoCov">          0 :     outputs_[target_index].desc += &quot;[&quot; + results[i].getFaceID() + &quot;]&quot;;</span>
+<span class="lineNum">      96 </span>                :            :   }
+<a name="97"><span class="lineNum">      97 </span>                :<span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">      98 </span>                :            : 
+<span class="lineNum">      99 </span>                :<span class="lineNoCov">          0 : void Outputs::ImageWindowOutput::accept(</span>
+<span class="lineNum">     100 </span>                :            :   const std::vector&lt;dynamic_vino_lib::LandmarksDetectionResult&gt; &amp; results)
+<span class="lineNum">     101 </span>                :            : {
+<span class="lineNum">     102 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   for (unsigned i = 0; i &lt; results.size(); i++) {</span>
+<span class="lineNum">     103 </span>                :            :     cv::Rect result_rect = results[i].getLocation();
+<span class="lineNum">     104 </span>                :<span class="lineNoCov">          0 :     unsigned target_index = findOutput(result_rect);</span>
+<span class="lineNum">     105 </span>                :<span class="lineNoCov">          0 :     std::vector&lt;cv::Point&gt; landmark_points = results[i].getLandmarks();</span>
+<span class="lineNum">     106 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     for (int j = 0; j &lt; landmark_points.size(); j++) {</span>
+<span class="lineNum">     107 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :       outputs_[target_index].landmarks.push_back(landmark_points[j]);</span>
+<span class="lineNum">     108 </span>                :            :     }
+<span class="lineNum">     109 </span>                :            :   }
+<a name="110"><span class="lineNum">     110 </span>                :<span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     111 </span>                :            : 
+<span class="lineNum">     112 </span>                :<span class="lineNoCov">          0 : void Outputs::ImageWindowOutput::accept(</span>
+<span class="lineNum">     113 </span>                :            :   const std::vector&lt;dynamic_vino_lib::PersonAttribsDetectionResult&gt; &amp; results)
+<span class="lineNum">     114 </span>                :            : {
+<span class="lineNum">     115 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   for (unsigned i = 0; i &lt; results.size(); i++) {</span>
+<span class="lineNum">     116 </span>                :            :     cv::Rect result_rect = results[i].getLocation();
+<span class="lineNum">     117 </span>                :<span class="lineNoCov">          0 :     unsigned target_index = findOutput(result_rect);</span>
+<span class="lineNum">     118 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (results[i].getMaleProbability() &lt; 0.5) {</span>
+<span class="lineNum">     119 </span>                :<span class="lineNoCov">          0 :       outputs_[target_index].scalar = cv::Scalar(0, 0, 255);</span>
+<span class="lineNum">     120 </span>                :            :     }
+<span class="lineNum">     121 </span>                :<span class="lineNoCov">          0 :     outputs_[target_index].rect = result_rect;</span>
+<span class="lineNum">     122 </span>[<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineNoCov">          0 :     outputs_[target_index].desc += &quot;[&quot; + results[i].getAttributes() + &quot;]&quot;;</span>
+<span class="lineNum">     123 </span>                :            :   }
+<a name="124"><span class="lineNum">     124 </span>                :<span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     125 </span>                :            : 
+<span class="lineNum">     126 </span>                :<span class="lineNoCov">          0 : void Outputs::ImageWindowOutput::accept(</span>
+<span class="lineNum">     127 </span>                :            :   const std::vector&lt;dynamic_vino_lib::PersonReidentificationResult&gt; &amp; results)
+<span class="lineNum">     128 </span>                :            : {
+<span class="lineNum">     129 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   for (unsigned i = 0; i &lt; results.size(); i++) {</span>
+<span class="lineNum">     130 </span>                :            :     cv::Rect result_rect = results[i].getLocation();
+<span class="lineNum">     131 </span>                :<span class="lineNoCov">          0 :     unsigned target_index = findOutput(result_rect);</span>
+<span class="lineNum">     132 </span>                :<span class="lineNoCov">          0 :     outputs_[target_index].rect = result_rect;</span>
+<span class="lineNum">     133 </span>[<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineNoCov">          0 :     outputs_[target_index].desc += &quot;[&quot; + results[i].getPersonID() + &quot;]&quot;;</span>
+<span class="lineNum">     134 </span>                :            :   }
+<a name="135"><span class="lineNum">     135 </span>                :<span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     136 </span>                :            : 
+<span class="lineNum">     137 </span>                :<span class="lineNoCov">          0 : void Outputs::ImageWindowOutput::mergeMask(</span>
+<span class="lineNum">     138 </span>                :            :   const std::vector&lt;dynamic_vino_lib::ObjectSegmentationResult&gt; &amp; results)
+<span class="lineNum">     139 </span>                :            : {
+<span class="lineNum">     140 </span>                :            :   std::map&lt;std::string, int&gt; class_color;
+<span class="lineNum">     141 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   for (unsigned i = 0; i &lt; results.size(); i++) {</span>
+<span class="lineNum">     142 </span>                :            :     std::string class_label = results[i].getLabel();
+<span class="lineNum">     143 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (class_color.find(class_label) == class_color.end()) {</span>
+<span class="lineNum">     144 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :       class_color[class_label] = class_color.size();</span>
+<span class="lineNum">     145 </span>                :            :     }
+<span class="lineNum">     146 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :     auto &amp; color = colors_[class_color[class_label]];</span>
+<span class="lineNum">     147 </span>                :            :     const float alpha = 0.7f;
+<span class="lineNum">     148 </span>                :            :     const float MASK_THRESHOLD = 0.5;
+<span class="lineNum">     149 </span>                :            : 
+<span class="lineNum">     150 </span>                :<span class="lineNoCov">          0 :     cv::Rect location = results[i].getLocation();</span>
+<span class="lineNum">     151 </span>                :<span class="lineNoCov">          0 :     cv::Mat roi_img = frame_(location);</span>
+<span class="lineNum">     152 </span>                :<span class="lineNoCov">          0 :     cv::Mat mask = results[i].getMask();</span>
+<span class="lineNum">     153 </span>                :<span class="lineNoCov">          0 :     cv::Mat colored_mask(location.height, location.width, frame_.type());</span>
+<span class="lineNum">     154 </span>                :            : 
+<span class="lineNum">     155 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     for (int h = 0; h &lt; mask.size().height; ++h) {</span>
+<span class="lineNum">     156 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :       for (int w = 0; w &lt; mask.size().width; ++w) {</span>
+<span class="lineNum">     157 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :         for (int ch = 0; ch &lt; colored_mask.channels(); ++ch) {</span>
+<span class="lineNum">     158 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :           colored_mask.at&lt;cv::Vec3b&gt;(h, w)[ch] = mask.at&lt;float&gt;(h, w) &gt; MASK_THRESHOLD ?</span>
+<span class="lineNum">     159 </span>                :<span class="lineNoCov">          0 :             255 * color[ch] :</span>
+<span class="lineNum">     160 </span>                :<span class="lineNoCov">          0 :             roi_img.at&lt;cv::Vec3b&gt;(h, w)[ch];</span>
+<span class="lineNum">     161 </span>                :            :         }
+<span class="lineNum">     162 </span>                :            :       }
+<span class="lineNum">     163 </span>                :            :     }
+<span class="lineNum">     164 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :     cv::addWeighted(colored_mask, alpha, roi_img, 1.0f - alpha, 0.0f, roi_img);</span>
+<span class="lineNum">     165 </span>                :            :   }
+<a name="166"><span class="lineNum">     166 </span>                :<span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     167 </span>                :            : 
+<span class="lineNum">     168 </span>                :<span class="lineNoCov">          0 : void Outputs::ImageWindowOutput::accept(</span>
+<span class="lineNum">     169 </span>                :            :   const std::vector&lt;dynamic_vino_lib::ObjectSegmentationResult&gt; &amp; results)
+<span class="lineNum">     170 </span>                :            : {
+<span class="lineNum">     171 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   for (unsigned i = 0; i &lt; results.size(); i++) {</span>
+<span class="lineNum">     172 </span>                :            :     cv::Rect result_rect = results[i].getLocation();
+<span class="lineNum">     173 </span>                :<span class="lineNoCov">          0 :     unsigned target_index = findOutput(result_rect);</span>
+<span class="lineNum">     174 </span>                :<span class="lineNoCov">          0 :     outputs_[target_index].rect = result_rect;</span>
+<span class="lineNum">     175 </span>                :<span class="lineNoCov">          0 :     auto fd_conf = results[i].getConfidence();</span>
+<span class="lineNum">     176 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (fd_conf &gt;= 0) {</span>
+<span class="lineNum">     177 </span>                :<span class="lineNoCov">          0 :       std::ostringstream ostream;</span>
+<span class="lineNum">     178 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :       ostream &lt;&lt; &quot;[&quot; &lt;&lt; std::fixed &lt;&lt; std::setprecision(3) &lt;&lt; fd_conf &lt;&lt; &quot;]&quot;;</span>
+<span class="lineNum">     179 </span>                :<span class="lineNoCov">          0 :       outputs_[target_index].desc += ostream.str();</span>
+<span class="lineNum">     180 </span>                :            :     }
+<span class="lineNum">     181 </span>                :<span class="lineNoCov">          0 :     auto label = results[i].getLabel();</span>
+<span class="lineNum">     182 </span>[<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineNoCov">          0 :     outputs_[target_index].desc += &quot;[&quot; + label + &quot;]&quot;;</span>
+<span class="lineNum">     183 </span>                :            :   }
+<span class="lineNum">     184 </span>                :<span class="lineNoCov">          0 :   mergeMask(results);</span>
+<a name="185"><span class="lineNum">     185 </span>                :<span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     186 </span>                :            : 
+<span class="lineNum">     187 </span>                :<span class="lineNoCov">          0 : void Outputs::ImageWindowOutput::accept(</span>
+<span class="lineNum">     188 </span>                :            :   const std::vector&lt;dynamic_vino_lib::FaceDetectionResult&gt; &amp; results)
+<span class="lineNum">     189 </span>                :            : {
+<span class="lineNum">     190 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   for (unsigned i = 0; i &lt; results.size(); i++) {</span>
+<span class="lineNum">     191 </span>                :            :     cv::Rect result_rect = results[i].getLocation();
+<span class="lineNum">     192 </span>                :<span class="lineNoCov">          0 :     unsigned target_index = findOutput(result_rect);</span>
+<span class="lineNum">     193 </span>                :<span class="lineNoCov">          0 :     outputs_[target_index].rect = result_rect;</span>
+<span class="lineNum">     194 </span>                :<span class="lineNoCov">          0 :     auto fd_conf = results[i].getConfidence();</span>
+<span class="lineNum">     195 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (fd_conf &gt;= 0) {</span>
+<span class="lineNum">     196 </span>                :<span class="lineNoCov">          0 :       std::ostringstream ostream;</span>
+<span class="lineNum">     197 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :       ostream &lt;&lt; &quot;[&quot; &lt;&lt; std::fixed &lt;&lt; std::setprecision(3) &lt;&lt; fd_conf &lt;&lt; &quot;]&quot;;</span>
+<span class="lineNum">     198 </span>                :<span class="lineNoCov">          0 :       outputs_[target_index].desc += ostream.str();</span>
+<span class="lineNum">     199 </span>                :            :     }
+<span class="lineNum">     200 </span>                :            :   }
+<a name="201"><span class="lineNum">     201 </span>                :<span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     202 </span>                :            : 
+<span class="lineNum">     203 </span>                :<span class="lineNoCov">          0 : void Outputs::ImageWindowOutput::accept(</span>
+<span class="lineNum">     204 </span>                :            :   const std::vector&lt;dynamic_vino_lib::ObjectDetectionResult&gt; &amp; results)
+<span class="lineNum">     205 </span>                :            : {
+<span class="lineNum">     206 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   for (unsigned i = 0; i &lt; results.size(); i++) {</span>
+<span class="lineNum">     207 </span>                :            :     cv::Rect result_rect = results[i].getLocation();
+<span class="lineNum">     208 </span>                :<span class="lineNoCov">          0 :     unsigned target_index = findOutput(result_rect);</span>
+<span class="lineNum">     209 </span>                :<span class="lineNoCov">          0 :     outputs_[target_index].rect = result_rect;</span>
+<span class="lineNum">     210 </span>                :<span class="lineNoCov">          0 :     auto fd_conf = results[i].getConfidence();</span>
+<span class="lineNum">     211 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (fd_conf &gt;= 0) {</span>
+<span class="lineNum">     212 </span>                :<span class="lineNoCov">          0 :       std::ostringstream ostream;</span>
+<span class="lineNum">     213 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :       ostream &lt;&lt; &quot;[&quot; &lt;&lt; std::fixed &lt;&lt; std::setprecision(3) &lt;&lt; fd_conf &lt;&lt; &quot;]&quot;;</span>
+<span class="lineNum">     214 </span>                :<span class="lineNoCov">          0 :       outputs_[target_index].desc += ostream.str();</span>
+<span class="lineNum">     215 </span>                :            :     }
+<span class="lineNum">     216 </span>                :<span class="lineNoCov">          0 :     auto label = results[i].getLabel();</span>
+<span class="lineNum">     217 </span>[<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineNoCov">          0 :     outputs_[target_index].desc += &quot;[&quot; + label + &quot;]&quot;;</span>
+<span class="lineNum">     218 </span>                :            :   }
+<a name="219"><span class="lineNum">     219 </span>                :<span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     220 </span>                :            : 
+<span class="lineNum">     221 </span>                :<span class="lineNoCov">          0 : void Outputs::ImageWindowOutput::accept(</span>
+<span class="lineNum">     222 </span>                :            :   const std::vector&lt;dynamic_vino_lib::EmotionsResult&gt; &amp; results)
+<span class="lineNum">     223 </span>                :            : {
+<span class="lineNum">     224 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   for (unsigned i = 0; i &lt; results.size(); i++) {</span>
+<span class="lineNum">     225 </span>                :            :     cv::Rect result_rect = results[i].getLocation();
+<span class="lineNum">     226 </span>                :<span class="lineNoCov">          0 :     unsigned target_index = findOutput(result_rect);</span>
+<span class="lineNum">     227 </span>                :<span class="lineNoCov">          0 :     outputs_[target_index].rect = result_rect;</span>
+<span class="lineNum">     228 </span>                :<span class="lineNoCov">          0 :     std::ostringstream ostream;</span>
+<span class="lineNum">     229 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :     ostream &lt;&lt; &quot;[&quot; &lt;&lt; results[i].getLabel() &lt;&lt; &quot;]&quot;;</span>
+<span class="lineNum">     230 </span>                :<span class="lineNoCov">          0 :     outputs_[target_index].desc += ostream.str();</span>
+<span class="lineNum">     231 </span>                :            :   }
+<a name="232"><span class="lineNum">     232 </span>                :<span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     233 </span>                :            : 
+<span class="lineNum">     234 </span>                :<span class="lineNoCov">          0 : void Outputs::ImageWindowOutput::accept(</span>
+<span class="lineNum">     235 </span>                :            :   const std::vector&lt;dynamic_vino_lib::AgeGenderResult&gt; &amp; results)
+<span class="lineNum">     236 </span>                :            : {
+<span class="lineNum">     237 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   for (unsigned i = 0; i &lt; results.size(); i++) {</span>
+<span class="lineNum">     238 </span>                :            :     cv::Rect result_rect = results[i].getLocation();
+<span class="lineNum">     239 </span>                :<span class="lineNoCov">          0 :     unsigned target_index = findOutput(result_rect);</span>
+<span class="lineNum">     240 </span>                :<span class="lineNoCov">          0 :     outputs_[target_index].rect = result_rect;</span>
+<span class="lineNum">     241 </span>                :<span class="lineNoCov">          0 :     std::ostringstream ostream;</span>
+<span class="lineNum">     242 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :     ostream &lt;&lt; &quot;[Y&quot; &lt;&lt; std::fixed &lt;&lt; std::setprecision(0) &lt;&lt; results[i].getAge() &lt;&lt; &quot;]&quot;;</span>
+<span class="lineNum">     243 </span>                :<span class="lineNoCov">          0 :     outputs_[target_index].desc += ostream.str();</span>
+<span class="lineNum">     244 </span>                :            : 
+<span class="lineNum">     245 </span>                :<span class="lineNoCov">          0 :     auto male_prob = results[i].getMaleProbability();</span>
+<span class="lineNum">     246 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (male_prob &lt; 0.5) {</span>
+<span class="lineNum">     247 </span>                :<span class="lineNoCov">          0 :       outputs_[target_index].scalar = cv::Scalar(0, 0, 255);</span>
+<span class="lineNum">     248 </span>                :            :     }
+<span class="lineNum">     249 </span>                :            :   }
+<a name="250"><span class="lineNum">     250 </span>                :<span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     251 </span>                :            : 
+<span class="lineNum">     252 </span>                :<span class="lineNoCov">          0 : cv::Point Outputs::ImageWindowOutput::calcAxis(</span>
+<span class="lineNum">     253 </span>                :            :   cv::Mat r, double cx, double cy, double cz,
+<span class="lineNum">     254 </span>                :            :   cv::Point cp)
+<span class="lineNum">     255 </span>                :            : {
+<span class="lineNum">     256 </span>                :<span class="lineNoCov">          0 :   cv::Mat Axis(3, 1, CV_32F);</span>
+<span class="lineNum">     257 </span>                :<span class="lineNoCov">          0 :   Axis.at&lt;float&gt;(0) = cx;</span>
+<span class="lineNum">     258 </span>                :<span class="lineNoCov">          0 :   Axis.at&lt;float&gt;(1) = cy;</span>
+<span class="lineNum">     259 </span>                :<span class="lineNoCov">          0 :   Axis.at&lt;float&gt;(2) = cz;</span>
+<span class="lineNum">     260 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :   cv::Mat o(3, 1, CV_32F, cv::Scalar(0));</span>
+<span class="lineNum">     261 </span>                :<span class="lineNoCov">          0 :   o.at&lt;float&gt;(2) = camera_matrix_.at&lt;float&gt;(0);</span>
+<span class="lineNum">     262 </span>[<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineNoCov">          0 :   Axis = r * Axis + o;</span>
+<span class="lineNum">     263 </span>                :            :   cv::Point point;
+<span class="lineNum">     264 </span>                :<span class="lineNoCov">          0 :   point.x = static_cast&lt;int&gt;((Axis.at&lt;float&gt;(0) / Axis.at&lt;float&gt;(2) * camera_matrix_.at&lt;float&gt;(0)) +</span>
+<span class="lineNum">     265 </span>                :<span class="lineNoCov">          0 :     cp.x);</span>
+<span class="lineNum">     266 </span>                :<span class="lineNoCov">          0 :   point.y = static_cast&lt;int&gt;((Axis.at&lt;float&gt;(1) / Axis.at&lt;float&gt;(2) * camera_matrix_.at&lt;float&gt;(4)) +</span>
+<span class="lineNum">     267 </span>                :<span class="lineNoCov">          0 :     cp.y);</span>
+<span class="lineNum">     268 </span>                :<span class="lineNoCov">          0 :   return point;</span>
+<a name="269"><span class="lineNum">     269 </span>                :            : }</a>
+<span class="lineNum">     270 </span>                :            : 
+<span class="lineNum">     271 </span>                :<span class="lineNoCov">          0 : cv::Mat Outputs::ImageWindowOutput::getRotationTransform(double yaw, double pitch, double roll)</span>
+<span class="lineNum">     272 </span>                :            : {
+<span class="lineNum">     273 </span>                :<span class="lineNoCov">          0 :   pitch *= CV_PI / 180.0;</span>
+<span class="lineNum">     274 </span>                :<span class="lineNoCov">          0 :   yaw *= CV_PI / 180.0;</span>
+<span class="lineNum">     275 </span>                :<span class="lineNoCov">          0 :   roll *= CV_PI / 180.0;</span>
+<span class="lineNum">     276 </span>                :<span class="lineNoCov">          0 :   cv::Matx33f Rx(1, 0, 0, 0, cos(pitch), -sin(pitch), 0, sin(pitch), cos(pitch));</span>
+<span class="lineNum">     277 </span>                :<span class="lineNoCov">          0 :   cv::Matx33f Ry(cos(yaw), 0, -sin(yaw), 0, 1, 0, sin(yaw), 0, cos(yaw));</span>
+<span class="lineNum">     278 </span>                :<span class="lineNoCov">          0 :   cv::Matx33f Rz(cos(roll), -sin(roll), 0, sin(roll), cos(roll), 0, 0, 0, 1);</span>
+<span class="lineNum">     279 </span>                :<span class="lineNoCov">          0 :   auto r = cv::Mat(Rz * Ry * Rx);</span>
+<span class="lineNum">     280 </span>                :<span class="lineNoCov">          0 :   return r;</span>
+<a name="281"><span class="lineNum">     281 </span>                :            : }</a>
+<span class="lineNum">     282 </span>                :            : 
+<span class="lineNum">     283 </span>                :<span class="lineNoCov">          0 : void Outputs::ImageWindowOutput::accept(</span>
+<span class="lineNum">     284 </span>                :            :   const std::vector&lt;dynamic_vino_lib::HeadPoseResult&gt; &amp; results)
+<span class="lineNum">     285 </span>                :            : {
+<span class="lineNum">     286 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   for (unsigned i = 0; i &lt; results.size(); i++) {</span>
+<span class="lineNum">     287 </span>                :            :     auto result = results[i];
+<span class="lineNum">     288 </span>                :            :     cv::Rect result_rect = result.getLocation();
+<span class="lineNum">     289 </span>                :<span class="lineNoCov">          0 :     unsigned target_index = findOutput(result_rect);</span>
+<span class="lineNum">     290 </span>                :<span class="lineNoCov">          0 :     outputs_[target_index].rect = result_rect;</span>
+<span class="lineNum">     291 </span>                :<span class="lineNoCov">          0 :     double yaw = result.getAngleY();</span>
+<span class="lineNum">     292 </span>                :<span class="lineNoCov">          0 :     double pitch = result.getAngleP();</span>
+<span class="lineNum">     293 </span>                :<span class="lineNoCov">          0 :     double roll = result.getAngleR();</span>
+<span class="lineNum">     294 </span>                :            :     double scale = 50;
+<span class="lineNum">     295 </span>                :<span class="lineNoCov">          0 :     feedFrame(frame_);</span>
+<span class="lineNum">     296 </span>                :<span class="lineNoCov">          0 :     cv::Mat r = getRotationTransform(yaw, pitch, roll);</span>
+<span class="lineNum">     297 </span>                :            :     cv::Rect location = result.getLocation();
+<span class="lineNum">     298 </span>                :<span class="lineNoCov">          0 :     auto cp = cv::Point(location.x + location.width / 2, location.y + location.height / 2);</span>
+<span class="lineNum">     299 </span>                :<span class="lineNoCov">          0 :     outputs_[target_index].hp_cp = cp;</span>
+<span class="lineNum">     300 </span>[<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineNoCov">          0 :     outputs_[target_index].hp_x = calcAxis(r, scale, 0, 0, cp);</span>
+<span class="lineNum">     301 </span>[<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineNoCov">          0 :     outputs_[target_index].hp_y = calcAxis(r, 0, -scale, 0, cp);</span>
+<span class="lineNum">     302 </span>[<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineNoCov">          0 :     outputs_[target_index].hp_ze = calcAxis(r, 0, 0, -scale, cp);</span>
+<span class="lineNum">     303 </span>[<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineNoCov">          0 :     outputs_[target_index].hp_zs = calcAxis(r, 0, 0, scale, cp);</span>
+<span class="lineNum">     304 </span>                :            :   }
+<span class="lineNum">     305 </span>                :<span class="lineNoCov">          0 : }</span>
+<span class="lineNum">     306 </span>                :            : 
+<span class="lineNum">     307 </span>                :<span class="lineNoCov">          0 : void Outputs::ImageWindowOutput::decorateFrame()</span>
+<span class="lineNum">     308 </span>                :            : {
+<span class="lineNum">     309 </span>[<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if (getPipeline()-&gt;getParameters()-&gt;isGetFps()) {</span>
+<span class="lineNum">     310 </span>                :<span class="lineNoCov">          0 :     int fps = getPipeline()-&gt;getFPS();</span>
+<span class="lineNum">     311 </span>                :<span class="lineNoCov">          0 :     std::stringstream ss;</span>
+<span class="lineNum">     312 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :     ss &lt;&lt; &quot;FPS: &quot; &lt;&lt; fps;</span>
+<span class="lineNum">     313 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :     cv::putText(frame_, ss.str(), cv::Point2f(0, 65), cv::FONT_HERSHEY_TRIPLEX, 0.5,</span>
+<span class="lineNum">     314 </span>                :<span class="lineNoCov">          0 :       cv::Scalar(255, 0, 0));</span>
+<span class="lineNum">     315 </span>                :            :   }
+<span class="lineNum">     316 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   for (auto o : outputs_) {</span>
+<span class="lineNum">     317 </span>                :<span class="lineNoCov">          0 :     auto new_y = std::max(15, o.rect.y - 15);</span>
+<span class="lineNum">     318 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :     cv::putText(frame_, o.desc, cv::Point2f(o.rect.x, new_y), cv::FONT_HERSHEY_COMPLEX_SMALL, 0.8,</span>
+<span class="lineNum">     319 </span>                :            :       o.scalar);
+<span class="lineNum">     320 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :     cv::rectangle(frame_, o.rect, o.scalar, 1);</span>
+<span class="lineNum">     321 </span>                :            :     if (o.hp_cp != o.hp_x) {
+<span class="lineNum">     322 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :       cv::line(frame_, o.hp_cp, o.hp_x, cv::Scalar(0, 0, 255), 2);</span>
+<span class="lineNum">     323 </span>                :            :     }
+<span class="lineNum">     324 </span>                :            :     if (o.hp_cp != o.hp_y) {
+<span class="lineNum">     325 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :       cv::line(frame_, o.hp_cp, o.hp_y, cv::Scalar(0, 255, 0), 2);</span>
+<span class="lineNum">     326 </span>                :            :     }
+<span class="lineNum">     327 </span>                :            :     if (o.hp_zs != o.hp_ze) {
+<span class="lineNum">     328 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :       cv::line(frame_, o.hp_zs, o.hp_ze, cv::Scalar(255, 0, 0), 2);</span>
+<span class="lineNum">     329 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :       cv::circle(frame_, o.hp_ze, 3, cv::Scalar(255, 0, 0), 2);</span>
+<span class="lineNum">     330 </span>                :            :     }
+<span class="lineNum">     331 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     for (int i = 0; i &lt; o.landmarks.size(); i++) {</span>
+<span class="lineNum">     332 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :       cv::circle(frame_, o.landmarks[i], 3, cv::Scalar(255, 0, 0), 2);</span>
+<span class="lineNum">     333 </span>                :            :     }
+<span class="lineNum">     334 </span>                :            :   }
+<span class="lineNum">     335 </span>                :            :   outputs_.clear();
+<a name="336"><span class="lineNum">     336 </span>                :<span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     337 </span>                :            : 
+<span class="lineNum">     338 </span>                :<span class="lineNoCov">          0 : void Outputs::ImageWindowOutput::handleOutput()</span>
+<span class="lineNum">     339 </span>                :            : {
+<span class="lineNum">     340 </span>                :<span class="lineNoCov">          0 :   decorateFrame();</span>
+<a name="341"><span class="lineNum">     341 </span>                :<span class="lineNoCov">          0 :   cv::imshow(output_name_, frame_);</span></a>
+<span class="lineNum">     342 </span>                :<span class="lineNoCov">          0 :   cv::waitKey(1);</span>
+<span class="lineNum">     343 </span>[<span class="branchCov" title="Branch 1 was taken 20 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 3 was taken 20 times"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>]:<span class="lineCov">         80 : }</span>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.13</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

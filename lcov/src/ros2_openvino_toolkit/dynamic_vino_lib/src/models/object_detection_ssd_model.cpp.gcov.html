@@ -1,0 +1,305 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - total_coverage.info - src/ros2_openvino_toolkit/dynamic_vino_lib/src/models/object_detection_ssd_model.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../index.html">top level</a> - <a href="index.html">src/ros2_openvino_toolkit/dynamic_vino_lib/src/models</a> - object_detection_ssd_model.cpp<span style="font-size: 80%;"> (source / <a href="object_detection_ssd_model.cpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">total_coverage.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">77</td>
+            <td class="headerCovTableEntry">88</td>
+            <td class="headerCovTableEntryMed">87.5 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-09-25 21:44:45</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">8</td>
+            <td class="headerCovTableEntry">9</td>
+            <td class="headerCovTableEntryMed">88.9 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+            | Branches:
+            <span class="coverLegendCov">+</span> taken
+            <span class="coverLegendNoCov">-</span> not taken
+            <span class="coverLegendNoCov">#</span> not executed
+</td>
+            <td></td>
+            <td class="headerItem">Branches:</td>
+            <td class="headerCovTableEntry">57</td>
+            <td class="headerCovTableEntry">124</td>
+            <td class="headerCovTableEntryLo">46.0 %</td>
+          </tr>
+          <tr><td><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>                :            : // Copyright (c) 2018 Intel Corporation</a>
+<span class="lineNum">       2 </span>                :            : //
+<span class="lineNum">       3 </span>                :            : // Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+<span class="lineNum">       4 </span>                :            : // you may not use this file except in compliance with the License.
+<span class="lineNum">       5 </span>                :            : // You may obtain a copy of the License at
+<span class="lineNum">       6 </span>                :            : //
+<span class="lineNum">       7 </span>                :            : //     http://www.apache.org/licenses/LICENSE-2.0
+<span class="lineNum">       8 </span>                :            : //
+<span class="lineNum">       9 </span>                :            : // Unless required by applicable law or agreed to in writing, software
+<span class="lineNum">      10 </span>                :            : // distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+<span class="lineNum">      11 </span>                :            : // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+<span class="lineNum">      12 </span>                :            : // See the License for the specific language governing permissions and
+<span class="lineNum">      13 </span>                :            : // limitations under the License.
+<span class="lineNum">      14 </span>                :            : 
+<span class="lineNum">      15 </span>                :            : /**
+<span class="lineNum">      16 </span>                :            :  * @brief a header file with declaration of ObjectDetectionSSDModel class
+<span class="lineNum">      17 </span>                :            :  * @file object_detection_model.cpp
+<span class="lineNum">      18 </span>                :            :  */
+<span class="lineNum">      19 </span>                :            : #include &lt;string&gt;
+<span class="lineNum">      20 </span>                :            : #include &lt;memory&gt;
+<span class="lineNum">      21 </span>                :            : #include &lt;vector&gt;
+<span class="lineNum">      22 </span>                :            : #include &quot;dynamic_vino_lib/inferences/object_detection.hpp&quot;
+<span class="lineNum">      23 </span>                :            : #include &quot;dynamic_vino_lib/models/object_detection_ssd_model.hpp&quot;
+<span class="lineNum">      24 </span>                :            : #include &quot;dynamic_vino_lib/slog.hpp&quot;
+<span class="lineNum">      25 </span>                :            : #include &quot;dynamic_vino_lib/engines/engine.hpp&quot;
+<a name="26"><span class="lineNum">      26 </span>                :            : </a>
+<span class="lineNum">      27 </span>                :            : // Validated Object Detection Network
+<span class="lineNum">      28 </span>                :<span class="lineCov">          8 : Models::ObjectDetectionSSDModel::ObjectDetectionSSDModel(</span>
+<span class="lineNum">      29 </span>                :            :   const std::string &amp; model_loc, int input_num,
+<span class="lineNum">      30 </span>                :<span class="lineCov">          8 :   int output_num, int max_batch_size)</span>
+<span class="lineNum">      31 </span>                :<span class="lineCov">          8 : : ObjectDetectionModel(model_loc, input_num, output_num, max_batch_size)</span>
+<span class="lineNum">      32 </span>                :            : {
+<span class="lineNum">      33 </span>                :<span class="lineCov">          8 : }</span>
+<span class="lineNum">      34 </span>                :            : 
+<span class="lineNum">      35 </span>                :<span class="lineCov">          5 : void Models::ObjectDetectionSSDModel::setLayerProperty(</span>
+<span class="lineNum">      36 </span>                :            :   InferenceEngine::CNNNetReader::Ptr net_reader)
+<span class="lineNum">      37 </span>                :            : {
+<span class="lineNum">      38 </span>                :            :   // set input property
+<span class="lineNum">      39 </span>                :<span class="lineCov">          5 :   InferenceEngine::InputsDataMap input_info_map(net_reader-&gt;getNetwork().getInputsInfo());</span>
+<span class="lineNum">      40 </span>                :            :   InferenceEngine::InputInfo::Ptr input_info = input_info_map.begin()-&gt;second;
+<span class="lineNum">      41 </span>        [<span class="branchCov" title="Branch 1 was taken 5 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          5 :   input_info-&gt;setPrecision(InferenceEngine::Precision::U8);</span>
+<span class="lineNum">      42 </span>        [<span class="branchCov" title="Branch 1 was taken 5 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          5 :   input_info-&gt;getInputData()-&gt;setLayout(InferenceEngine::Layout::NCHW);</span>
+<span class="lineNum">      43 </span>                :            :   // set output property
+<span class="lineNum">      44 </span>        [<span class="branchCov" title="Branch 1 was taken 5 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          5 :   InferenceEngine::OutputsDataMap output_info_map(net_reader-&gt;getNetwork().getOutputsInfo());</span>
+<span class="lineNum">      45 </span>                :            :   InferenceEngine::DataPtr &amp; output_data_ptr = output_info_map.begin()-&gt;second;
+<span class="lineNum">      46 </span>        [<span class="branchCov" title="Branch 1 was taken 5 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          5 :   output_data_ptr-&gt;setPrecision(InferenceEngine::Precision::FP32);</span>
+<span class="lineNum">      47 </span>        [<span class="branchCov" title="Branch 1 was taken 5 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          5 :   output_data_ptr-&gt;setLayout(InferenceEngine::Layout::NCHW);</span>
+<span class="lineNum">      48 </span>                :            :   // set input and output layer name
+<span class="lineNum">      49 </span>                :<span class="lineCov">          5 :   input_ = input_info_map.begin()-&gt;first;</span>
+<span class="lineNum">      50 </span>                :<span class="lineCov">          5 :   output_ = output_info_map.begin()-&gt;first;</span>
+<span class="lineNum">      51 </span>                :<span class="lineCov">          5 : }</span>
+<span class="lineNum">      52 </span>                :            : 
+<span class="lineNum">      53 </span>                :<span class="lineCov">          5 : void Models::ObjectDetectionSSDModel::checkLayerProperty(</span>
+<span class="lineNum">      54 </span>                :            :   const InferenceEngine::CNNNetReader::Ptr &amp; net_reader)
+<span class="lineNum">      55 </span>                :            : {
+<span class="lineNum">      56 </span>                :<span class="lineCov">          5 :   slog::info &lt;&lt; &quot;Checking Object Detection outputs&quot; &lt;&lt; slog::endl;</span>
+<span class="lineNum">      57 </span>                :<span class="lineCov">          5 :   InferenceEngine::OutputsDataMap output_info_map(net_reader-&gt;getNetwork().getOutputsInfo());</span>
+<span class="lineNum">      58 </span>        [<span class="branchCov" title="Branch 1 was taken 5 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          5 :   slog::info &lt;&lt; &quot;Checking Object Detection outputs ...&quot; &lt;&lt; slog::endl;</span>
+<span class="lineNum">      59 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 5 times"> + </span>]:<span class="lineCov">          5 :   if (output_info_map.size() != 1) {</span>
+<span class="lineNum">      60 </span>        [<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :     throw std::logic_error(&quot;This sample accepts networks having only one output&quot;);</span>
+<span class="lineNum">      61 </span>                :            :   }
+<span class="lineNum">      62 </span>                :            :   InferenceEngine::DataPtr &amp; output_data_ptr = output_info_map.begin()-&gt;second;
+<span class="lineNum">      63 </span>                :<span class="lineCov">          5 :   output_ = output_info_map.begin()-&gt;first;</span>
+<span class="lineNum">      64 </span>[<span class="branchCov" title="Branch 1 was taken 5 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 4 was taken 5 times"> + </span><span class="branchNoCov" title="Branch 5 was not taken"> - </span>]:<span class="lineCov">          5 :   slog::info &lt;&lt; &quot;Checking Object Detection output ... Name=&quot; &lt;&lt; output_ &lt;&lt; slog::endl;</span>
+<span class="lineNum">      65 </span>                :            : 
+<span class="lineNum">      66 </span>                :            :   const InferenceEngine::CNNLayerPtr output_layer =
+<span class="lineNum">      67 </span>[<span class="branchCov" title="Branch 1 was taken 5 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 4 was taken 5 times"> + </span><span class="branchNoCov" title="Branch 5 was not taken"> - </span>]:<span class="lineCov">          5 :     net_reader-&gt;getNetwork().getLayerByName(output_.c_str());</span>
+<span class="lineNum">      68 </span>                :            :   // output layer should have attribute called num_classes
+<span class="lineNum">      69 </span>        [<span class="branchCov" title="Branch 1 was taken 5 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          5 :   slog::info &lt;&lt; &quot;Checking Object Detection num_classes&quot; &lt;&lt; slog::endl;</span>
+<span class="lineNum">      70 </span>[<span class="branchCov" title="Branch 1 was taken 5 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchNoCov" title="Branch 3 was not taken"> - </span><span class="branchCov" title="Branch 4 was taken 5 times"> + </span>]:<span class="lineCov">         10 :   if (output_layer-&gt;params.find(&quot;num_classes&quot;) == output_layer-&gt;params.end()) {</span>
+<span class="lineNum">      71 </span>[<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineNoCov">          0 :     throw std::logic_error(&quot;Object Detection network output layer (&quot; + output_ +</span>
+<span class="lineNum">      72 </span>        [<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :             &quot;) should have num_classes integer attribute&quot;);</span>
+<span class="lineNum">      73 </span>                :            :   }
+<span class="lineNum">      74 </span>                :            :   // class number should be equal to size of label vector
+<span class="lineNum">      75 </span>                :            :   // if network has default &quot;background&quot; class, fake is used
+<span class="lineNum">      76 </span>        [<span class="branchCov" title="Branch 1 was taken 5 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          5 :   const int num_classes = output_layer-&gt;GetParamAsInt(&quot;num_classes&quot;);</span>
+<span class="lineNum">      77 </span>                :            : 
+<span class="lineNum">      78 </span>[<span class="branchCov" title="Branch 1 was taken 5 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 4 was taken 5 times"> + </span><span class="branchNoCov" title="Branch 5 was not taken"> - </span>]:<span class="lineCov">          5 :   slog::info &lt;&lt; &quot;Checking Object Detection output ... num_classes=&quot; &lt;&lt; num_classes &lt;&lt; slog::endl;</span>
+<span class="lineNum">      79 </span>        [<span class="branchCov" title="Branch 0 was taken 3 times"> + </span><span class="branchCov" title="Branch 1 was taken 2 times"> + </span>]:<span class="lineCov">          5 :   if (getLabels().size() != num_classes) {</span>
+<span class="lineNum">      80 </span>        [<span class="branchCov" title="Branch 0 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>]:<span class="lineCov">          3 :     if (getLabels().size() == (num_classes - 1)) {</span>
+<span class="lineNum">      81 </span>        [<span class="branchCov" title="Branch 1 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          6 :       getLabels().insert(getLabels().begin(), &quot;fake&quot;);</span>
+<span class="lineNum">      82 </span>                :            :     } else {
+<span class="lineNum">      83 </span>                :<span class="lineNoCov">          0 :       getLabels().clear();</span>
+<span class="lineNum">      84 </span>                :            :     }
+<span class="lineNum">      85 </span>                :            :   }
+<span class="lineNum">      86 </span>                :            :   // last dimension of output layer should be 7
+<span class="lineNum">      87 </span>[<span class="branchCov" title="Branch 1 was taken 5 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 4 was taken 5 times"> + </span><span class="branchNoCov" title="Branch 5 was not taken"> - </span>]:<span class="lineCov">          5 :   const InferenceEngine::SizeVector output_dims = output_data_ptr-&gt;getTensorDesc().getDims();</span>
+<span class="lineNum">      88 </span>                :<span class="lineCov">          5 :   max_proposal_count_ = static_cast&lt;int&gt;(output_dims[2]);</span>
+<span class="lineNum">      89 </span>[<span class="branchCov" title="Branch 1 was taken 5 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 4 was taken 5 times"> + </span><span class="branchNoCov" title="Branch 5 was not taken"> - </span>]:<span class="lineCov">          5 :   slog::info &lt;&lt; &quot;max proposal count is: &quot; &lt;&lt; max_proposal_count_ &lt;&lt; slog::endl;</span>
+<span class="lineNum">      90 </span>                :            : 
+<span class="lineNum">      91 </span>                :<span class="lineCov">          5 :   auto object_size = static_cast&lt;int&gt;(output_dims[3]);</span>
+<span class="lineNum">      92 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 5 times"> + </span>]:<span class="lineCov">          5 :   if (object_size != 7) {</span>
+<span class="lineNum">      93 </span>                :            :     throw std::logic_error(&quot;Object Detection network output layer should have 7 as a last &quot;
+<span class="lineNum">      94 </span>        [<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :             &quot;dimension&quot;);</span>
+<span class="lineNum">      95 </span>                :            :   }
+<span class="lineNum">      96 </span>                :            :   setObjectSize(object_size);
+<span class="lineNum">      97 </span>                :            : 
+<span class="lineNum">      98 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 5 times"> + </span>]:<span class="lineCov">          5 :   if (output_dims.size() != 4) {</span>
+<span class="lineNum">      99 </span>                :            :     throw std::logic_error(&quot;Object Detection network output dimensions not compatible shoulld be &quot;
+<span class="lineNum">     100 </span>                :            :             &quot;4, &quot;
+<span class="lineNum">     101 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :             &quot;but was &quot; +</span>
+<span class="lineNum">     102 </span>        [<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :             std::to_string(output_dims.size()));</span>
+<span class="lineNum">     103 </span>                :            :   }
+<a name="104"><span class="lineNum">     104 </span>                :<span class="lineCov">          5 : }</span></a>
+<span class="lineNum">     105 </span>                :            : 
+<span class="lineNum">     106 </span>                :<span class="lineNoCov">          0 : const std::string Models::ObjectDetectionSSDModel::getModelName() const</span>
+<span class="lineNum">     107 </span>                :            : {
+<span class="lineNum">     108 </span>                :<span class="lineNoCov">          0 :   return &quot;Object Detection SSD&quot;;</span>
+<a name="109"><span class="lineNum">     109 </span>                :            : }</a>
+<span class="lineNum">     110 </span>                :            : 
+<span class="lineNum">     111 </span>                :<span class="lineCov">          4 : bool Models::ObjectDetectionSSDModel::enqueue(</span>
+<span class="lineNum">     112 </span>                :            :   const std::shared_ptr&lt;Engines::Engine&gt; &amp; engine,
+<span class="lineNum">     113 </span>                :            :   const cv::Mat &amp; frame,
+<span class="lineNum">     114 </span>                :            :   const cv::Rect &amp; input_frame_loc)
+<span class="lineNum">     115 </span>                :            : {
+<span class="lineNum">     116 </span>        [<span class="branchCov" title="Branch 1 was taken 4 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          4 :   if (!this-&gt;matToBlob(frame, input_frame_loc, 1, 0, engine)) {</span>
+<span class="lineNum">     117 </span>                :            :     return false;
+<span class="lineNum">     118 </span>                :            :   }
+<span class="lineNum">     119 </span>                :            : 
+<span class="lineNum">     120 </span>                :<span class="lineCov">          4 :   setFrameSize(frame.cols, frame.rows);</span>
+<span class="lineNum">     121 </span>                :            :   return true;
+<span class="lineNum">     122 </span>                :            : }
+<span class="lineNum">     123 </span>                :            : 
+<span class="lineNum">     124 </span>                :<span class="lineCov">          4 : bool Models::ObjectDetectionSSDModel::matToBlob(</span>
+<span class="lineNum">     125 </span>                :            :   const cv::Mat &amp; orig_image, const cv::Rect &amp;, float scale_factor,
+<span class="lineNum">     126 </span>                :            :   int batch_index, const std::shared_ptr&lt;Engines::Engine&gt; &amp; engine)
+<span class="lineNum">     127 </span>                :            : {
+<span class="lineNum">     128 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 4 times"> + </span>]:<span class="lineCov">          4 :   if (engine == nullptr) {</span>
+<span class="lineNum">     129 </span>                :<span class="lineNoCov">          0 :     slog::err &lt;&lt; &quot;A frame is trying to be enqueued in a NULL Engine.&quot; &lt;&lt; slog::endl;</span>
+<span class="lineNum">     130 </span>                :            :     return false;
+<span class="lineNum">     131 </span>                :            :   }
+<span class="lineNum">     132 </span>                :            : 
+<span class="lineNum">     133 </span>                :            :   std::string input_name = getInputName();
+<span class="lineNum">     134 </span>                :            :   InferenceEngine::Blob::Ptr input_blob =
+<span class="lineNum">     135 </span>        [<span class="branchCov" title="Branch 1 was taken 4 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          4 :     engine-&gt;getRequest()-&gt;GetBlob(input_name);</span>
+<span class="lineNum">     136 </span>                :            : 
+<span class="lineNum">     137 </span>        [<span class="branchCov" title="Branch 2 was taken 4 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">          4 :   InferenceEngine::SizeVector blob_size = input_blob-&gt;getTensorDesc().getDims();</span>
+<span class="lineNum">     138 </span>                :<span class="lineCov">          4 :   const int width = blob_size[3];</span>
+<span class="lineNum">     139 </span>                :<span class="lineCov">          4 :   const int height = blob_size[2];</span>
+<span class="lineNum">     140 </span>                :<span class="lineCov">          4 :   const int channels = blob_size[1];</span>
+<span class="lineNum">     141 </span>                :<span class="lineCov">          4 :   u_int8_t * blob_data = input_blob-&gt;buffer().as&lt;u_int8_t *&gt;();</span>
+<span class="lineNum">     142 </span>                :            : 
+<span class="lineNum">     143 </span>        [<span class="branchCov" title="Branch 1 was taken 4 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          8 :   cv::Mat resized_image(orig_image);</span>
+<span class="lineNum">     144 </span>[<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 4 times"> + </span>][<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineCov">          4 :   if (width != orig_image.size().width || height != orig_image.size().height) {</span>
+<span class="lineNum">     145 </span>        [<span class="branchCov" title="Branch 1 was taken 4 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          4 :     cv::resize(orig_image, resized_image, cv::Size(width, height));</span>
+<span class="lineNum">     146 </span>                :            :   }
+<span class="lineNum">     147 </span>                :<span class="lineCov">          4 :   int batchOffset = batch_index * width * height * channels;</span>
+<span class="lineNum">     148 </span>                :            : 
+<span class="lineNum">     149 </span>        [<span class="branchCov" title="Branch 0 was taken 12 times"> + </span><span class="branchCov" title="Branch 1 was taken 4 times"> + </span>]:<span class="lineCov">         16 :   for (int c = 0; c &lt; channels; c++) {</span>
+<span class="lineNum">     150 </span>        [<span class="branchCov" title="Branch 0 was taken 4104 times"> + </span><span class="branchCov" title="Branch 1 was taken 12 times"> + </span>]:<span class="lineCov">       4116 :     for (int h = 0; h &lt; height; h++) {</span>
+<span class="lineNum">     151 </span>        [<span class="branchCov" title="Branch 0 was taken 2088288 times"> + </span><span class="branchCov" title="Branch 1 was taken 4104 times"> + </span>]:<span class="lineCov">    2092392 :       for (int w = 0; w &lt; width; w++) {</span>
+<span class="lineNum">     152 </span>                :<span class="lineCov">    2088288 :         blob_data[batchOffset + c * width * height + h * width + w] =</span>
+<span class="lineNum">     153 </span>                :<span class="lineCov">    4176576 :           resized_image.at&lt;cv::Vec3b&gt;(h, w)[c] * scale_factor;</span>
+<span class="lineNum">     154 </span>                :            :       }
+<span class="lineNum">     155 </span>                :            :     }
+<span class="lineNum">     156 </span>                :            :   }
+<span class="lineNum">     157 </span>                :            : 
+<span class="lineNum">     158 </span>                :            :   return true;
+<span class="lineNum">     159 </span>                :            : }
+<span class="lineNum">     160 </span>                :            : 
+<span class="lineNum">     161 </span>                :<span class="lineCov">          4 : bool Models::ObjectDetectionSSDModel::fetchResults(</span>
+<span class="lineNum">     162 </span>                :            :   const std::shared_ptr&lt;Engines::Engine&gt; &amp; engine,
+<span class="lineNum">     163 </span>                :            :   std::vector&lt;dynamic_vino_lib::ObjectDetectionResult&gt; &amp; results,
+<span class="lineNum">     164 </span>                :            :   const float &amp; confidence_thresh,
+<span class="lineNum">     165 </span>                :            :   const bool &amp; enable_roi_constraint)
+<span class="lineNum">     166 </span>                :            : {
+<span class="lineNum">     167 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 4 times"> + </span>]:<span class="lineCov">          4 :   if (engine == nullptr) {</span>
+<span class="lineNum">     168 </span>                :<span class="lineNoCov">          0 :     slog::err &lt;&lt; &quot;Trying to fetch results from &lt;null&gt; Engines.&quot; &lt;&lt; slog::endl;</span>
+<span class="lineNum">     169 </span>                :            :     return false;
+<span class="lineNum">     170 </span>                :            :   }
+<span class="lineNum">     171 </span>                :            : 
+<span class="lineNum">     172 </span>                :            :   InferenceEngine::InferRequest::Ptr request = engine-&gt;getRequest();
+<span class="lineNum">     173 </span>                :            :   std::string output = getOutputName();
+<span class="lineNum">     174 </span>        [<span class="branchCov" title="Branch 1 was taken 4 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          4 :   const float * detections = request-&gt;GetBlob(output)-&gt;buffer().as&lt;float *&gt;();</span>
+<span class="lineNum">     175 </span>                :            : 
+<span class="lineNum">     176 </span>        [<span class="branchCov" title="Branch 1 was taken 4 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          4 :   auto max_proposal_count = getMaxProposalCount();</span>
+<span class="lineNum">     177 </span>                :<span class="lineCov">          4 :   auto object_size = getObjectSize();</span>
+<span class="lineNum">     178 </span>        [<span class="branchCov" title="Branch 0 was taken 408 times"> + </span><span class="branchCov" title="Branch 1 was taken 2 times"> + </span>]:<span class="lineCov">        410 :   for (int i = 0; i &lt; max_proposal_count; i++) {</span>
+<span class="lineNum">     179 </span>                :<span class="lineCov">        408 :     float image_id = detections[i * object_size + 0];</span>
+<span class="lineNum">     180 </span>        [<span class="branchCov" title="Branch 0 was taken 406 times"> + </span><span class="branchCov" title="Branch 1 was taken 2 times"> + </span>]:<span class="lineCov">        408 :     if (image_id &lt; 0) {</span>
+<span class="lineNum">     181 </span>                :            :       // slog::info &lt;&lt; &quot;Found objects: &quot; &lt;&lt; i &lt;&lt; &quot;|&quot; &lt;&lt; results.size() &lt;&lt; slog::endl;
+<span class="lineNum">     182 </span>                :            :       break;
+<span class="lineNum">     183 </span>                :            :     }
+<span class="lineNum">     184 </span>                :            : 
+<span class="lineNum">     185 </span>                :            :     cv::Rect r;
+<span class="lineNum">     186 </span>                :<span class="lineCov">        406 :     auto label_num = static_cast&lt;int&gt;(detections[i * object_size + 1]);</span>
+<span class="lineNum">     187 </span>                :            :     std::vector&lt;std::string&gt; &amp; labels = getLabels();
+<span class="lineNum">     188 </span>                :            :     auto frame_size = getFrameSize();
+<span class="lineNum">     189 </span>                :<span class="lineCov">        406 :     r.x = static_cast&lt;int&gt;(detections[i * object_size + 3] * frame_size.width);</span>
+<span class="lineNum">     190 </span>                :<span class="lineCov">        406 :     r.y = static_cast&lt;int&gt;(detections[i * object_size + 4] * frame_size.height);</span>
+<span class="lineNum">     191 </span>                :<span class="lineCov">        406 :     r.width = static_cast&lt;int&gt;(detections[i * object_size + 5] * frame_size.width - r.x);</span>
+<span class="lineNum">     192 </span>                :<span class="lineCov">        406 :     r.height = static_cast&lt;int&gt;(detections[i * object_size + 6] * frame_size.height - r.y);</span>
+<span class="lineNum">     193 </span>                :            : 
+<span class="lineNum">     194 </span>        [<span class="branchCov" title="Branch 0 was taken 406 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>]:<span class="lineCov">        406 :     if (enable_roi_constraint) {r &amp;= cv::Rect(0, 0, frame_size.width, frame_size.height);}</span>
+<span class="lineNum">     195 </span>                :            : 
+<span class="lineNum">     196 </span>        [<span class="branchCov" title="Branch 1 was taken 406 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">        406 :     dynamic_vino_lib::ObjectDetectionResult result(r);</span>
+<span class="lineNum">     197 </span>                :<span class="lineCov">        406 :     std::string label = label_num &lt; labels.size() ? labels[label_num] :</span>
+<span class="lineNum">     198 </span>[<span class="branchCov" title="Branch 0 was taken 406 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>][<span class="branchNoExec" title="Branch 3 was not executed"> # </span><span class="branchNoExec" title="Branch 4 was not executed"> # </span>]:<span class="lineCov">        812 :       std::string(&quot;label #&quot;) + std::to_string(label_num);</span>
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 6 was not executed"> # </span><span class="branchNoExec" title="Branch 7 was not executed"> # </span>][<span class="branchNoCov" title="Branch 8 was not taken"> - </span><span class="branchCov" title="Branch 9 was taken 406 times"> + </span>]
+<span class="lineNum">         </span>  [<span class="branchNoCov" title="Branch 10 was not taken"> - </span><span class="branchCov" title="Branch 11 was taken 406 times"> + </span><span class="branchNoExec" title="Branch 12 was not executed"> # </span><span class="branchNoExec" title="Branch 13 was not executed"> # </span> 
+<span class="lineNum">         </span>         <span class="branchNoExec" title="Branch 14 was not executed"> # </span><span class="branchNoExec" title="Branch 15 was not executed"> # </span>]
+<span class="lineNum">     199 </span>                :            :     result.setLabel(label);
+<span class="lineNum">     200 </span>                :<span class="lineCov">        406 :     float confidence = detections[i * object_size + 2];</span>
+<span class="lineNum">     201 </span>        [<span class="branchCov" title="Branch 0 was taken 384 times"> + </span><span class="branchCov" title="Branch 1 was taken 22 times"> + </span>]:<span class="lineCov">        406 :     if (confidence &lt;= confidence_thresh /* || r.x == 0 */) {   // why r.x needs to be checked?</span>
+<span class="lineNum">     202 </span>                :            :       continue;
+<span class="lineNum">     203 </span>                :            :     }
+<span class="lineNum">     204 </span>                :            :     result.setConfidence(confidence);
+<span class="lineNum">     205 </span>                :            : 
+<span class="lineNum">     206 </span>        [<span class="branchCov" title="Branch 1 was taken 22 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">         22 :     results.emplace_back(result);</span>
+<span class="lineNum">     207 </span>                :            :   }
+<a name="208"><span class="lineNum">     208 </span>                :            : </a>
+<span class="lineNum">     209 </span>                :            :   return true;
+<span class="lineNum">     210 </span>[<span class="branchCov" title="Branch 1 was taken 20 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 3 was taken 20 times"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>]:<span class="lineCov">         80 : }</span>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.13</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

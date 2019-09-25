@@ -1,0 +1,303 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - total_coverage.info - src/ros2_openvino_toolkit/dynamic_vino_lib/include/dynamic_vino_lib/inferences/object_detection.hpp</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../../index.html">top level</a> - <a href="index.html">src/ros2_openvino_toolkit/dynamic_vino_lib/include/dynamic_vino_lib/inferences</a> - object_detection.hpp<span style="font-size: 80%;"> (source / <a href="object_detection.hpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">total_coverage.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-09-25 21:44:45</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">3</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntryMed">75.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+            | Branches:
+            <span class="coverLegendCov">+</span> taken
+            <span class="coverLegendNoCov">-</span> not taken
+            <span class="coverLegendNoCov">#</span> not executed
+</td>
+            <td></td>
+            <td class="headerItem">Branches:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntryHi">-</td>
+          </tr>
+          <tr><td><img src="../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>                :            : // Copyright (c) 2018 Intel Corporation</a>
+<span class="lineNum">       2 </span>                :            : //
+<span class="lineNum">       3 </span>                :            : // Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+<span class="lineNum">       4 </span>                :            : // you may not use this file except in compliance with the License.
+<span class="lineNum">       5 </span>                :            : // You may obtain a copy of the License at
+<span class="lineNum">       6 </span>                :            : //
+<span class="lineNum">       7 </span>                :            : //     http://www.apache.org/licenses/LICENSE-2.0
+<span class="lineNum">       8 </span>                :            : //
+<span class="lineNum">       9 </span>                :            : // Unless required by applicable law or agreed to in writing, software
+<span class="lineNum">      10 </span>                :            : // distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+<span class="lineNum">      11 </span>                :            : // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+<span class="lineNum">      12 </span>                :            : // See the License for the specific language governing permissions and
+<span class="lineNum">      13 </span>                :            : // limitations under the License.
+<span class="lineNum">      14 </span>                :            : 
+<span class="lineNum">      15 </span>                :            : /**
+<span class="lineNum">      16 </span>                :            :  * @brief A header file with declaration for ObjectDetection Class
+<span class="lineNum">      17 </span>                :            :  * @file object_detection.hpp
+<span class="lineNum">      18 </span>                :            :  */
+<span class="lineNum">      19 </span>                :            : #ifndef DYNAMIC_VINO_LIB__INFERENCES__OBJECT_DETECTION_HPP_
+<span class="lineNum">      20 </span>                :            : #define DYNAMIC_VINO_LIB__INFERENCES__OBJECT_DETECTION_HPP_
+<span class="lineNum">      21 </span>                :            : #include &lt;object_msgs/msg/object.hpp&gt;
+<span class="lineNum">      22 </span>                :            : #include &lt;object_msgs/msg/object_in_box.hpp&gt;
+<span class="lineNum">      23 </span>                :            : #include &lt;object_msgs/msg/objects_in_boxes.hpp&gt;
+<span class="lineNum">      24 </span>                :            : #include &lt;object_msgs/srv/detect_object.hpp&gt;
+<span class="lineNum">      25 </span>                :            : #include &lt;rclcpp/rclcpp.hpp&gt;
+<span class="lineNum">      26 </span>                :            : #include &lt;memory&gt;
+<span class="lineNum">      27 </span>                :            : #include &lt;vector&gt;
+<span class="lineNum">      28 </span>                :            : #include &lt;string&gt;
+<span class="lineNum">      29 </span>                :            : #include &lt;map&gt;
+<span class="lineNum">      30 </span>                :            : #include &quot;dynamic_vino_lib/models/base_model.hpp&quot;
+<span class="lineNum">      31 </span>                :            : #include &quot;dynamic_vino_lib/engines/engine.hpp&quot;
+<span class="lineNum">      32 </span>                :            : #include &quot;dynamic_vino_lib/inferences/base_inference.hpp&quot;
+<span class="lineNum">      33 </span>                :            : #include &quot;dynamic_vino_lib/inferences/base_filter.hpp&quot;
+<span class="lineNum">      34 </span>                :            : #include &quot;inference_engine.hpp&quot;
+<span class="lineNum">      35 </span>                :            : #include &quot;opencv2/opencv.hpp&quot;
+<span class="lineNum">      36 </span>                :            : // namespace
+<span class="lineNum">      37 </span>                :            : namespace dynamic_vino_lib
+<span class="lineNum">      38 </span>                :            : {
+<span class="lineNum">      39 </span>                :            : /**
+<span class="lineNum">      40 </span>                :            :  * @class ObjectDetectionResult
+<a name="41"><span class="lineNum">      41 </span>                :            :  * @brief Class for storing and processing face detection result.</a>
+<span class="lineNum">      42 </span>                :            :  */
+<span class="lineNum">      43 </span>                :<span class="lineCov">         90 : class ObjectDetectionResult : public Result</span>
+<span class="lineNum">      44 </span>                :            : {
+<span class="lineNum">      45 </span>                :            : public:
+<span class="lineNum">      46 </span>                :            :   friend class ObjectDetection;
+<span class="lineNum">      47 </span>                :            :   explicit ObjectDetectionResult(const cv::Rect &amp; location);
+<span class="lineNum">      48 </span>                :            :   std::string getLabel() const
+<span class="lineNum">      49 </span>                :            :   {
+<span class="lineNum">      50 </span>                :            :     return label_;
+<span class="lineNum">      51 </span>                :            :   }
+<span class="lineNum">      52 </span>                :            : 
+<span class="lineNum">      53 </span>                :            :   void setLabel(const std::string &amp; label)
+<span class="lineNum">      54 </span>                :            :   {
+<span class="lineNum">      55 </span>                :            :     label_ = label;
+<span class="lineNum">      56 </span>                :            :   }
+<span class="lineNum">      57 </span>                :            :   /**
+<span class="lineNum">      58 </span>                :            :    * @brief Get the confidence that the detected area is a face.
+<span class="lineNum">      59 </span>                :            :    * @return The confidence value.
+<span class="lineNum">      60 </span>                :            :    */
+<span class="lineNum">      61 </span>                :            :   float getConfidence() const
+<span class="lineNum">      62 </span>                :            :   {
+<span class="lineNum">      63 </span>                :            :     return confidence_;
+<span class="lineNum">      64 </span>                :            :   }
+<span class="lineNum">      65 </span>                :            : 
+<span class="lineNum">      66 </span>                :            :   void setConfidence(const float &amp; con)
+<span class="lineNum">      67 </span>                :            :   {
+<span class="lineNum">      68 </span>                :<span class="lineCov">         22 :     confidence_ = con;</span>
+<span class="lineNum">      69 </span>                :            :   }
+<span class="lineNum">      70 </span>                :            : 
+<span class="lineNum">      71 </span>                :            :   bool operator&lt;(const ObjectDetectionResult &amp; s2) const
+<span class="lineNum">      72 </span>                :            :   {
+<span class="lineNum">      73 </span>                :            :     return this-&gt;confidence_ &gt; s2.confidence_;
+<span class="lineNum">      74 </span>                :            :   }
+<span class="lineNum">      75 </span>                :            : 
+<span class="lineNum">      76 </span>                :            : private:
+<span class="lineNum">      77 </span>                :            :   std::string label_ = &quot;&quot;;
+<span class="lineNum">      78 </span>                :            :   float confidence_ = -1;
+<span class="lineNum">      79 </span>                :            : };
+<span class="lineNum">      80 </span>                :            : 
+<span class="lineNum">      81 </span>                :            : /**
+<span class="lineNum">      82 </span>                :            :  * @class ObjectDetectionResultFilter
+<a name="83"><span class="lineNum">      83 </span>                :            :  * @brief Class for object detection result filter.</a>
+<span class="lineNum">      84 </span>                :            :  */
+<span class="lineNum">      85 </span>                :<span class="lineCov">         24 : class ObjectDetectionResultFilter : public BaseFilter</span>
+<span class="lineNum">      86 </span>                :            : {
+<span class="lineNum">      87 </span>                :            : public:
+<span class="lineNum">      88 </span>                :            :   using Result = dynamic_vino_lib::ObjectDetectionResult;
+<span class="lineNum">      89 </span>                :            : 
+<span class="lineNum">      90 </span>                :            :   ObjectDetectionResultFilter();
+<span class="lineNum">      91 </span>                :            : 
+<span class="lineNum">      92 </span>                :            :   /**
+<span class="lineNum">      93 </span>                :            :    * @brief Initiate the object detection result filter.
+<span class="lineNum">      94 </span>                :            :    */
+<span class="lineNum">      95 </span>                :            :   void init() override;
+<span class="lineNum">      96 </span>                :            :   /**
+<span class="lineNum">      97 </span>                :            :    * @brief Set the object detection results into filter.
+<span class="lineNum">      98 </span>                :            :    * @param[in] The object detection results.
+<span class="lineNum">      99 </span>                :            :    */
+<span class="lineNum">     100 </span>                :            :   void acceptResults(const std::vector&lt;Result&gt; &amp; results);
+<span class="lineNum">     101 </span>                :            :   /**
+<span class="lineNum">     102 </span>                :            :    * @brief Get the filtered results' ROIs.
+<span class="lineNum">     103 </span>                :            :    * @return The filtered ROIs.
+<span class="lineNum">     104 </span>                :            :    */
+<span class="lineNum">     105 </span>                :            :   std::vector&lt;cv::Rect&gt; getFilteredLocations() override;
+<span class="lineNum">     106 </span>                :            : 
+<span class="lineNum">     107 </span>                :            : private:
+<span class="lineNum">     108 </span>                :            :   /**
+<span class="lineNum">     109 </span>                :            :    * @brief Decide whether a result is valid for label filter condition.
+<span class="lineNum">     110 </span>                :            :    * @param[in] Result to be decided, filter operator, target label value.
+<span class="lineNum">     111 </span>                :            :    * @return True if valid, false if not.
+<span class="lineNum">     112 </span>                :            :    */
+<span class="lineNum">     113 </span>                :            :   static bool isValidLabel(
+<span class="lineNum">     114 </span>                :            :     const Result &amp; result,
+<span class="lineNum">     115 </span>                :            :     const std::string &amp; op, const std::string &amp; target);
+<span class="lineNum">     116 </span>                :            :   /**
+<span class="lineNum">     117 </span>                :            :    * @brief Decide whether a result is valid for confidence filter condition.
+<span class="lineNum">     118 </span>                :            :    * @param[in] Result to be decided, filter operator, target confidence value.
+<span class="lineNum">     119 </span>                :            :    * @return True if valid, false if not.
+<span class="lineNum">     120 </span>                :            :    */
+<span class="lineNum">     121 </span>                :            :   static bool isValidConfidence(
+<span class="lineNum">     122 </span>                :            :     const Result &amp; result,
+<span class="lineNum">     123 </span>                :            :     const std::string &amp; op, const std::string &amp; target);
+<span class="lineNum">     124 </span>                :            : 
+<span class="lineNum">     125 </span>                :            :   /**
+<span class="lineNum">     126 </span>                :            :    * @brief Decide whether a result is valid.
+<span class="lineNum">     127 </span>                :            :    * @param[in] Result to be decided.
+<span class="lineNum">     128 </span>                :            :    * @return True if valid, false if not.
+<span class="lineNum">     129 </span>                :            :    */
+<span class="lineNum">     130 </span>                :            :   bool isValidResult(const Result &amp; result);
+<span class="lineNum">     131 </span>                :            : 
+<span class="lineNum">     132 </span>                :            :   std::map&lt;std::string, bool(*)
+<span class="lineNum">     133 </span>                :            :     (const Result &amp;, const std::string &amp;, const std::string &amp;)&gt; key_to_function_;
+<span class="lineNum">     134 </span>                :            :   std::vector&lt;Result&gt; results_;
+<span class="lineNum">     135 </span>                :            : };
+<span class="lineNum">     136 </span>                :            : 
+<span class="lineNum">     137 </span>                :            : /**
+<span class="lineNum">     138 </span>                :            :  * @class ObjectDetection
+<a name="139"><span class="lineNum">     139 </span>                :            :  * @brief Class to load face detection model and perform face detection.</a>
+<span class="lineNum">     140 </span>                :            :  */
+<span class="lineNum">     141 </span>                :<span class="lineCov">         24 : class ObjectDetection : public BaseInference</span>
+<span class="lineNum">     142 </span>                :            : {
+<span class="lineNum">     143 </span>                :            : public:
+<span class="lineNum">     144 </span>                :            :   using Result = dynamic_vino_lib::ObjectDetectionResult;
+<span class="lineNum">     145 </span>                :            :   using Filter = dynamic_vino_lib::ObjectDetectionResultFilter;
+<span class="lineNum">     146 </span>                :            :   explicit ObjectDetection(bool, double);
+<span class="lineNum">     147 </span>                :            :   ~ObjectDetection() override;
+<span class="lineNum">     148 </span>                :            :   /**
+<span class="lineNum">     149 </span>                :            :    * @brief Load the face detection model.
+<span class="lineNum">     150 </span>                :            :    */
+<span class="lineNum">     151 </span>                :            :   void loadNetwork(std::shared_ptr&lt;Models::ObjectDetectionModel&gt;);
+<span class="lineNum">     152 </span>                :            :   /**
+<span class="lineNum">     153 </span>                :            :    * @brief Enqueue a frame to this class.
+<span class="lineNum">     154 </span>                :            :    * The frame will be buffered but not infered yet.
+<span class="lineNum">     155 </span>                :            :    * @param[in] frame The frame to be enqueued.
+<span class="lineNum">     156 </span>                :            :    * @param[in] input_frame_loc The location of the enqueued frame with respect
+<span class="lineNum">     157 </span>                :            :    * to the frame generated by the input device.
+<span class="lineNum">     158 </span>                :            :    * @return Whether this operation is successful.
+<span class="lineNum">     159 </span>                :            :    */
+<span class="lineNum">     160 </span>                :            :   bool enqueue(const cv::Mat &amp;, const cv::Rect &amp;) override;
+<span class="lineNum">     161 </span>                :            : 
+<span class="lineNum">     162 </span>                :            :   /**
+<span class="lineNum">     163 </span>                :            :    * @brief This function will fetch the results of the previous inference and
+<span class="lineNum">     164 </span>                :            :    * stores the results in a result buffer array. All buffered frames will be
+<span class="lineNum">     165 </span>                :            :    * cleared.
+<span class="lineNum">     166 </span>                :            :    * @return Whether the Inference object fetches a result this time
+<span class="lineNum">     167 </span>                :            :    */
+<span class="lineNum">     168 </span>                :            :   bool fetchResults() override;
+<span class="lineNum">     169 </span>                :            :   /**
+<span class="lineNum">     170 </span>                :            :    * @brief Get the length of the buffer result array.
+<span class="lineNum">     171 </span>                :            :    * @return The length of the buffer result array.
+<span class="lineNum">     172 </span>                :            :    */
+<span class="lineNum">     173 </span>                :            :   int getResultsLength() const override;
+<span class="lineNum">     174 </span>                :            :   /**
+<span class="lineNum">     175 </span>                :            :    * @brief Get the location of result with respect
+<span class="lineNum">     176 </span>                :            :    * to the frame generated by the input device.
+<span class="lineNum">     177 </span>                :            :    * @param[in] idx The index of the result.
+<span class="lineNum">     178 </span>                :            :    */
+<span class="lineNum">     179 </span>                :            :   const Result * getLocationResult(int idx) const override;
+<span class="lineNum">     180 </span>                :            :   /**
+<span class="lineNum">     181 </span>                :            :    * @brief Show the observed detection result either through image window
+<span class="lineNum">     182 </span>                :            :      or ROS topic.
+<span class="lineNum">     183 </span>                :            :    */
+<span class="lineNum">     184 </span>                :            :   void observeOutput(const std::shared_ptr&lt;Outputs::BaseOutput&gt; &amp; output);
+<span class="lineNum">     185 </span>                :            :   /**
+<span class="lineNum">     186 </span>                :            :    * @brief Get the name of the Inference instance.
+<span class="lineNum">     187 </span>                :            :    * @return The name of the Inference instance.
+<span class="lineNum">     188 </span>                :            :    */
+<span class="lineNum">     189 </span>                :            :   const std::string getName() const override;
+<span class="lineNum">     190 </span>                :            : 
+<span class="lineNum">     191 </span>                :            :   const std::vector&lt;cv::Rect&gt; getFilteredROIs(
+<span class="lineNum">     192 </span>                :            :     const std::string filter_conditions) const override;
+<span class="lineNum">     193 </span>                :            :   /**
+<span class="lineNum">     194 </span>                :            :    * @brief Calculate the IoU ratio for the given rectangles.
+<span class="lineNum">     195 </span>                :            :    * @return IoU Ratio of the given rectangles.
+<span class="lineNum">     196 </span>                :            :    */
+<span class="lineNum">     197 </span>                :            :   static double IntersectionOverUnion(const cv::Rect &amp; box_1, const cv::Rect &amp; box_2);
+<span class="lineNum">     198 </span>                :            : 
+<span class="lineNum">     199 </span>                :            : private:
+<span class="lineNum">     200 </span>                :            :   std::shared_ptr&lt;Models::ObjectDetectionModel&gt; valid_model_;
+<span class="lineNum">     201 </span>                :            :   std::shared_ptr&lt;Filter&gt; result_filter_;
+<span class="lineNum">     202 </span>                :            :   std::vector&lt;Result&gt; results_;
+<span class="lineNum">     203 </span>                :            :   int width_ = 0;
+<span class="lineNum">     204 </span>                :            :   int height_ = 0;
+<span class="lineNum">     205 </span>                :            :   int max_proposal_count_;
+<span class="lineNum">     206 </span>                :            :   int object_size_;
+<span class="lineNum">     207 </span>                :            :   double show_output_thresh_ = 0;
+<span class="lineNum">     208 </span>                :            :   bool enable_roi_constraint_ = false;
+<span class="lineNum">     209 </span>                :            : };
+<span class="lineNum">     210 </span>                :            : }  // namespace dynamic_vino_lib
+<span class="lineNum">     211 </span>                :            : #endif  // DYNAMIC_VINO_LIB__INFERENCES__OBJECT_DETECTION_HPP_
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.13</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

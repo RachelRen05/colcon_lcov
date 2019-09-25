@@ -1,0 +1,287 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - total_coverage.info - src/ros2_openvino_toolkit/dynamic_vino_lib/include/dynamic_vino_lib/inferences/base_filter.hpp</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../../index.html">top level</a> - <a href="index.html">src/ros2_openvino_toolkit/dynamic_vino_lib/include/dynamic_vino_lib/inferences</a> - base_filter.hpp<span style="font-size: 80%;"> (source / <a href="base_filter.hpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">total_coverage.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-09-25 21:44:45</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+            | Branches:
+            <span class="coverLegendCov">+</span> taken
+            <span class="coverLegendNoCov">-</span> not taken
+            <span class="coverLegendNoCov">#</span> not executed
+</td>
+            <td></td>
+            <td class="headerItem">Branches:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntryHi">-</td>
+          </tr>
+          <tr><td><img src="../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>                :            : // Copyright (c) 2018 Intel Corporation</a>
+<span class="lineNum">       2 </span>                :            : //
+<span class="lineNum">       3 </span>                :            : // Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+<span class="lineNum">       4 </span>                :            : // you may not use this file except in compliance with the License.
+<span class="lineNum">       5 </span>                :            : // You may obtain a copy of the License at
+<span class="lineNum">       6 </span>                :            : //
+<span class="lineNum">       7 </span>                :            : //     http://www.apache.org/licenses/LICENSE-2.0
+<span class="lineNum">       8 </span>                :            : //
+<span class="lineNum">       9 </span>                :            : // Unless required by applicable law or agreed to in writing, software
+<span class="lineNum">      10 </span>                :            : // distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+<span class="lineNum">      11 </span>                :            : // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+<span class="lineNum">      12 </span>                :            : // See the License for the specific language governing permissions and
+<span class="lineNum">      13 </span>                :            : // limitations under the License.
+<span class="lineNum">      14 </span>                :            : 
+<span class="lineNum">      15 </span>                :            : /**
+<span class="lineNum">      16 </span>                :            :  * @brief A header file with declaration for BaseFilter Class
+<span class="lineNum">      17 </span>                :            :  * @file base_filter.hpp
+<span class="lineNum">      18 </span>                :            :  */
+<span class="lineNum">      19 </span>                :            : #ifndef DYNAMIC_VINO_LIB__INFERENCES__BASE_FILTER_HPP_
+<span class="lineNum">      20 </span>                :            : #define DYNAMIC_VINO_LIB__INFERENCES__BASE_FILTER_HPP_
+<span class="lineNum">      21 </span>                :            : 
+<span class="lineNum">      22 </span>                :            : #include &lt;string&gt;
+<span class="lineNum">      23 </span>                :            : #include &lt;vector&gt;
+<span class="lineNum">      24 </span>                :            : #include &lt;utility&gt;
+<span class="lineNum">      25 </span>                :            : #include &lt;stack&gt;
+<span class="lineNum">      26 </span>                :            : #include &quot;dynamic_vino_lib/inferences/base_inference.hpp&quot;
+<span class="lineNum">      27 </span>                :            : 
+<span class="lineNum">      28 </span>                :            : namespace dynamic_vino_lib
+<span class="lineNum">      29 </span>                :            : {
+<span class="lineNum">      30 </span>                :            : 
+<span class="lineNum">      31 </span>                :            : /**
+<span class="lineNum">      32 </span>                :            :  * @class BaseFilter
+<a name="33"><span class="lineNum">      33 </span>                :            :  * @brief Base class for result filter.</a>
+<span class="lineNum">      34 </span>                :            :  */
+<span class="lineNum">      35 </span>                :<span class="lineCov">         16 : class BaseFilter</span>
+<span class="lineNum">      36 </span>                :            : {
+<span class="lineNum">      37 </span>                :            : public:
+<span class="lineNum">      38 </span>                :            :   BaseFilter();
+<span class="lineNum">      39 </span>                :            :   /**
+<span class="lineNum">      40 </span>                :            :    * @brief Initiate a result filter.
+<span class="lineNum">      41 </span>                :            :    */
+<span class="lineNum">      42 </span>                :            :   virtual void init() = 0;
+<span class="lineNum">      43 </span>                :            : 
+<span class="lineNum">      44 </span>                :            :   /**
+<span class="lineNum">      45 </span>                :            :    * @brief Get the filtered results' ROIs.
+<span class="lineNum">      46 </span>                :            :    * @return The filtered ROIs.
+<span class="lineNum">      47 </span>                :            :    */
+<span class="lineNum">      48 </span>                :            :   virtual std::vector&lt;cv::Rect&gt; getFilteredLocations() = 0;
+<span class="lineNum">      49 </span>                :            : 
+<span class="lineNum">      50 </span>                :            :   /**
+<span class="lineNum">      51 </span>                :            :    * @brief Check if the filter conditions is valid for filtering.
+<span class="lineNum">      52 </span>                :            :    * @param[in] Filter conditions.
+<span class="lineNum">      53 </span>                :            :    * @return true if some of the conditions are valid, otherwise false.
+<span class="lineNum">      54 </span>                :            :    */
+<span class="lineNum">      55 </span>                :            :   bool isValidFilterConditions(const std::string &amp;);
+<span class="lineNum">      56 </span>                :            : 
+<span class="lineNum">      57 </span>                :            :   /**
+<span class="lineNum">      58 </span>                :            :    * @brief Accept the filter conditions for filtering.
+<span class="lineNum">      59 </span>                :            :    * @param[in] Filter conditions.
+<span class="lineNum">      60 </span>                :            :    */
+<span class="lineNum">      61 </span>                :            :   void acceptFilterConditions(const std::string &amp;);
+<span class="lineNum">      62 </span>                :            : 
+<span class="lineNum">      63 </span>                :            :   /**
+<span class="lineNum">      64 </span>                :            :    * @brief Decide whether the input string is a relational operator or not.
+<span class="lineNum">      65 </span>                :            :    * @param[in] A string to be decided.
+<span class="lineNum">      66 </span>                :            :    * @return True if the input string is a relational operator, false if not.
+<span class="lineNum">      67 </span>                :            :    */
+<span class="lineNum">      68 </span>                :            :   bool isRelationOperator(const std::string &amp;);
+<span class="lineNum">      69 </span>                :            : 
+<span class="lineNum">      70 </span>                :            :   /**
+<span class="lineNum">      71 </span>                :            :    * @brief Decide whether the input string is a logic operator or not.
+<span class="lineNum">      72 </span>                :            :    * @param[in] A string to be decided.
+<span class="lineNum">      73 </span>                :            :    * @return True if the input string is a logic operator, false if not.
+<span class="lineNum">      74 </span>                :            :    */
+<span class="lineNum">      75 </span>                :            :   bool isLogicOperator(const std::string &amp;);
+<span class="lineNum">      76 </span>                :            : 
+<span class="lineNum">      77 </span>                :            :   /**
+<span class="lineNum">      78 </span>                :            :    * @brief Decide whether the an operator has a higher priority than anthor.
+<span class="lineNum">      79 </span>                :            :    * @param[in] The two operators.
+<span class="lineNum">      80 </span>                :            :    * @return True if the first operator has higher priority, false if not.
+<span class="lineNum">      81 </span>                :            :    */
+<span class="lineNum">      82 </span>                :            :   bool isPriorTo(const std::string &amp;, const std::string &amp;);
+<span class="lineNum">      83 </span>                :            : 
+<span class="lineNum">      84 </span>                :            :   /**
+<span class="lineNum">      85 </span>                :            :    * @brief Convert the input bool variable to a string type.
+<span class="lineNum">      86 </span>                :            :    * @param[in] A bool type to be converted.
+<span class="lineNum">      87 </span>                :            :    * @return A converted string result.
+<span class="lineNum">      88 </span>                :            :    */
+<span class="lineNum">      89 </span>                :            :   std::string boolToStr(bool);
+<span class="lineNum">      90 </span>                :            : 
+<span class="lineNum">      91 </span>                :            :   /**
+<span class="lineNum">      92 </span>                :            :    * @brief Convert the input string variable to a bool type.
+<span class="lineNum">      93 </span>                :            :    * @param[in] A string type to be converted.
+<span class="lineNum">      94 </span>                :            :    * @return A converted bool result.
+<span class="lineNum">      95 </span>                :            :    */
+<span class="lineNum">      96 </span>                :            :   bool strToBool(const std::string &amp;);
+<span class="lineNum">      97 </span>                :            : 
+<span class="lineNum">      98 </span>                :            :   /**
+<span class="lineNum">      99 </span>                :            :    * @brief Get the filter conditions in the suffix order.
+<span class="lineNum">     100 </span>                :            :    * @return A vector with suffix-order filter conditions.
+<span class="lineNum">     101 </span>                :            :    */
+<span class="lineNum">     102 </span>                :            :   const std::vector&lt;std::string&gt; &amp; getSuffixConditions() const;
+<span class="lineNum">     103 </span>                :            : 
+<span class="lineNum">     104 </span>                :            :   /**
+<span class="lineNum">     105 </span>                :            :    * @brief Do logic operation with the given bool values and the operator.
+<span class="lineNum">     106 </span>                :            :    * @param[in] A bool string, an logic operator, the other bool string.
+<span class="lineNum">     107 </span>                :            :    * @return The logic operation result.
+<span class="lineNum">     108 </span>                :            :    */
+<span class="lineNum">     109 </span>                :            :   bool logicOperation(const std::string &amp;, const std::string &amp;, const std::string &amp;);
+<span class="lineNum">     110 </span>                :            : 
+<span class="lineNum">     111 </span>                :            :   /**
+<span class="lineNum">     112 </span>                :            :    * @brief Compare two strings with a given relational operator.
+<span class="lineNum">     113 </span>                :            :    * @param[in] A string, an relational operator, the other string.
+<span class="lineNum">     114 </span>                :            :    * @return True if valid, false if not.
+<span class="lineNum">     115 </span>                :            :    */
+<span class="lineNum">     116 </span>                :            :   static bool stringCompare(const std::string &amp;, const std::string &amp;, const std::string &amp;);
+<span class="lineNum">     117 </span>                :            : 
+<span class="lineNum">     118 </span>                :            :   /**
+<span class="lineNum">     119 </span>                :            :    * @brief Compare two floats with a given relational operator.
+<span class="lineNum">     120 </span>                :            :    * @param[in] A float number, an relational operator, the other float number.
+<span class="lineNum">     121 </span>                :            :    * @return True if valid, false if not.
+<span class="lineNum">     122 </span>                :            :    */
+<span class="lineNum">     123 </span>                :            :   static bool floatCompare(float, const std::string &amp;, float);
+<span class="lineNum">     124 </span>                :            : 
+<span class="lineNum">     125 </span>                :            :   /**
+<span class="lineNum">     126 </span>                :            :    * @brief Convert a string into a float number.
+<span class="lineNum">     127 </span>                :            :    * @param[in] A string to be converted.
+<span class="lineNum">     128 </span>                :            :    * @return The converted float number, 0 if string is invalid.
+<span class="lineNum">     129 </span>                :            :    */
+<span class="lineNum">     130 </span>                :            :   static float stringToFloat(const std::string &amp;);
+<span class="lineNum">     131 </span>                :            : 
+<span class="lineNum">     132 </span>                :            :   /**
+<span class="lineNum">     133 </span>                :            :    * @brief A macro to decide whether a given result satisfies the filter condition.
+<span class="lineNum">     134 </span>                :            :    * @param[in] A key to function mapping, a given result.
+<span class="lineNum">     135 </span>                :            :    * @return True if valid, false if not.
+<span class="lineNum">     136 </span>                :            :    */
+<span class="lineNum">     137 </span>                :            :   #define ISVALIDRESULT(key_to_function, result) \
+<span class="lineNum">     138 </span>                :            :   { \
+<span class="lineNum">     139 </span>                :            :     std::vector&lt;std::string&gt; suffix_conditons = getSuffixConditions(); \
+<span class="lineNum">     140 </span>                :            :     std::stack&lt;std::string&gt; result_stack; \
+<span class="lineNum">     141 </span>                :            :     for (auto elem : suffix_conditons) { \
+<span class="lineNum">     142 </span>                :            :       if (!isRelationOperator(elem) &amp;&amp; !isLogicOperator(elem)) { \
+<span class="lineNum">     143 </span>                :            :         result_stack.push(elem); \
+<span class="lineNum">     144 </span>                :            :       } else { \
+<span class="lineNum">     145 </span>                :            :         try { \
+<span class="lineNum">     146 </span>                :            :           std::string str1 = result_stack.top(); \
+<span class="lineNum">     147 </span>                :            :           result_stack.pop(); \
+<span class="lineNum">     148 </span>                :            :           std::string str2 = result_stack.top(); \
+<span class="lineNum">     149 </span>                :            :           result_stack.pop(); \
+<span class="lineNum">     150 </span>                :            :           if (key_to_function.count(str2)) { \
+<span class="lineNum">     151 </span>                :            :             result_stack.push(boolToStr(key_to_function[str2](result, elem, str1))); \
+<span class="lineNum">     152 </span>                :            :           } else { \
+<span class="lineNum">     153 </span>                :            :             result_stack.push(boolToStr(logicOperation(str1, elem, str2))); \
+<span class="lineNum">     154 </span>                :            :           } \
+<span class="lineNum">     155 </span>                :            :         } \
+<span class="lineNum">     156 </span>                :            :         catch (...) { \
+<span class="lineNum">     157 </span>                :            :           slog::err &lt;&lt; &quot;Invalid filter conditions format!&quot; &lt;&lt; slog::endl; \
+<span class="lineNum">     158 </span>                :            :         } \
+<span class="lineNum">     159 </span>                :            :       } \
+<span class="lineNum">     160 </span>                :            :     } \
+<span class="lineNum">     161 </span>                :            :     if (result_stack.empty()) { \
+<span class="lineNum">     162 </span>                :            :       return true; \
+<span class="lineNum">     163 </span>                :            :     } \
+<span class="lineNum">     164 </span>                :            :     return strToBool(result_stack.top()); \
+<span class="lineNum">     165 </span>                :            :   }
+<span class="lineNum">     166 </span>                :            : 
+<span class="lineNum">     167 </span>                :            : private:
+<span class="lineNum">     168 </span>                :            :   /**
+<span class="lineNum">     169 </span>                :            :    * @brief Parse the filter conditions and stores it into a vector.
+<span class="lineNum">     170 </span>                :            :    * @param[in] A string form filter conditions.
+<span class="lineNum">     171 </span>                :            :    * @return The vector form filter conditions.
+<span class="lineNum">     172 </span>                :            :    */
+<span class="lineNum">     173 </span>                :            :   std::vector&lt;std::string&gt; split(const std::string &amp; filter_conditions);
+<span class="lineNum">     174 </span>                :            : 
+<span class="lineNum">     175 </span>                :            :   /**
+<span class="lineNum">     176 </span>                :            :    * @brief Convert the infix expression into suffix expression.
+<span class="lineNum">     177 </span>                :            :    * @param[in] The infix form filter conditions.
+<span class="lineNum">     178 </span>                :            :    */
+<span class="lineNum">     179 </span>                :            :   void infixToSuffix(std::vector&lt;std::string&gt;&amp;infix_conditions);
+<span class="lineNum">     180 </span>                :            : 
+<span class="lineNum">     181 </span>                :            :   /**
+<span class="lineNum">     182 </span>                :            :    * @brief Strip the extra space in a string.
+<span class="lineNum">     183 </span>                :            :    * @param[in] A string to be striped.
+<span class="lineNum">     184 </span>                :            :    * @return The striped string.
+<span class="lineNum">     185 </span>                :            :    */
+<span class="lineNum">     186 </span>                :            :   std::string strip(const std::string &amp; str);
+<span class="lineNum">     187 </span>                :            : 
+<span class="lineNum">     188 </span>                :            :   std::string striped_conditions_ = &quot;&quot;;
+<span class="lineNum">     189 </span>                :            :   std::vector&lt;std::string&gt; suffix_conditons_;
+<span class="lineNum">     190 </span>                :            :   std::vector&lt;std::string&gt; relation_operators_ = {&quot;==&quot;, &quot;!=&quot;, &quot;&lt;=&quot;, &quot;&gt;=&quot;, &quot;&lt;&quot;, &quot;&gt;&quot;};
+<span class="lineNum">     191 </span>                :            :   std::vector&lt;std::string&gt; logic_operators_ = {&quot;&amp;&amp;&quot;, &quot;||&quot;};
+<span class="lineNum">     192 </span>                :            : };
+<span class="lineNum">     193 </span>                :            : }  // namespace dynamic_vino_lib
+<span class="lineNum">     194 </span>                :            : 
+<span class="lineNum">     195 </span>                :            : #endif  // DYNAMIC_VINO_LIB__INFERENCES__BASE_FILTER_HPP_
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.13</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

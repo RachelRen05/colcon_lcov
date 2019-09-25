@@ -1,0 +1,273 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - total_coverage.info - src/ros2_openvino_toolkit/dynamic_vino_lib/src/inferences/base_reidentification.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../index.html">top level</a> - <a href="index.html">src/ros2_openvino_toolkit/dynamic_vino_lib/src/inferences</a> - base_reidentification.cpp<span style="font-size: 80%;"> (source / <a href="base_reidentification.cpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">total_coverage.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntry">80</td>
+            <td class="headerCovTableEntryLo">1.2 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-09-25 21:44:45</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">2</td>
+            <td class="headerCovTableEntry">12</td>
+            <td class="headerCovTableEntryLo">16.7 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+            | Branches:
+            <span class="coverLegendCov">+</span> taken
+            <span class="coverLegendNoCov">-</span> not taken
+            <span class="coverLegendNoCov">#</span> not executed
+</td>
+            <td></td>
+            <td class="headerItem">Branches:</td>
+            <td class="headerCovTableEntry">2</td>
+            <td class="headerCovTableEntry">82</td>
+            <td class="headerCovTableEntryLo">2.4 %</td>
+          </tr>
+          <tr><td><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>                :            : // Copyright (c) 2018 Intel Corporation</a>
+<span class="lineNum">       2 </span>                :            : //
+<span class="lineNum">       3 </span>                :            : // Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+<span class="lineNum">       4 </span>                :            : // you may not use this file except in compliance with the License.
+<span class="lineNum">       5 </span>                :            : // You may obtain a copy of the License at
+<span class="lineNum">       6 </span>                :            : //
+<span class="lineNum">       7 </span>                :            : //     http://www.apache.org/licenses/LICENSE-2.0
+<span class="lineNum">       8 </span>                :            : //
+<span class="lineNum">       9 </span>                :            : // Unless required by applicable law or agreed to in writing, software
+<span class="lineNum">      10 </span>                :            : // distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+<span class="lineNum">      11 </span>                :            : // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+<span class="lineNum">      12 </span>                :            : // See the License for the specific language governing permissions and
+<span class="lineNum">      13 </span>                :            : // limitations under the License.
+<span class="lineNum">      14 </span>                :            : 
+<span class="lineNum">      15 </span>                :            : /**
+<span class="lineNum">      16 </span>                :            :  * @brief a header file with declaration of BaseReidentification class
+<span class="lineNum">      17 </span>                :            :  * @file base_reidentification.cpp
+<span class="lineNum">      18 </span>                :            :  */
+<span class="lineNum">      19 </span>                :            : #include &lt;vector&gt;
+<span class="lineNum">      20 </span>                :            : #include &lt;utility&gt;
+<span class="lineNum">      21 </span>                :            : #include &lt;climits&gt;
+<span class="lineNum">      22 </span>                :            : #include &lt;chrono&gt;
+<span class="lineNum">      23 </span>                :            : #include &lt;fstream&gt;
+<span class="lineNum">      24 </span>                :            : #include &lt;string&gt;
+<span class="lineNum">      25 </span>                :            : #include &lt;functional&gt;
+<span class="lineNum">      26 </span>                :            : #include &quot;dynamic_vino_lib/inferences/base_reidentification.hpp&quot;
+<span class="lineNum">      27 </span>                :            : #include &quot;dynamic_vino_lib/slog.hpp&quot;
+<span class="lineNum">      28 </span>                :            : 
+<span class="lineNum">      29 </span>                :            : // Tracker
+<span class="lineNum">      30 </span>                :<span class="lineNoCov">          0 : dynamic_vino_lib::Tracker::Tracker(</span>
+<span class="lineNum">      31 </span>                :<span class="lineNoCov">          0 :   int max_record_size, double same_track_thresh, double new_track_thresh)</span>
+<span class="lineNum">      32 </span>                :            : : max_record_size_(max_record_size),
+<span class="lineNum">      33 </span>                :            :   same_track_thresh_(same_track_thresh),
+<a name="34"><span class="lineNum">      34 </span>                :<span class="lineNoCov">          0 :   new_track_thresh_(new_track_thresh) {}</span></a>
+<span class="lineNum">      35 </span>                :            : 
+<span class="lineNum">      36 </span>                :<span class="lineNoCov">          0 : int dynamic_vino_lib::Tracker::processNewTrack(const std::vector&lt;float&gt; &amp; feature)</span>
+<span class="lineNum">      37 </span>                :            : {
+<span class="lineNum">      38 </span>                :            :   int most_similar_id;
+<span class="lineNum">      39 </span>                :<span class="lineNoCov">          0 :   double similarity = findMostSimilarTrack(feature, most_similar_id);</span>
+<span class="lineNum">      40 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if (similarity &gt; same_track_thresh_) {</span>
+<span class="lineNum">      41 </span>                :<span class="lineNoCov">          0 :     updateMatchTrack(most_similar_id, feature);</span>
+<span class="lineNum">      42 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   } else if (similarity &lt; new_track_thresh_) {</span>
+<span class="lineNum">      43 </span>                :<span class="lineNoCov">          0 :     most_similar_id = addNewTrack(feature);</span>
+<span class="lineNum">      44 </span>                :            :   }
+<span class="lineNum">      45 </span>                :<span class="lineNoCov">          0 :   return most_similar_id;</span>
+<span class="lineNum">      46 </span>                :            : }
+<span class="lineNum">      47 </span>                :            : 
+<span class="lineNum">      48 </span>                :<span class="lineNoCov">          0 : double dynamic_vino_lib::Tracker::findMostSimilarTrack(</span>
+<span class="lineNum">      49 </span>                :            :   const std::vector&lt;float&gt; &amp; feature, int &amp; most_similar_id)
+<span class="lineNum">      50 </span>                :            : {
+<span class="lineNum">      51 </span>                :            :   double max_similarity = 0;
+<span class="lineNum">      52 </span>                :<span class="lineNoCov">          0 :   most_similar_id = -1;</span>
+<span class="lineNum">      53 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   for (auto iter = recorded_tracks_.begin(); iter != recorded_tracks_.end(); iter++) {</span>
+<span class="lineNum">      54 </span>                :<span class="lineNoCov">          0 :     double sim = calcSimilarity(feature, iter-&gt;second.feature);</span>
+<span class="lineNum">      55 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (sim &gt; max_similarity) {</span>
+<span class="lineNum">      56 </span>                :            :       max_similarity = sim;
+<span class="lineNum">      57 </span>                :<span class="lineNoCov">          0 :       most_similar_id = iter-&gt;first;</span>
+<span class="lineNum">      58 </span>                :            :     }
+<span class="lineNum">      59 </span>                :            :   }
+<span class="lineNum">      60 </span>                :<span class="lineNoCov">          0 :   return max_similarity;</span>
+<a name="61"><span class="lineNum">      61 </span>                :            : }</a>
+<span class="lineNum">      62 </span>                :            : 
+<span class="lineNum">      63 </span>                :<span class="lineNoCov">          0 : double dynamic_vino_lib::Tracker::calcSimilarity(</span>
+<span class="lineNum">      64 </span>                :            :   const std::vector&lt;float&gt; &amp; feature_a, const std::vector&lt;float&gt; &amp; feature_b)
+<span class="lineNum">      65 </span>                :            : {
+<span class="lineNum">      66 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if (feature_a.size() != feature_b.size()) {</span>
+<span class="lineNum">      67 </span>                :<span class="lineNoCov">          0 :     slog::err &lt;&lt; &quot;cosine similarity can't be called for vectors of different lengths: &quot; &lt;&lt;</span>
+<span class="lineNum">      68 </span>        [<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :       &quot;feature_a size = &quot; &lt;&lt; std::to_string(feature_a.size()) &lt;&lt;</span>
+<span class="lineNum">      69 </span>[<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineNoCov">          0 :       &quot;feature_b size = &quot; &lt;&lt; std::to_string(feature_b.size()) &lt;&lt; slog::endl;</span>
+<span class="lineNum">      70 </span>                :            :   }
+<span class="lineNum">      71 </span>                :            :   float mul_sum, denom_a, denom_b, value_a, value_b;
+<span class="lineNum">      72 </span>                :            :   mul_sum = denom_a = denom_b = value_a = value_b = 0;
+<span class="lineNum">      73 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   for (auto i = 0; i &lt; feature_a.size(); i++) {</span>
+<span class="lineNum">      74 </span>                :<span class="lineNoCov">          0 :     value_a = feature_a[i];</span>
+<span class="lineNum">      75 </span>                :<span class="lineNoCov">          0 :     value_b = feature_b[i];</span>
+<span class="lineNum">      76 </span>                :<span class="lineNoCov">          0 :     mul_sum += value_a * value_b;</span>
+<span class="lineNum">      77 </span>                :<span class="lineNoCov">          0 :     denom_a += value_a * value_a;</span>
+<span class="lineNum">      78 </span>                :<span class="lineNoCov">          0 :     denom_b += value_b * value_b;</span>
+<span class="lineNum">      79 </span>                :            :   }
+<span class="lineNum">      80 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if (denom_a == 0 || denom_b == 0) {</span>
+<span class="lineNum">      81 </span>                :            :     slog::err &lt;&lt; &quot;cosine similarity is not defined whenever one or both &quot;
+<span class="lineNum">      82 </span>                :<span class="lineNoCov">          0 :       &quot;input vectors are zero-vectors.&quot; &lt;&lt; slog::endl;</span>
+<span class="lineNum">      83 </span>                :            :   }
+<span class="lineNum">      84 </span>                :<span class="lineNoCov">          0 :   return mul_sum / (sqrt(denom_a) * sqrt(denom_b));</span>
+<span class="lineNum">      85 </span>                :            : }
+<span class="lineNum">      86 </span>                :            : 
+<span class="lineNum">      87 </span>                :<span class="lineNoCov">          0 : void dynamic_vino_lib::Tracker::updateMatchTrack(</span>
+<span class="lineNum">      88 </span>                :            :   int track_id, const std::vector&lt;float&gt; &amp; feature)
+<span class="lineNum">      89 </span>                :            : {
+<span class="lineNum">      90 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if (recorded_tracks_.find(track_id) != recorded_tracks_.end()) {</span>
+<span class="lineNum">      91 </span>                :<span class="lineNoCov">          0 :     recorded_tracks_[track_id].feature.assign(feature.begin(), feature.end());</span>
+<span class="lineNum">      92 </span>                :<span class="lineNoCov">          0 :     recorded_tracks_[track_id].lastest_update_time = getCurrentTime();</span>
+<span class="lineNum">      93 </span>                :            :   } else {
+<span class="lineNum">      94 </span>                :<span class="lineNoCov">          0 :     slog::err &lt;&lt; &quot;updating a non-existing track.&quot; &lt;&lt; slog::endl;</span>
+<span class="lineNum">      95 </span>                :            :   }
+<span class="lineNum">      96 </span>                :<span class="lineNoCov">          0 : }</span>
+<span class="lineNum">      97 </span>                :            : 
+<span class="lineNum">      98 </span>                :<span class="lineNoCov">          0 : void dynamic_vino_lib::Tracker::removeEarlestTrack()</span>
+<span class="lineNum">      99 </span>                :            : {
+<span class="lineNum">     100 </span>                :<span class="lineNoCov">          0 :   std::lock_guard&lt;std::mutex&gt; lk(tracks_mtx_);</span>
+<span class="lineNum">     101 </span>                :            :   int64_t earlest_time = LONG_MAX;
+<span class="lineNum">     102 </span>                :            :   auto remove_iter = recorded_tracks_.begin();
+<span class="lineNum">     103 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   for (auto iter = recorded_tracks_.begin(); iter != recorded_tracks_.end(); iter++) {</span>
+<span class="lineNum">     104 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (iter-&gt;second.lastest_update_time &lt; earlest_time) {</span>
+<span class="lineNum">     105 </span>                :            :       earlest_time = iter-&gt;second.lastest_update_time;
+<span class="lineNum">     106 </span>                :            :       remove_iter = iter;
+<span class="lineNum">     107 </span>                :            :     }
+<span class="lineNum">     108 </span>                :            :   }
+<span class="lineNum">     109 </span>                :            :   recorded_tracks_.erase(remove_iter);
+<span class="lineNum">     110 </span>                :<span class="lineNoCov">          0 : }</span>
+<a name="111"><span class="lineNum">     111 </span>                :            : </a>
+<span class="lineNum">     112 </span>                :            : 
+<span class="lineNum">     113 </span>                :<span class="lineNoCov">          0 : int dynamic_vino_lib::Tracker::addNewTrack(const std::vector&lt;float&gt; &amp; feature)</span>
+<span class="lineNum">     114 </span>                :            : {
+<span class="lineNum">     115 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if (recorded_tracks_.size() &gt;= max_record_size_) {</span>
+<span class="lineNum">     116 </span>                :<span class="lineNoCov">          0 :     std::thread remove_thread(std::bind(&amp;Tracker::removeEarlestTrack, this));</span>
+<span class="lineNum">     117 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :     remove_thread.detach();</span>
+<span class="lineNum">     118 </span>                :            :   }
+<span class="lineNum">     119 </span>                :<span class="lineNoCov">          0 :   std::lock_guard&lt;std::mutex&gt; lk(tracks_mtx_);</span>
+<span class="lineNum">     120 </span>                :            :   Track track;
+<span class="lineNum">     121 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :   track.lastest_update_time = getCurrentTime();</span>
+<span class="lineNum">     122 </span>                :<span class="lineNoCov">          0 :   track.feature.assign(feature.begin(), feature.end());</span>
+<span class="lineNum">     123 </span>                :<span class="lineNoCov">          0 :   max_track_id_ += 1;</span>
+<span class="lineNum">     124 </span>                :<span class="lineNoCov">          0 :   recorded_tracks_.insert(std::pair&lt;int, Track&gt;(max_track_id_, track));</span>
+<span class="lineNum">     125 </span>                :<span class="lineNoCov">          0 :   return max_track_id_;</span>
+<a name="126"><span class="lineNum">     126 </span>                :            : }</a>
+<span class="lineNum">     127 </span>                :            : 
+<span class="lineNum">     128 </span>                :<span class="lineNoCov">          0 : int64_t dynamic_vino_lib::Tracker::getCurrentTime()</span>
+<span class="lineNum">     129 </span>                :            : {
+<span class="lineNum">     130 </span>                :            :   auto tp = std::chrono::time_point_cast&lt;std::chrono::milliseconds&gt;(
+<span class="lineNum">     131 </span>                :<span class="lineNoCov">          0 :     std::chrono::system_clock::now());</span>
+<span class="lineNum">     132 </span>                :<span class="lineNoCov">          0 :   return static_cast&lt;int64_t&gt;(tp.time_since_epoch().count());</span>
+<span class="lineNum">     133 </span>                :            : }
+<span class="lineNum">     134 </span>                :            : 
+<span class="lineNum">     135 </span>                :<span class="lineNoCov">          0 : bool dynamic_vino_lib::Tracker::saveTracksToFile(std::string filepath)</span>
+<span class="lineNum">     136 </span>                :            : {
+<span class="lineNum">     137 </span>                :<span class="lineNoCov">          0 :   std::ofstream outfile(filepath);</span>
+<span class="lineNum">     138 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if (!outfile.is_open()) {</span>
+<span class="lineNum">     139 </span>[<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineNoCov">          0 :     slog::err &lt;&lt; &quot;file not exists in file path: &quot; &lt;&lt; filepath &lt;&lt; slog::endl;</span>
+<span class="lineNum">     140 </span>                :            :     return false;
+<span class="lineNum">     141 </span>                :            :   }
+<span class="lineNum">     142 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   for (auto record : recorded_tracks_) {</span>
+<span class="lineNum">     143 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :     outfile &lt;&lt; record.first &lt;&lt; &quot; &quot; &lt;&lt;</span>
+<span class="lineNum">     144 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :       record.second.lastest_update_time &lt;&lt; &quot; &quot;;</span>
+<span class="lineNum">     145 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     for (auto elem : record.second.feature) {</span>
+<span class="lineNum">     146 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :       outfile &lt;&lt; elem &lt;&lt; &quot; &quot;;</span>
+<span class="lineNum">     147 </span>                :            :     }
+<span class="lineNum">     148 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :     outfile &lt;&lt; &quot;\n&quot;;</span>
+<span class="lineNum">     149 </span>                :            :   }
+<span class="lineNum">     150 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :   outfile.close();</span>
+<span class="lineNum">     151 </span>[<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineNoCov">          0 :   slog::info &lt;&lt; &quot;sucessfully save tracks into file: &quot; &lt;&lt; filepath &lt;&lt; slog::endl;</span>
+<span class="lineNum">     152 </span>                :            :   return true;
+<a name="153"><span class="lineNum">     153 </span>                :            : }</a>
+<span class="lineNum">     154 </span>                :            : 
+<span class="lineNum">     155 </span>                :<span class="lineNoCov">          0 : bool dynamic_vino_lib::Tracker::loadTracksFromFile(std::string filepath)</span>
+<span class="lineNum">     156 </span>                :            : {
+<span class="lineNum">     157 </span>                :<span class="lineNoCov">          0 :   std::ifstream infile(filepath);</span>
+<span class="lineNum">     158 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if (!infile.is_open()) {</span>
+<span class="lineNum">     159 </span>[<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineNoCov">          0 :     slog::err &lt;&lt; &quot;file not exists in file path: &quot; &lt;&lt; filepath &lt;&lt; slog::endl;</span>
+<span class="lineNum">     160 </span>                :            :     return false;
+<span class="lineNum">     161 </span>                :            :   }
+<span class="lineNum">     162 </span>                :            :   recorded_tracks_.clear();
+<span class="lineNum">     163 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   while (!infile.eof()) {</span>
+<span class="lineNum">     164 </span>                :            :     int track_id;
+<span class="lineNum">     165 </span>                :            :     int64_t lastest_update_time;
+<span class="lineNum">     166 </span>                :            :     std::vector&lt;float&gt; feature;
+<span class="lineNum">     167 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :     infile &gt;&gt; track_id &gt;&gt; lastest_update_time;</span>
+<span class="lineNum">     168 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     for (int num = 0; num &lt; 256; num++) {</span>
+<span class="lineNum">     169 </span>                :            :       float elem;
+<span class="lineNum">     170 </span>                :            :       infile &gt;&gt; elem;
+<span class="lineNum">     171 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :       feature.push_back(elem);</span>
+<span class="lineNum">     172 </span>                :            :     }
+<span class="lineNum">     173 </span>                :            :     Track track;
+<span class="lineNum">     174 </span>                :<span class="lineNoCov">          0 :     track.lastest_update_time = lastest_update_time;</span>
+<span class="lineNum">     175 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :     track.feature = feature;</span>
+<span class="lineNum">     176 </span>                :            :     recorded_tracks_[track_id] = track;
+<span class="lineNum">     177 </span>                :            :   }
+<span class="lineNum">     178 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :   infile.close();</span>
+<a name="179"><span class="lineNum">     179 </span>[<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineNoCov">          0 :   slog::info &lt;&lt; &quot;sucessfully load tracks from file: &quot; &lt;&lt; filepath &lt;&lt; slog::endl;</span></a>
+<span class="lineNum">     180 </span>                :            :   return true;
+<span class="lineNum">     181 </span>[<span class="branchCov" title="Branch 1 was taken 20 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 3 was taken 20 times"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>]:<span class="lineCov">         80 : }</span>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.13</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

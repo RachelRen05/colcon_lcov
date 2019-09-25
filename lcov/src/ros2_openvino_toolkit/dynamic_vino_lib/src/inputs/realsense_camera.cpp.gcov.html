@@ -1,0 +1,177 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - total_coverage.info - src/ros2_openvino_toolkit/dynamic_vino_lib/src/inputs/realsense_camera.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../index.html">top level</a> - <a href="index.html">src/ros2_openvino_toolkit/dynamic_vino_lib/src/inputs</a> - realsense_camera.cpp<span style="font-size: 80%;"> (source / <a href="realsense_camera.cpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">total_coverage.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">22</td>
+            <td class="headerCovTableEntry">34</td>
+            <td class="headerCovTableEntryLo">64.7 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-09-25 21:44:45</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntry">5</td>
+            <td class="headerCovTableEntryMed">80.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+            | Branches:
+            <span class="coverLegendCov">+</span> taken
+            <span class="coverLegendNoCov">-</span> not taken
+            <span class="coverLegendNoCov">#</span> not executed
+</td>
+            <td></td>
+            <td class="headerItem">Branches:</td>
+            <td class="headerCovTableEntry">19</td>
+            <td class="headerCovTableEntry">56</td>
+            <td class="headerCovTableEntryLo">33.9 %</td>
+          </tr>
+          <tr><td><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>                :            : // Copyright (c) 2018 Intel Corporation</a>
+<span class="lineNum">       2 </span>                :            : //
+<span class="lineNum">       3 </span>                :            : // Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+<span class="lineNum">       4 </span>                :            : // you may not use this file except in compliance with the License.
+<span class="lineNum">       5 </span>                :            : // You may obtain a copy of the License at
+<span class="lineNum">       6 </span>                :            : //
+<span class="lineNum">       7 </span>                :            : //     http://www.apache.org/licenses/LICENSE-2.0
+<span class="lineNum">       8 </span>                :            : //
+<span class="lineNum">       9 </span>                :            : // Unless required by applicable law or agreed to in writing, software
+<span class="lineNum">      10 </span>                :            : // distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+<span class="lineNum">      11 </span>                :            : // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+<span class="lineNum">      12 </span>                :            : // See the License for the specific language governing permissions and
+<span class="lineNum">      13 </span>                :            : // limitations under the License.
+<span class="lineNum">      14 </span>                :            : 
+<span class="lineNum">      15 </span>                :            : /**
+<span class="lineNum">      16 </span>                :            :  * @brief a header file with declaration of RealSenseCamera class
+<span class="lineNum">      17 </span>                :            :  * @file realsense_camera.cpp
+<span class="lineNum">      18 </span>                :            :  */
+<span class="lineNum">      19 </span>                :            : #include &quot;dynamic_vino_lib/inputs/realsense_camera.hpp&quot;
+<span class="lineNum">      20 </span>                :            : 
+<span class="lineNum">      21 </span>                :            : #include &quot;dynamic_vino_lib/slog.hpp&quot;
+<a name="22"><span class="lineNum">      22 </span>                :            : </a>
+<span class="lineNum">      23 </span>                :            : // RealSenseCamera
+<span class="lineNum">      24 </span>                :<span class="lineCov">          6 : bool Input::RealSenseCamera::initialize()</span>
+<span class="lineNum">      25 </span>                :            : {
+<span class="lineNum">      26 </span>                :<span class="lineCov">          6 :   return initialize(640, 480);</span>
+<span class="lineNum">      27 </span>                :            : }
+<span class="lineNum">      28 </span>                :<span class="lineCov">          6 : bool Input::RealSenseCamera::initialize(size_t width, size_t height)</span>
+<span class="lineNum">      29 </span>                :            : {
+<span class="lineNum">      30 </span>                :            :   static int rscamera_count = 0;
+<span class="lineNum">      31 </span>                :            :   // Get all devices connected
+<span class="lineNum">      32 </span>                :<span class="lineCov">          6 :   rs2::context cxt;</span>
+<span class="lineNum">      33 </span>        [<span class="branchCov" title="Branch 1 was taken 6 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          6 :   auto device = cxt.query_devices();</span>
+<span class="lineNum">      34 </span>        [<span class="branchCov" title="Branch 1 was taken 6 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          6 :   size_t device_count = device.size();</span>
+<span class="lineNum">      35 </span>[<span class="branchCov" title="Branch 1 was taken 6 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 4 was taken 6 times"> + </span><span class="branchNoCov" title="Branch 5 was not taken"> - </span>]:<span class="lineCov">          6 :   slog::info &lt;&lt; &quot;Find RealSense num:&quot; &lt;&lt; device_count &lt;&lt; slog::endl;</span>
+<span class="lineNum">      36 </span>        [<span class="branchCov" title="Branch 1 was taken 6 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          6 :   auto hardware = device[rscamera_count];</span>
+<span class="lineNum">      37 </span>        [<span class="branchCov" title="Branch 1 was taken 6 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          6 :   auto devSerialNumber = hardware.get_info(RS2_CAMERA_INFO_SERIAL_NUMBER);</span>
+<span class="lineNum">      38 </span>[<span class="branchCov" title="Branch 1 was taken 6 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 4 was taken 6 times"> + </span><span class="branchNoCov" title="Branch 5 was not taken"> - </span>]:<span class="lineCov">          6 :   slog::info &lt;&lt; &quot;RealSense Serial number : &quot; &lt;&lt; devSerialNumber &lt;&lt; slog::endl;</span>
+<span class="lineNum">      39 </span>[<span class="branchCov" title="Branch 1 was taken 6 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 4 was taken 6 times"> + </span><span class="branchNoCov" title="Branch 5 was not taken"> - </span>]:<span class="lineCov">          6 :   cfg_.enable_device(devSerialNumber);</span>
+<span class="lineNum">      40 </span>                :            : 
+<span class="lineNum">      41 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 6 times"> + </span>]:<span class="lineCov">          6 :   if (3 * width != 4 * height) {</span>
+<span class="lineNum">      42 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :     slog::err &lt;&lt; &quot;The aspect ratio must be 4:3 when using RealSense camera&quot; &lt;&lt; slog::endl;</span>
+<span class="lineNum">      43 </span>                :            :     return false;
+<span class="lineNum">      44 </span>                :            :   }
+<span class="lineNum">      45 </span>                :<span class="lineCov">          6 :   cfg_.enable_stream(RS2_STREAM_COLOR, static_cast&lt;int&gt;(width), static_cast&lt;int&gt;(height),</span>
+<span class="lineNum">      46 </span>                :            :     RS2_FORMAT_BGR8, 30);
+<span class="lineNum">      47 </span>        [<span class="branchCov" title="Branch 1 was taken 6 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          6 :   setInitStatus(pipe_.start(cfg_));</span>
+<span class="lineNum">      48 </span>                :            :   setWidth(width);
+<span class="lineNum">      49 </span>                :            :   setHeight(height);
+<span class="lineNum">      50 </span>        [<span class="branchCov" title="Branch 0 was taken 6 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>]:<span class="lineCov">          6 :   if (!isInit()) {</span>
+<span class="lineNum">      51 </span>                :            :     return false;
+<span class="lineNum">      52 </span>                :            :   }
+<span class="lineNum">      53 </span>        [<span class="branchCov" title="Branch 0 was taken 6 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>]:<span class="lineCov">          6 :   if (first_read_) {</span>
+<span class="lineNum">      54 </span>                :            :     rs2::frameset frames;
+<span class="lineNum">      55 </span>        [<span class="branchCov" title="Branch 0 was taken 180 times"> + </span><span class="branchCov" title="Branch 1 was taken 6 times"> + </span>]:<span class="lineCov">        186 :     for (int i = 0; i &lt; 30; i++) {</span>
+<span class="lineNum">      56 </span>                :            :       // Wait for all configured streams to produce a frame
+<span class="lineNum">      57 </span>                :            :       try {
+<span class="lineNum">      58 </span>        [<span class="branchCov" title="Branch 1 was taken 180 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">        180 :         frames = pipe_.wait_for_frames();</span>
+<span class="lineNum">      59 </span>        [<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :       } catch (...) {</span>
+<span class="lineNum">      60 </span>                :            :         return false;
+<span class="lineNum">      61 </span>                :            :       }
+<span class="lineNum">      62 </span>                :            :     }
+<span class="lineNum">      63 </span>                :<span class="lineCov">          6 :     first_read_ = false;</span>
+<span class="lineNum">      64 </span>                :            :   }
+<span class="lineNum">      65 </span>                :<span class="lineCov">          6 :   rscamera_count++;</span>
+<a name="66"><span class="lineNum">      66 </span>                :<span class="lineCov">          6 :   return true;</span></a>
+<span class="lineNum">      67 </span>                :            : }
+<span class="lineNum">      68 </span>                :<span class="lineNoCov">          0 : bool Input::RealSenseCamera::read(cv::Mat * frame)</span>
+<span class="lineNum">      69 </span>                :            : {
+<span class="lineNum">      70 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if (!isInit()) {</span>
+<span class="lineNum">      71 </span>                :            :     return false;
+<span class="lineNum">      72 </span>                :            :   }
+<span class="lineNum">      73 </span>                :<span class="lineNoCov">          0 :   rs2::frameset data = pipe_.wait_for_frames();  // Wait for next set of frames from the camera</span>
+<span class="lineNum">      74 </span>                :            :   rs2::frame color_frame;
+<span class="lineNum">      75 </span>                :            :   try {
+<span class="lineNum">      76 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :     color_frame = data.get_color_frame();</span>
+<span class="lineNum">      77 </span>        [<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :   } catch (...) {</span>
+<span class="lineNum">      78 </span>                :            :     return false;
+<span class="lineNum">      79 </span>                :            :   }
+<span class="lineNum">      80 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :   cv::Mat(cv::Size(static_cast&lt;int&gt;(getWidth()), static_cast&lt;int&gt;(getHeight())), CV_8UC3,</span>
+<span class="lineNum">      81 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :     const_cast&lt;void *&gt;(color_frame.get_data()), cv::Mat::AUTO_STEP)</span>
+<span class="lineNum">      82 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :   .copyTo(*frame);</span>
+<a name="83"><span class="lineNum">      83 </span>[<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineNoCov">          0 :   setHeader(&quot;realsense_camera_frame&quot;);</span></a>
+<span class="lineNum">      84 </span>                :<span class="lineNoCov">          0 :   return true;</span>
+<span class="lineNum">      85 </span>[<span class="branchCov" title="Branch 1 was taken 20 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 3 was taken 20 times"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>]:<span class="lineCov">         80 : }</span>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.13</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

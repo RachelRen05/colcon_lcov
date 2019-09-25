@@ -1,0 +1,262 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - total_coverage.info - src/ros2_openvino_toolkit/dynamic_vino_lib/src/inferences/object_segmentation.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../index.html">top level</a> - <a href="index.html">src/ros2_openvino_toolkit/dynamic_vino_lib/src/inferences</a> - object_segmentation.cpp<span style="font-size: 80%;"> (source / <a href="object_segmentation.cpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">total_coverage.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntry">78</td>
+            <td class="headerCovTableEntryLo">1.3 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-09-25 21:44:45</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">2</td>
+            <td class="headerCovTableEntry">13</td>
+            <td class="headerCovTableEntryLo">15.4 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+            | Branches:
+            <span class="coverLegendCov">+</span> taken
+            <span class="coverLegendNoCov">-</span> not taken
+            <span class="coverLegendNoCov">#</span> not executed
+</td>
+            <td></td>
+            <td class="headerItem">Branches:</td>
+            <td class="headerCovTableEntry">2</td>
+            <td class="headerCovTableEntry">64</td>
+            <td class="headerCovTableEntryLo">3.1 %</td>
+          </tr>
+          <tr><td><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>                :            : // Copyright (c) 2018 Intel Corporation</a>
+<span class="lineNum">       2 </span>                :            : //
+<span class="lineNum">       3 </span>                :            : // Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+<span class="lineNum">       4 </span>                :            : // you may not use this file except in compliance with the License.
+<span class="lineNum">       5 </span>                :            : // You may obtain a copy of the License at
+<span class="lineNum">       6 </span>                :            : //
+<span class="lineNum">       7 </span>                :            : //     http://www.apache.org/licenses/LICENSE-2.0
+<span class="lineNum">       8 </span>                :            : //
+<span class="lineNum">       9 </span>                :            : // Unless required by applicable law or agreed to in writing, software
+<span class="lineNum">      10 </span>                :            : // distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+<span class="lineNum">      11 </span>                :            : // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+<span class="lineNum">      12 </span>                :            : // See the License for the specific language governing permissions and
+<span class="lineNum">      13 </span>                :            : // limitations under the License.
+<span class="lineNum">      14 </span>                :            : 
+<span class="lineNum">      15 </span>                :            : /**
+<span class="lineNum">      16 </span>                :            :  * @brief a header file with declaration of ObjectSegmentation class and
+<span class="lineNum">      17 </span>                :            :  * ObjectSegmentationResult class
+<span class="lineNum">      18 </span>                :            :  * @file object_segmentation.cpp
+<span class="lineNum">      19 </span>                :            :  */
+<span class="lineNum">      20 </span>                :            : #include &lt;memory&gt;
+<span class="lineNum">      21 </span>                :            : #include &lt;string&gt;
+<span class="lineNum">      22 </span>                :            : #include &lt;vector&gt;
+<span class="lineNum">      23 </span>                :            : #include &lt;algorithm&gt;
+<span class="lineNum">      24 </span>                :            : 
+<span class="lineNum">      25 </span>                :            : #include &quot;dynamic_vino_lib/inferences/object_segmentation.hpp&quot;
+<span class="lineNum">      26 </span>                :            : #include &quot;dynamic_vino_lib/outputs/base_output.hpp&quot;
+<span class="lineNum">      27 </span>                :            : #include &quot;dynamic_vino_lib/slog.hpp&quot;
+<a name="28"><span class="lineNum">      28 </span>                :            : </a>
+<span class="lineNum">      29 </span>                :            : // ObjectSegmentationResult
+<span class="lineNum">      30 </span>                :<span class="lineNoCov">          0 : dynamic_vino_lib::ObjectSegmentationResult::ObjectSegmentationResult(const cv::Rect &amp; location)</span>
+<span class="lineNum">      31 </span>                :<span class="lineNoCov">          0 : : Result(location)</span>
+<span class="lineNum">      32 </span>                :            : {
+<span class="lineNum">      33 </span>                :<span class="lineNoCov">          0 : }</span>
+<span class="lineNum">      34 </span>                :            : 
+<span class="lineNum">      35 </span>                :            : // ObjectSegmentation
+<span class="lineNum">      36 </span>                :<span class="lineNoCov">          0 : dynamic_vino_lib::ObjectSegmentation::ObjectSegmentation(double show_output_thresh)</span>
+<span class="lineNum">      37 </span>                :<span class="lineNoCov">          0 : : show_output_thresh_(show_output_thresh), dynamic_vino_lib::BaseInference()</span>
+<span class="lineNum">      38 </span>                :            : {
+<span class="lineNum">      39 </span>                :<span class="lineNoCov">          0 : }</span>
+<span class="lineNum">      40 </span>                :            : 
+<span class="lineNum">      41 </span>                :            : dynamic_vino_lib::ObjectSegmentation::~ObjectSegmentation() = default;
+<span class="lineNum">      42 </span>                :            : 
+<span class="lineNum">      43 </span>                :<span class="lineNoCov">          0 : void dynamic_vino_lib::ObjectSegmentation::loadNetwork(</span>
+<span class="lineNum">      44 </span>                :            :   const std::shared_ptr&lt;Models::ObjectSegmentationModel&gt; network)
+<span class="lineNum">      45 </span>                :            : {
+<span class="lineNum">      46 </span>                :            :   valid_model_ = network;
+<span class="lineNum">      47 </span>                :<span class="lineNoCov">          0 :   setMaxBatchSize(network-&gt;getMaxBatchSize());</span>
+<span class="lineNum">      48 </span>                :<span class="lineNoCov">          0 : }</span>
+<span class="lineNum">      49 </span>                :            : 
+<span class="lineNum">      50 </span>                :<span class="lineNoCov">          0 : bool dynamic_vino_lib::ObjectSegmentation::enqueue(</span>
+<span class="lineNum">      51 </span>                :            :   const cv::Mat &amp; frame,
+<span class="lineNum">      52 </span>                :            :   const cv::Rect &amp; input_frame_loc)
+<span class="lineNum">      53 </span>                :            : {
+<span class="lineNum">      54 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if (width_ == 0 &amp;&amp; height_ == 0) {</span>
+<span class="lineNum">      55 </span>                :<span class="lineNoCov">          0 :     width_ = frame.cols;</span>
+<span class="lineNum">      56 </span>                :<span class="lineNoCov">          0 :     height_ = frame.rows;</span>
+<span class="lineNum">      57 </span>                :            :   }
+<span class="lineNum">      58 </span>[<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>][<span class="branchNoExec" title="Branch 3 was not executed"> # </span><span class="branchNoExec" title="Branch 4 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if (!dynamic_vino_lib::BaseInference::enqueue&lt;u_int8_t&gt;(frame, input_frame_loc, 1, 0,</span>
+<span class="lineNum">      59 </span>                :<span class="lineNoCov">          0 :     valid_model_-&gt;getInputName()))</span>
+<span class="lineNum">      60 </span>                :            :   {
+<span class="lineNum">      61 </span>                :            :     return false;
+<span class="lineNum">      62 </span>                :            :   }
+<span class="lineNum">      63 </span>                :<span class="lineNoCov">          0 :   Result r(input_frame_loc);</span>
+<span class="lineNum">      64 </span>                :<span class="lineNoCov">          0 :   results_.clear();</span>
+<span class="lineNum">      65 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :   results_.emplace_back(r);</span>
+<span class="lineNum">      66 </span>                :            :   return true;
+<a name="67"><span class="lineNum">      67 </span>                :            : }</a>
+<span class="lineNum">      68 </span>                :            : 
+<span class="lineNum">      69 </span>                :<span class="lineNoCov">          0 : bool dynamic_vino_lib::ObjectSegmentation::submitRequest()</span>
+<span class="lineNum">      70 </span>                :            : {
+<span class="lineNum">      71 </span>                :<span class="lineNoCov">          0 :   return dynamic_vino_lib::BaseInference::submitRequest();</span>
+<span class="lineNum">      72 </span>                :            : }
+<span class="lineNum">      73 </span>                :            : 
+<span class="lineNum">      74 </span>                :<span class="lineNoCov">          0 : bool dynamic_vino_lib::ObjectSegmentation::fetchResults()</span>
+<span class="lineNum">      75 </span>                :            : {
+<span class="lineNum">      76 </span>                :<span class="lineNoCov">          0 :   bool can_fetch = dynamic_vino_lib::BaseInference::fetchResults();</span>
+<span class="lineNum">      77 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if (!can_fetch) {</span>
+<span class="lineNum">      78 </span>                :            :     return false;
+<span class="lineNum">      79 </span>                :            :   }
+<span class="lineNum">      80 </span>                :            :   bool found_result = false;
+<span class="lineNum">      81 </span>                :<span class="lineNoCov">          0 :   results_.clear();</span>
+<span class="lineNum">      82 </span>                :<span class="lineNoCov">          0 :   InferenceEngine::InferRequest::Ptr request = getEngine()-&gt;getRequest();</span>
+<span class="lineNum">      83 </span>                :            :   std::string detection_output = valid_model_-&gt;getDetectionOutputName();
+<span class="lineNum">      84 </span>                :            :   std::string mask_output = valid_model_-&gt;getMaskOutputName();
+<span class="lineNum">      85 </span>[<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineNoCov">          0 :   const auto do_blob = request-&gt;GetBlob(detection_output.c_str());</span>
+<span class="lineNum">      86 </span>                :<span class="lineNoCov">          0 :   const auto do_data = do_blob-&gt;buffer().as&lt;float *&gt;();</span>
+<span class="lineNum">      87 </span>[<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineNoCov">          0 :   const auto masks_blob = request-&gt;GetBlob(mask_output.c_str());</span>
+<span class="lineNum">      88 </span>                :<span class="lineNoCov">          0 :   const auto masks_data = masks_blob-&gt;buffer().as&lt;float *&gt;();</span>
+<span class="lineNum">      89 </span>                :            :   // amount of elements in each detected box description (batch, label, prob, x1, y1, x2, y2)
+<span class="lineNum">      90 </span>                :<span class="lineNoCov">          0 :   size_t box_num = masks_blob-&gt;dims().at(3);</span>
+<span class="lineNum">      91 </span>                :<span class="lineNoCov">          0 :   size_t label_num = masks_blob-&gt;dims().at(2);</span>
+<span class="lineNum">      92 </span>                :<span class="lineNoCov">          0 :   size_t box_description_size = do_blob-&gt;dims().at(0);</span>
+<span class="lineNum">      93 </span>                :<span class="lineNoCov">          0 :   size_t H = masks_blob-&gt;dims().at(1);</span>
+<span class="lineNum">      94 </span>                :<span class="lineNoCov">          0 :   size_t W = masks_blob-&gt;dims().at(0);</span>
+<span class="lineNum">      95 </span>                :<span class="lineNoCov">          0 :   size_t box_stride = W * H * label_num;</span>
+<span class="lineNum">      96 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   for (size_t box = 0; box &lt; box_num; ++box) {</span>
+<span class="lineNum">      97 </span>                :<span class="lineNoCov">          0 :     float * box_info = do_data + box * box_description_size;</span>
+<span class="lineNum">      98 </span>                :<span class="lineNoCov">          0 :     float batch = box_info[0];</span>
+<span class="lineNum">      99 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (batch &lt; 0) {</span>
+<span class="lineNum">     100 </span>                :            :       break;
+<span class="lineNum">     101 </span>                :            :     }
+<span class="lineNum">     102 </span>                :<span class="lineNoCov">          0 :     float prob = box_info[2];</span>
+<span class="lineNum">     103 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (prob &gt; show_output_thresh_) {</span>
+<span class="lineNum">     104 </span>                :<span class="lineNoCov">          0 :       float x1 = std::min(std::max(0.0f, box_info[3] * width_), static_cast&lt;float&gt;(width_));</span>
+<span class="lineNum">     105 </span>                :<span class="lineNoCov">          0 :       float y1 = std::min(std::max(0.0f, box_info[4] * height_), static_cast&lt;float&gt;(height_));</span>
+<span class="lineNum">     106 </span>                :<span class="lineNoCov">          0 :       float x2 = std::min(std::max(0.0f, box_info[5] * width_), static_cast&lt;float&gt;(width_));</span>
+<span class="lineNum">     107 </span>                :<span class="lineNoCov">          0 :       float y2 = std::min(std::max(0.0f, box_info[6] * height_), static_cast&lt;float&gt;(height_));</span>
+<span class="lineNum">     108 </span>                :<span class="lineNoCov">          0 :       int box_width = std::min(static_cast&lt;int&gt;(std::max(0.0f, x2 - x1)), width_);</span>
+<span class="lineNum">     109 </span>                :<span class="lineNoCov">          0 :       int box_height = std::min(static_cast&lt;int&gt;(std::max(0.0f, y2 - y1)), height_);</span>
+<span class="lineNum">     110 </span>                :<span class="lineNoCov">          0 :       int class_id = static_cast&lt;int&gt;(box_info[1] + 1e-6f);</span>
+<span class="lineNum">     111 </span>                :<span class="lineNoCov">          0 :       float * mask_arr = masks_data + box_stride * box + H * W * (class_id - 1);</span>
+<span class="lineNum">     112 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :       cv::Mat mask_mat(H, W, CV_32FC1, mask_arr);</span>
+<span class="lineNum">     113 </span>                :<span class="lineNoCov">          0 :       cv::Rect roi = cv::Rect(static_cast&lt;int&gt;(x1), static_cast&lt;int&gt;(y1), box_width, box_height);</span>
+<span class="lineNum">     114 </span>                :<span class="lineNoCov">          0 :       cv::Mat resized_mask_mat(box_height, box_width, CV_32FC1);</span>
+<span class="lineNum">     115 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :       cv::resize(mask_mat, resized_mask_mat, cv::Size(box_width, box_height));</span>
+<span class="lineNum">     116 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :       Result result(roi);</span>
+<span class="lineNum">     117 </span>                :<span class="lineNoCov">          0 :       result.confidence_ = prob;</span>
+<span class="lineNum">     118 </span>                :            :       std::vector&lt;std::string&gt; &amp; labels = valid_model_-&gt;getLabels();
+<span class="lineNum">     119 </span>[<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>][<span class="branchNoExec" title="Branch 3 was not executed"> # </span><span class="branchNoExec" title="Branch 4 was not executed"> # </span>]:<span class="lineNoCov">          0 :       result.label_ = class_id &lt; labels.size() ? labels[class_id] :</span>
+<span class="lineNum">     120 </span>[<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>][<span class="branchNoExec" title="Branch 3 was not executed"> # </span><span class="branchNoExec" title="Branch 4 was not executed"> # </span>]:<span class="lineNoCov">          0 :         std::string(&quot;label #&quot;) + std::to_string(class_id);</span>
+<span class="lineNum">         </span>  [<span class="branchNoExec" title="Branch 5 was not executed"> # </span><span class="branchNoExec" title="Branch 6 was not executed"> # </span><span class="branchNoExec" title="Branch 7 was not executed"> # </span><span class="branchNoExec" title="Branch 8 was not executed"> # </span> 
+<span class="lineNum">         </span>         <span class="branchNoExec" title="Branch 9 was not executed"> # </span><span class="branchNoExec" title="Branch 10 was not executed"> # </span>]
+<span class="lineNum">     121 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :       result.mask_ = resized_mask_mat;</span>
+<span class="lineNum">     122 </span>                :            :       found_result = true;
+<span class="lineNum">     123 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :       results_.emplace_back(result);</span>
+<span class="lineNum">     124 </span>                :            :     }
+<span class="lineNum">     125 </span>                :            :   }
+<span class="lineNum">     126 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if (!found_result) {</span>
+<span class="lineNum">     127 </span>                :            :     results_.clear();
+<span class="lineNum">     128 </span>                :            :   }
+<span class="lineNum">     129 </span>                :            :   return true;
+<a name="130"><span class="lineNum">     130 </span>                :            : }</a>
+<span class="lineNum">     131 </span>                :            : 
+<span class="lineNum">     132 </span>                :<span class="lineNoCov">          0 : int dynamic_vino_lib::ObjectSegmentation::getResultsLength() const</span>
+<span class="lineNum">     133 </span>                :            : {
+<span class="lineNum">     134 </span>                :<span class="lineNoCov">          0 :   return static_cast&lt;int&gt;(results_.size());</span>
+<span class="lineNum">     135 </span>                :            : }
+<a name="136"><span class="lineNum">     136 </span>                :            : </a>
+<span class="lineNum">     137 </span>                :            : const dynamic_vino_lib::Result *
+<span class="lineNum">     138 </span>                :<span class="lineNoCov">          0 : dynamic_vino_lib::ObjectSegmentation::getLocationResult(int idx) const</span>
+<span class="lineNum">     139 </span>                :            : {
+<span class="lineNum">     140 </span>                :<span class="lineNoCov">          0 :   return &amp;(results_[idx]);</span>
+<span class="lineNum">     141 </span>                :            : }
+<span class="lineNum">     142 </span>                :            : 
+<span class="lineNum">     143 </span>                :<span class="lineNoCov">          0 : const std::string dynamic_vino_lib::ObjectSegmentation::getName() const</span>
+<span class="lineNum">     144 </span>                :            : {
+<span class="lineNum">     145 </span>                :<span class="lineNoCov">          0 :   return valid_model_-&gt;getModelName();</span>
+<a name="146"><span class="lineNum">     146 </span>                :            : }</a>
+<span class="lineNum">     147 </span>                :            : 
+<span class="lineNum">     148 </span>                :<span class="lineNoCov">          0 : void dynamic_vino_lib::ObjectSegmentation::observeOutput(</span>
+<span class="lineNum">     149 </span>                :            :   const std::shared_ptr&lt;Outputs::BaseOutput&gt; &amp; output)
+<span class="lineNum">     150 </span>                :            : {
+<span class="lineNum">     151 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if (output != nullptr) {</span>
+<span class="lineNum">     152 </span>                :<span class="lineNoCov">          0 :     output-&gt;accept(results_);</span>
+<span class="lineNum">     153 </span>                :            :   }
+<a name="154"><span class="lineNum">     154 </span>                :<span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     155 </span>                :            : 
+<span class="lineNum">     156 </span>                :<span class="lineNoCov">          0 : const std::vector&lt;cv::Rect&gt; dynamic_vino_lib::ObjectSegmentation::getFilteredROIs(</span>
+<span class="lineNum">     157 </span>                :            :   const std::string filter_conditions) const
+<span class="lineNum">     158 </span>                :            : {
+<span class="lineNum">     159 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if (!filter_conditions.empty()) {</span>
+<span class="lineNum">     160 </span>                :<span class="lineNoCov">          0 :     slog::err &lt;&lt; &quot;Object segmentation does not support filtering now! &quot; &lt;&lt;</span>
+<span class="lineNum">     161 </span>                :<span class="lineNoCov">          0 :       &quot;Filter conditions: &quot; &lt;&lt; filter_conditions &lt;&lt; slog::endl;</span>
+<span class="lineNum">     162 </span>                :            :   }
+<span class="lineNum">     163 </span>                :            :   std::vector&lt;cv::Rect&gt; filtered_rois;
+<span class="lineNum">     164 </span>[<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>][<span class="branchNoExec" title="Branch 3 was not executed"> # </span><span class="branchNoExec" title="Branch 4 was not executed"> # </span>]:<span class="lineNoCov">          0 :   for (auto res : results_) {</span>
+<span class="lineNum">     165 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :     filtered_rois.push_back(res.getLocation());</span>
+<a name="166"><span class="lineNum">     166 </span>                :            :   }</a>
+<span class="lineNum">     167 </span>                :<span class="lineNoCov">          0 :   return filtered_rois;</span>
+<span class="lineNum">     168 </span>[<span class="branchCov" title="Branch 1 was taken 20 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 3 was taken 20 times"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>]:<span class="lineCov">         80 : }</span>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.13</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

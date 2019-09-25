@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - total_coverage.info - src/ros2_openvino_toolkit/dynamic_vino_lib/src/models/face_reidentification_model.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../index.html">top level</a> - <a href="index.html">src/ros2_openvino_toolkit/dynamic_vino_lib/src/models</a> - face_reidentification_model.cpp<span style="font-size: 80%;"> (source / <a href="face_reidentification_model.cpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">total_coverage.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntry">18</td>
+            <td class="headerCovTableEntryLo">5.6 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-09-25 21:44:45</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">2</td>
+            <td class="headerCovTableEntry">6</td>
+            <td class="headerCovTableEntryLo">33.3 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+            | Branches:
+            <span class="coverLegendCov">+</span> taken
+            <span class="coverLegendNoCov">-</span> not taken
+            <span class="coverLegendNoCov">#</span> not executed
+</td>
+            <td></td>
+            <td class="headerItem">Branches:</td>
+            <td class="headerCovTableEntry">2</td>
+            <td class="headerCovTableEntry">14</td>
+            <td class="headerCovTableEntryLo">14.3 %</td>
+          </tr>
+          <tr><td><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>                :            : // Copyright (c) 2018 Intel Corporation</a>
+<span class="lineNum">       2 </span>                :            : //
+<span class="lineNum">       3 </span>                :            : // Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+<span class="lineNum">       4 </span>                :            : // you may not use this file except in compliance with the License.
+<span class="lineNum">       5 </span>                :            : // You may obtain a copy of the License at
+<span class="lineNum">       6 </span>                :            : //
+<span class="lineNum">       7 </span>                :            : //     http://www.apache.org/licenses/LICENSE-2.0
+<span class="lineNum">       8 </span>                :            : //
+<span class="lineNum">       9 </span>                :            : // Unless required by applicable law or agreed to in writing, software
+<span class="lineNum">      10 </span>                :            : // distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+<span class="lineNum">      11 </span>                :            : // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+<span class="lineNum">      12 </span>                :            : // See the License for the specific language governing permissions and
+<span class="lineNum">      13 </span>                :            : // limitations under the License.
+<span class="lineNum">      14 </span>                :            : 
+<span class="lineNum">      15 </span>                :            : /**
+<span class="lineNum">      16 </span>                :            :  * @brief a header file with declaration of FaceReidentificationModel class
+<span class="lineNum">      17 </span>                :            :  * @file face_reidentification_model.cpp
+<span class="lineNum">      18 </span>                :            :  */
+<span class="lineNum">      19 </span>                :            : #include &lt;string&gt;
+<span class="lineNum">      20 </span>                :            : #include &quot;dynamic_vino_lib/models/face_reidentification_model.hpp&quot;
+<a name="21"><span class="lineNum">      21 </span>                :            : #include &quot;dynamic_vino_lib/slog.hpp&quot;</a>
+<span class="lineNum">      22 </span>                :            : // Validated Face Reidentification Network
+<span class="lineNum">      23 </span>                :<span class="lineNoCov">          0 : Models::FaceReidentificationModel::FaceReidentificationModel(</span>
+<span class="lineNum">      24 </span>                :<span class="lineNoCov">          0 :   const std::string &amp; model_loc, int input_num, int output_num, int max_batch_size)</span>
+<span class="lineNum">      25 </span>                :<span class="lineNoCov">          0 : : BaseModel(model_loc, input_num, output_num, max_batch_size) {}</span>
+<span class="lineNum">      26 </span>                :            : 
+<span class="lineNum">      27 </span>                :<span class="lineNoCov">          0 : void Models::FaceReidentificationModel::setLayerProperty(</span>
+<span class="lineNum">      28 </span>                :            :   InferenceEngine::CNNNetReader::Ptr net_reader)
+<span class="lineNum">      29 </span>                :            : {
+<span class="lineNum">      30 </span>                :            :   // set input property
+<span class="lineNum">      31 </span>                :            :   InferenceEngine::InputsDataMap input_info_map(
+<span class="lineNum">      32 </span>                :<span class="lineNoCov">          0 :     net_reader-&gt;getNetwork().getInputsInfo());</span>
+<span class="lineNum">      33 </span>                :            :   InferenceEngine::InputInfo::Ptr input_info = input_info_map.begin()-&gt;second;
+<span class="lineNum">      34 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :   input_info-&gt;setPrecision(InferenceEngine::Precision::U8);</span>
+<span class="lineNum">      35 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :   input_info-&gt;getInputData()-&gt;setLayout(InferenceEngine::Layout::NCHW);</span>
+<span class="lineNum">      36 </span>                :            :   // set output property
+<span class="lineNum">      37 </span>                :            :   InferenceEngine::OutputsDataMap output_info_map(
+<span class="lineNum">      38 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :     net_reader-&gt;getNetwork().getOutputsInfo());</span>
+<span class="lineNum">      39 </span>                :            :   InferenceEngine::DataPtr &amp; output_data_ptr = output_info_map.begin()-&gt;second;
+<span class="lineNum">      40 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :   output_data_ptr-&gt;setPrecision(InferenceEngine::Precision::FP32);</span>
+<span class="lineNum">      41 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :   output_data_ptr-&gt;setLayout(InferenceEngine::Layout::NCHW);</span>
+<span class="lineNum">      42 </span>                :            :   // set input and output layer name
+<span class="lineNum">      43 </span>                :<span class="lineNoCov">          0 :   input_ = input_info_map.begin()-&gt;first;</span>
+<span class="lineNum">      44 </span>                :<span class="lineNoCov">          0 :   output_ = output_info_map.begin()-&gt;first;</span>
+<a name="45"><span class="lineNum">      45 </span>                :<span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">      46 </span>                :            : 
+<span class="lineNum">      47 </span>                :<span class="lineNoCov">          0 : void Models::FaceReidentificationModel::checkLayerProperty(</span>
+<a name="48"><span class="lineNum">      48 </span>                :<span class="lineNoCov">          0 :   const InferenceEngine::CNNNetReader::Ptr &amp; net_reader) {}</span></a>
+<span class="lineNum">      49 </span>                :            : 
+<span class="lineNum">      50 </span>                :<span class="lineNoCov">          0 : const std::string Models::FaceReidentificationModel::getModelName() const</span>
+<a name="51"><span class="lineNum">      51 </span>                :            : {</a>
+<span class="lineNum">      52 </span>                :<span class="lineNoCov">          0 :   return &quot;Face Reidentification&quot;;</span>
+<span class="lineNum">      53 </span>[<span class="branchCov" title="Branch 1 was taken 20 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 3 was taken 20 times"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>]:<span class="lineCov">         80 : }</span>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.13</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - total_coverage.info - src/ros2_openvino_toolkit/dynamic_vino_lib/include/dynamic_vino_lib/pipeline_params.hpp</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../index.html">top level</a> - <a href="index.html">src/ros2_openvino_toolkit/dynamic_vino_lib/include/dynamic_vino_lib</a> - pipeline_params.hpp<span style="font-size: 80%;"> (source / <a href="pipeline_params.hpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">total_coverage.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-09-25 21:44:45</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntryHi">-</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+            | Branches:
+            <span class="coverLegendCov">+</span> taken
+            <span class="coverLegendNoCov">-</span> not taken
+            <span class="coverLegendNoCov">#</span> not executed
+</td>
+            <td></td>
+            <td class="headerItem">Branches:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntryHi">-</td>
+          </tr>
+          <tr><td><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>                :            : // Copyright (c) 2018 Intel Corporation</a>
+<span class="lineNum">       2 </span>                :            : //
+<span class="lineNum">       3 </span>                :            : // Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+<span class="lineNum">       4 </span>                :            : // you may not use this file except in compliance with the License.
+<span class="lineNum">       5 </span>                :            : // You may obtain a copy of the License at
+<span class="lineNum">       6 </span>                :            : //
+<span class="lineNum">       7 </span>                :            : //     http://www.apache.org/licenses/LICENSE-2.0
+<span class="lineNum">       8 </span>                :            : //
+<span class="lineNum">       9 </span>                :            : // Unless required by applicable law or agreed to in writing, software
+<span class="lineNum">      10 </span>                :            : // distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+<span class="lineNum">      11 </span>                :            : // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+<span class="lineNum">      12 </span>                :            : // See the License for the specific language governing permissions and
+<span class="lineNum">      13 </span>                :            : // limitations under the License.
+<span class="lineNum">      14 </span>                :            : 
+<span class="lineNum">      15 </span>                :            : /**
+<span class="lineNum">      16 </span>                :            :  * @brief a header file with declaration of Pipeline class
+<span class="lineNum">      17 </span>                :            :  * @file pipeline_params.hpp
+<span class="lineNum">      18 </span>                :            :  */
+<span class="lineNum">      19 </span>                :            : #ifndef DYNAMIC_VINO_LIB__PIPELINE_PARAMS_HPP_
+<span class="lineNum">      20 </span>                :            : #define DYNAMIC_VINO_LIB__PIPELINE_PARAMS_HPP_
+<span class="lineNum">      21 </span>                :            : 
+<span class="lineNum">      22 </span>                :            : #include &lt;vino_param_lib/param_manager.hpp&gt;
+<span class="lineNum">      23 </span>                :            : #include &lt;atomic&gt;
+<span class="lineNum">      24 </span>                :            : #include &lt;future&gt;
+<span class="lineNum">      25 </span>                :            : #include &lt;map&gt;
+<span class="lineNum">      26 </span>                :            : #include &lt;memory&gt;
+<span class="lineNum">      27 </span>                :            : #include &lt;mutex&gt;
+<span class="lineNum">      28 </span>                :            : #include &lt;set&gt;
+<span class="lineNum">      29 </span>                :            : #include &lt;string&gt;
+<span class="lineNum">      30 </span>                :            : 
+<span class="lineNum">      31 </span>                :            : #include &quot;dynamic_vino_lib/inferences/base_inference.hpp&quot;
+<span class="lineNum">      32 </span>                :            : #include &quot;dynamic_vino_lib/inputs/standard_camera.hpp&quot;
+<span class="lineNum">      33 </span>                :            : #include &quot;dynamic_vino_lib/outputs/base_output.hpp&quot;
+<span class="lineNum">      34 </span>                :            : #include &quot;opencv2/opencv.hpp&quot;
+<span class="lineNum">      35 </span>                :            : 
+<span class="lineNum">      36 </span>                :            : const char kInputType_Image[] = &quot;Image&quot;;
+<span class="lineNum">      37 </span>                :            : const char kInputType_Video[] = &quot;Video&quot;;
+<span class="lineNum">      38 </span>                :            : const char kInputType_StandardCamera[] = &quot;StandardCamera&quot;;
+<span class="lineNum">      39 </span>                :            : const char kInputType_IpCamera[] = &quot;IpCamera&quot;;
+<span class="lineNum">      40 </span>                :            : const char kInputType_CameraTopic[] = &quot;RealSenseCameraTopic&quot;;
+<span class="lineNum">      41 </span>                :            : const char kInputType_RealSenseCamera[] = &quot;RealSenseCamera&quot;;
+<span class="lineNum">      42 </span>                :            : const char kInputType_ServiceImage[] = &quot;ServiceImage&quot;;
+<span class="lineNum">      43 </span>                :            : 
+<span class="lineNum">      44 </span>                :            : const char kOutputTpye_RViz[] = &quot;RViz&quot;;
+<span class="lineNum">      45 </span>                :            : const char kOutputTpye_ImageWindow[] = &quot;ImageWindow&quot;;
+<span class="lineNum">      46 </span>                :            : const char kOutputTpye_RosTopic[] = &quot;RosTopic&quot;;
+<span class="lineNum">      47 </span>                :            : const char kOutputTpye_RosService[] = &quot;RosService&quot;;
+<span class="lineNum">      48 </span>                :            : 
+<span class="lineNum">      49 </span>                :            : const char kInferTpye_FaceDetection[] = &quot;FaceDetection&quot;;
+<span class="lineNum">      50 </span>                :            : const char kInferTpye_AgeGenderRecognition[] = &quot;AgeGenderRecognition&quot;;
+<span class="lineNum">      51 </span>                :            : const char kInferTpye_EmotionRecognition[] = &quot;EmotionRecognition&quot;;
+<span class="lineNum">      52 </span>                :            : const char kInferTpye_HeadPoseEstimation[] = &quot;HeadPoseEstimation&quot;;
+<span class="lineNum">      53 </span>                :            : const char kInferTpye_ObjectDetection[] = &quot;ObjectDetection&quot;;
+<span class="lineNum">      54 </span>                :            : const char kInferTpye_ObjectSegmentation[] = &quot;ObjectSegmentation&quot;;
+<span class="lineNum">      55 </span>                :            : const char kInferTpye_ObjectDetectionTypeSSD[] = &quot;SSD&quot;;
+<span class="lineNum">      56 </span>                :            : const char kInferTpye_ObjectDetectionTypeYolov2[] = &quot;yolov2&quot;;
+<span class="lineNum">      57 </span>                :            : const char kInferTpye_PersonReidentification[] = &quot;PersonReidentification&quot;;
+<span class="lineNum">      58 </span>                :            : const char kInferTpye_PersonAttribsDetection[] = &quot;PersonAttribsDetection&quot;;
+<span class="lineNum">      59 </span>                :            : const char kInferTpye_LandmarksDetection[] = &quot;LandmarksDetection&quot;;
+<span class="lineNum">      60 </span>                :            : const char kInferTpye_FaceReidentification[] = &quot;FaceReidentification&quot;;
+<span class="lineNum">      61 </span>                :            : const char kInferTpye_VehicleAttribsDetection[] = &quot;VehicleAttribsDetection&quot;;
+<span class="lineNum">      62 </span>                :            : const char kInferTpye_LicensePlateDetection[] = &quot;LicensePlateDetection&quot;;
+<span class="lineNum">      63 </span>                :            : 
+<span class="lineNum">      64 </span>                :            : /**
+<span class="lineNum">      65 </span>                :            :  * @class PipelineParams
+<span class="lineNum">      66 </span>                :            :  * @brief This class is a pipeline parameter management that stores parameters
+<span class="lineNum">      67 </span>                :            :  * of a given pipeline
+<span class="lineNum">      68 </span>                :            :  */
+<span class="lineNum">      69 </span>                :<span class="lineCov">         10 : class PipelineParams</span>
+<span class="lineNum">      70 </span>                :            : {
+<span class="lineNum">      71 </span>                :            : public:
+<span class="lineNum">      72 </span>                :            :   explicit PipelineParams(const std::string &amp; name);
+<span class="lineNum">      73 </span>                :            :   explicit PipelineParams(const Params::ParamManager::PipelineRawData &amp; params);
+<span class="lineNum">      74 </span>                :            :   Params::ParamManager::PipelineRawData getPipeline(const std::string &amp; name);
+<span class="lineNum">      75 </span>                :            :   PipelineParams &amp; operator=(const Params::ParamManager::PipelineRawData &amp; params);
+<span class="lineNum">      76 </span>                :            :   void update();
+<span class="lineNum">      77 </span>                :            :   void update(const Params::ParamManager::PipelineRawData &amp; params);
+<span class="lineNum">      78 </span>                :            :   bool isOutputTo(std::string &amp; name);
+<span class="lineNum">      79 </span>                :            :   bool isGetFps();
+<span class="lineNum">      80 </span>                :            :   std::string findFilterConditions(const std::string &amp; input, const std::string &amp; output);
+<span class="lineNum">      81 </span>                :            : 
+<span class="lineNum">      82 </span>                :            : private:
+<span class="lineNum">      83 </span>                :            :   Params::ParamManager::PipelineRawData params_;
+<span class="lineNum">      84 </span>                :            : };
+<span class="lineNum">      85 </span>                :            : 
+<span class="lineNum">      86 </span>                :            : #endif  // DYNAMIC_VINO_LIB__PIPELINE_PARAMS_HPP_
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.13</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

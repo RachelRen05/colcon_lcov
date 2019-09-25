@@ -1,0 +1,1206 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - total_coverage.info - src/ros2_openvino_toolkit/dynamic_vino_lib/include/dynamic_vino_lib/common.hpp</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../index.html">top level</a> - <a href="index.html">src/ros2_openvino_toolkit/dynamic_vino_lib/include/dynamic_vino_lib</a> - common.hpp<span style="font-size: 80%;"> (source / <a href="common.hpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">total_coverage.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">14</td>
+            <td class="headerCovTableEntry">15</td>
+            <td class="headerCovTableEntryHi">93.3 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-09-25 21:44:45</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">2</td>
+            <td class="headerCovTableEntry">2</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+            | Branches:
+            <span class="coverLegendCov">+</span> taken
+            <span class="coverLegendNoCov">-</span> not taken
+            <span class="coverLegendNoCov">#</span> not executed
+</td>
+            <td></td>
+            <td class="headerItem">Branches:</td>
+            <td class="headerCovTableEntry">3</td>
+            <td class="headerCovTableEntry">6</td>
+            <td class="headerCovTableEntryLo">50.0 %</td>
+          </tr>
+          <tr><td><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>                :            : // Copyright (c) 2018 Intel Corporation</a>
+<span class="lineNum">       2 </span>                :            : //
+<span class="lineNum">       3 </span>                :            : // Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+<span class="lineNum">       4 </span>                :            : // you may not use this file except in compliance with the License.
+<span class="lineNum">       5 </span>                :            : // You may obtain a copy of the License at
+<span class="lineNum">       6 </span>                :            : //
+<span class="lineNum">       7 </span>                :            : //     http://www.apache.org/licenses/LICENSE-2.0
+<span class="lineNum">       8 </span>                :            : //
+<span class="lineNum">       9 </span>                :            : // Unless required by applicable law or agreed to in writing, software
+<span class="lineNum">      10 </span>                :            : // distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+<span class="lineNum">      11 </span>                :            : // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+<span class="lineNum">      12 </span>                :            : // See the License for the specific language governing permissions and
+<span class="lineNum">      13 </span>                :            : // limitations under the License.
+<span class="lineNum">      14 </span>                :            : 
+<span class="lineNum">      15 </span>                :            : //
+<span class="lineNum">      16 </span>                :            : // @brief a header file with common samples functionality
+<span class="lineNum">      17 </span>                :            : // @file common.hpp
+<span class="lineNum">      18 </span>                :            : //
+<span class="lineNum">      19 </span>                :            : 
+<span class="lineNum">      20 </span>                :            : #ifndef DYNAMIC_VINO_LIB__COMMON_HPP_
+<span class="lineNum">      21 </span>                :            : #define DYNAMIC_VINO_LIB__COMMON_HPP_
+<span class="lineNum">      22 </span>                :            : 
+<span class="lineNum">      23 </span>                :            : #include &lt;ie_plugin_dispatcher.hpp&gt;
+<span class="lineNum">      24 </span>                :            : #include &lt;ie_plugin_ptr.hpp&gt;
+<span class="lineNum">      25 </span>                :            : #include &lt;cpp/ie_cnn_net_reader.h&gt;
+<span class="lineNum">      26 </span>                :            : #include &lt;cpp/ie_infer_request.hpp&gt;
+<span class="lineNum">      27 </span>                :            : #include &lt;ie_device.hpp&gt;
+<span class="lineNum">      28 </span>                :            : #include &lt;time.h&gt;
+<span class="lineNum">      29 </span>                :            : #include &lt;string&gt;
+<span class="lineNum">      30 </span>                :            : #include &lt;map&gt;
+<span class="lineNum">      31 </span>                :            : #include &lt;vector&gt;
+<span class="lineNum">      32 </span>                :            : #include &lt;list&gt;
+<span class="lineNum">      33 </span>                :            : #include &lt;limits&gt;
+<span class="lineNum">      34 </span>                :            : #include &lt;random&gt;
+<span class="lineNum">      35 </span>                :            : #include &lt;cctype&gt;
+<span class="lineNum">      36 </span>                :            : #include &lt;functional&gt;
+<span class="lineNum">      37 </span>                :            : #include &lt;iostream&gt;
+<span class="lineNum">      38 </span>                :            : #include &lt;fstream&gt;
+<span class="lineNum">      39 </span>                :            : #include &lt;iomanip&gt;
+<span class="lineNum">      40 </span>                :            : #include &lt;utility&gt;
+<span class="lineNum">      41 </span>                :            : 
+<span class="lineNum">      42 </span>                :            : #include &lt;algorithm&gt;
+<span class="lineNum">      43 </span>                :            : #include &lt;chrono&gt;
+<span class="lineNum">      44 </span>                :            : 
+<span class="lineNum">      45 </span>                :            : 
+<span class="lineNum">      46 </span>                :            : #ifdef WIN32
+<span class="lineNum">      47 </span>                :            : #define UNUSED
+<span class="lineNum">      48 </span>                :            : #else
+<span class="lineNum">      49 </span>                :            : #define UNUSED __attribute__((unused))
+<span class="lineNum">      50 </span>                :            : #endif
+<span class="lineNum">      51 </span>                :            : 
+<span class="lineNum">      52 </span>                :            : /**
+<span class="lineNum">      53 </span>                :            :  * @brief Trims from both ends (in place)
+<span class="lineNum">      54 </span>                :            :  * @param s - string to trim
+<span class="lineNum">      55 </span>                :            :  * @return trimmed string
+<span class="lineNum">      56 </span>                :            :  */
+<span class="lineNum">      57 </span>                :            : inline std::string &amp; trim(std::string &amp; s)
+<span class="lineNum">      58 </span>                :            : {
+<span class="lineNum">      59 </span>                :            :   s.erase(s.begin(),
+<span class="lineNum">      60 </span>                :            :     std::find_if(s.begin(), s.end(), std::not1(std::ptr_fun&lt;int, int&gt;(std::isspace))));
+<span class="lineNum">      61 </span>                :            :   s.erase(
+<span class="lineNum">      62 </span>                :            :     std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun&lt;int, int&gt;(std::isspace))).base(),
+<span class="lineNum">      63 </span>                :            :     s.end());
+<span class="lineNum">      64 </span>                :            :   return s;
+<span class="lineNum">      65 </span>                :            : }
+<span class="lineNum">      66 </span>                :            : 
+<span class="lineNum">      67 </span>                :            : /**
+<span class="lineNum">      68 </span>                :            : * @brief Converts string to TargetDevice
+<span class="lineNum">      69 </span>                :            : * @param deviceName - string value representing device
+<span class="lineNum">      70 </span>                :            : * @return TargetDevice value that corresponds to input string.
+<span class="lineNum">      71 </span>                :            : *         eDefault in case no corresponding value was found
+<span class="lineNum">      72 </span>                :            : */
+<span class="lineNum">      73 </span>                :            : static InferenceEngine::TargetDevice getDeviceFromStr(const std::string &amp; deviceName)
+<span class="lineNum">      74 </span>                :            : {
+<span class="lineNum">      75 </span>                :            :   return InferenceEngine::TargetDeviceInfo::fromStr(deviceName);
+<span class="lineNum">      76 </span>                :            : }
+<span class="lineNum">      77 </span>                :            : 
+<span class="lineNum">      78 </span>                :            : /**
+<span class="lineNum">      79 </span>                :            : * @brief Loads plugin from directories
+<span class="lineNum">      80 </span>                :            : * @param pluginDirs - plugin paths
+<span class="lineNum">      81 </span>                :            : * @param plugin - plugin name
+<span class="lineNum">      82 </span>                :            : * @param device - device to infer on
+<span class="lineNum">      83 </span>                :            : * @return Plugin pointer
+<span class="lineNum">      84 </span>                :            : */
+<span class="lineNum">      85 </span>                :            : static InferenceEngine::InferenceEnginePluginPtr
+<span class="lineNum">      86 </span>                :            : selectPlugin(
+<span class="lineNum">      87 </span>                :            :   const std::vector&lt;std::string&gt; &amp; pluginDirs, const std::string &amp; plugin,
+<span class="lineNum">      88 </span>                :            :   InferenceEngine::TargetDevice device)
+<span class="lineNum">      89 </span>                :            : {
+<span class="lineNum">      90 </span>                :            :   InferenceEngine::PluginDispatcher dispatcher(pluginDirs);
+<span class="lineNum">      91 </span>                :            : 
+<span class="lineNum">      92 </span>                :            :   if (!plugin.empty()) {
+<span class="lineNum">      93 </span>                :            :     return dispatcher.getPluginByName(plugin);
+<span class="lineNum">      94 </span>                :            :   } else {
+<span class="lineNum">      95 </span>                :            :     return dispatcher.getSuitablePlugin(device);
+<span class="lineNum">      96 </span>                :            :   }
+<span class="lineNum">      97 </span>                :            : }
+<span class="lineNum">      98 </span>                :            : 
+<span class="lineNum">      99 </span>                :            : /**
+<span class="lineNum">     100 </span>                :            :  * @brief Loads plugin from directories
+<span class="lineNum">     101 </span>                :            :  * @param pluginDirs - plugin paths
+<span class="lineNum">     102 </span>                :            :  * @param plugin - plugin name
+<span class="lineNum">     103 </span>                :            :  * @param device - string representation of device to infer on
+<span class="lineNum">     104 </span>                :            :  * @return Plugin pointer
+<span class="lineNum">     105 </span>                :            :  */
+<span class="lineNum">     106 </span>                :            : static UNUSED InferenceEngine::InferenceEnginePluginPtr
+<span class="lineNum">     107 </span>                :            : selectPlugin(
+<span class="lineNum">     108 </span>                :            :   const std::vector&lt;std::string&gt; &amp; pluginDirs, const std::string &amp; plugin,
+<span class="lineNum">     109 </span>                :            :   const std::string &amp; device)
+<span class="lineNum">     110 </span>                :            : {
+<span class="lineNum">     111 </span>                :            :   return selectPlugin(pluginDirs, plugin, getDeviceFromStr(device));
+<span class="lineNum">     112 </span>                :            : }
+<span class="lineNum">     113 </span>                :            : 
+<span class="lineNum">     114 </span>                :            : /**
+<span class="lineNum">     115 </span>                :            :  * @brief Gets filename without extension
+<span class="lineNum">     116 </span>                :            :  * @param filepath - full file name
+<span class="lineNum">     117 </span>                :            :  * @return filename without extension
+<span class="lineNum">     118 </span>                :            :  */
+<span class="lineNum">     119 </span>                :            : static UNUSED std::string fileNameNoExt(const std::string &amp; filepath)
+<span class="lineNum">     120 </span>                :            : {
+<span class="lineNum">     121 </span>                :            :   auto pos = filepath.rfind('.');
+<span class="lineNum">     122 </span>                :            :   if (pos == std::string::npos) {
+<span class="lineNum">     123 </span>                :            :     return filepath;
+<span class="lineNum">     124 </span>                :            :   }
+<span class="lineNum">     125 </span>                :            :   return filepath.substr(0, pos);
+<span class="lineNum">     126 </span>                :            : }
+<span class="lineNum">     127 </span>                :            : 
+<span class="lineNum">     128 </span>                :            : /**
+<span class="lineNum">     129 </span>                :            : * @brief Get extension from filename
+<span class="lineNum">     130 </span>                :            : * @param filename - name of the file which extension should be extracted
+<span class="lineNum">     131 </span>                :            : * @return string with extracted file extension
+<span class="lineNum">     132 </span>                :            : */
+<span class="lineNum">     133 </span>                :            : inline std::string fileExt(const std::string &amp; filename)
+<span class="lineNum">     134 </span>                :            : {
+<span class="lineNum">     135 </span>                :            :   auto pos = filename.rfind('.');
+<span class="lineNum">     136 </span>                :            :   if (pos == std::string::npos) {
+<span class="lineNum">     137 </span>                :            :     return &quot;&quot;;
+<span class="lineNum">     138 </span>                :            :   }
+<span class="lineNum">     139 </span>                :            :   return filename.substr(pos + 1);
+<a name="140"><span class="lineNum">     140 </span>                :            : }</a>
+<span class="lineNum">     141 </span>                :            : 
+<span class="lineNum">     142 </span>                :<span class="lineCov">         10 : static UNUSED std::ostream &amp; operator&lt;&lt;(std::ostream &amp; os, const InferenceEngine::Version * version)</span>
+<span class="lineNum">     143 </span>                :            : {
+<span class="lineNum">     144 </span>                :<span class="lineCov">         10 :   os &lt;&lt; &quot;\n\tAPI version ............ &quot;;</span>
+<span class="lineNum">     145 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 10 times"> + </span>]:<span class="lineCov">         10 :   if (nullptr == version) {</span>
+<span class="lineNum">     146 </span>                :<span class="lineNoCov">          0 :     os &lt;&lt; &quot;UNKNOWN&quot;;</span>
+<span class="lineNum">     147 </span>                :            :   } else {
+<span class="lineNum">     148 </span>                :<span class="lineCov">         20 :     os &lt;&lt; version-&gt;apiVersion.major &lt;&lt; &quot;.&quot; &lt;&lt; version-&gt;apiVersion.minor;</span>
+<span class="lineNum">     149 </span>        [<span class="branchCov" title="Branch 0 was taken 10 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>]:<span class="lineCov">         10 :     if (nullptr != version-&gt;buildNumber) {</span>
+<span class="lineNum">     150 </span>                :            :       os &lt;&lt; &quot;\n\t&quot; &lt;&lt;
+<span class="lineNum">     151 </span>                :<span class="lineCov">         10 :         &quot;Build .................. &quot; &lt;&lt; version-&gt;buildNumber;</span>
+<span class="lineNum">     152 </span>                :            :     }
+<span class="lineNum">     153 </span>        [<span class="branchCov" title="Branch 0 was taken 10 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>]:<span class="lineCov">         10 :     if (nullptr != version-&gt;description) {</span>
+<span class="lineNum">     154 </span>                :            :       os &lt;&lt; &quot;\n\t&quot; &lt;&lt;
+<span class="lineNum">     155 </span>                :<span class="lineCov">         10 :         &quot;Description ....... &quot; &lt;&lt; version-&gt;description;</span>
+<span class="lineNum">     156 </span>                :            :     }
+<span class="lineNum">     157 </span>                :            :   }
+<span class="lineNum">     158 </span>                :<span class="lineCov">         10 :   return os;</span>
+<span class="lineNum">     159 </span>                :            : }
+<span class="lineNum">     160 </span>                :            : 
+<span class="lineNum">     161 </span>                :            : /**
+<span class="lineNum">     162 </span>                :            :  * @class PluginVersion
+<span class="lineNum">     163 </span>                :            :  * @brief A PluginVersion class stores plugin version and initialization status
+<span class="lineNum">     164 </span>                :            :  */
+<span class="lineNum">     165 </span>                :            : struct PluginVersion : public InferenceEngine::Version
+<span class="lineNum">     166 </span>                :            : {
+<span class="lineNum">     167 </span>                :            :   bool initialized = false;
+<span class="lineNum">     168 </span>                :            : 
+<span class="lineNum">     169 </span>                :            :   explicit PluginVersion(const InferenceEngine::Version * ver)
+<span class="lineNum">     170 </span>                :            :   {
+<span class="lineNum">     171 </span>                :            :     if (nullptr == ver) {
+<span class="lineNum">     172 </span>                :            :       return;
+<span class="lineNum">     173 </span>                :            :     }
+<span class="lineNum">     174 </span>                :            :     InferenceEngine::Version::operator=(*ver);
+<span class="lineNum">     175 </span>                :            :     initialized = true;
+<span class="lineNum">     176 </span>                :            :   }
+<span class="lineNum">     177 </span>                :            : 
+<span class="lineNum">     178 </span>                :            :   operator bool() const noexcept
+<span class="lineNum">     179 </span>                :            :   {
+<span class="lineNum">     180 </span>                :            :     return initialized;
+<span class="lineNum">     181 </span>                :            :   }
+<span class="lineNum">     182 </span>                :            : };
+<span class="lineNum">     183 </span>                :            : 
+<span class="lineNum">     184 </span>                :            : static UNUSED std::ostream &amp; operator&lt;&lt;(std::ostream &amp; os, const PluginVersion &amp; version)
+<span class="lineNum">     185 </span>                :            : {
+<span class="lineNum">     186 </span>                :            :   os &lt;&lt; &quot;\tPlugin version ......... &quot;;
+<span class="lineNum">     187 </span>                :            :   if (!version) {
+<span class="lineNum">     188 </span>                :            :     os &lt;&lt; &quot;UNKNOWN&quot;;
+<span class="lineNum">     189 </span>                :            :   } else {
+<span class="lineNum">     190 </span>                :            :     os &lt;&lt; version.apiVersion.major &lt;&lt; &quot;.&quot; &lt;&lt; version.apiVersion.minor;
+<span class="lineNum">     191 </span>                :            :   }
+<span class="lineNum">     192 </span>                :            : 
+<span class="lineNum">     193 </span>                :            :   os &lt;&lt; &quot;\n\tPlugin name ............ &quot;;
+<span class="lineNum">     194 </span>                :            :   if (!version || version.description == nullptr) {
+<span class="lineNum">     195 </span>                :            :     os &lt;&lt; &quot;UNKNOWN&quot;;
+<span class="lineNum">     196 </span>                :            :   } else {
+<span class="lineNum">     197 </span>                :            :     os &lt;&lt; version.description;
+<span class="lineNum">     198 </span>                :            :   }
+<span class="lineNum">     199 </span>                :            : 
+<span class="lineNum">     200 </span>                :            :   os &lt;&lt; &quot;\n\tPlugin build ........... &quot;;
+<span class="lineNum">     201 </span>                :            :   if (!version || version.buildNumber == nullptr) {
+<span class="lineNum">     202 </span>                :            :     os &lt;&lt; &quot;UNKNOWN&quot;;
+<span class="lineNum">     203 </span>                :            :   } else {
+<span class="lineNum">     204 </span>                :            :     os &lt;&lt; version.buildNumber;
+<span class="lineNum">     205 </span>                :            :   }
+<span class="lineNum">     206 </span>                :            : 
+<span class="lineNum">     207 </span>                :            :   return os;
+<a name="208"><span class="lineNum">     208 </span>                :            : }</a>
+<span class="lineNum">     209 </span>                :            : 
+<span class="lineNum">     210 </span>                :<span class="lineCov">         10 : inline void printPluginVersion(InferenceEngine::InferenceEnginePluginPtr ptr, std::ostream &amp; stream)</span>
+<span class="lineNum">     211 </span>                :            : {
+<span class="lineNum">     212 </span>                :<span class="lineCov">         10 :   const PluginVersion * pluginVersion = nullptr;</span>
+<span class="lineNum">     213 </span>                :<span class="lineCov">         10 :   ptr-&gt;GetVersion((const InferenceEngine::Version * &amp;)pluginVersion);</span>
+<span class="lineNum">     214 </span>                :<span class="lineCov">         10 :   stream &lt;&lt; pluginVersion &lt;&lt; std::endl;</span>
+<span class="lineNum">     215 </span>                :<span class="lineCov">         10 : }</span>
+<span class="lineNum">     216 </span>                :            : 
+<span class="lineNum">     217 </span>                :            : static UNUSED std::vector&lt;std::vector&lt;size_t&gt;&gt; blobToImageOutputArray(
+<span class="lineNum">     218 </span>                :            :   InferenceEngine::TBlob&lt;float&gt;::Ptr output, size_t * pWidth, size_t * pHeight, size_t * pChannels)
+<span class="lineNum">     219 </span>                :            : {
+<span class="lineNum">     220 </span>                :            :   std::vector&lt;std::vector&lt;size_t&gt;&gt; outArray;
+<span class="lineNum">     221 </span>                :            :   size_t W = output-&gt;dims().at(0);
+<span class="lineNum">     222 </span>                :            :   size_t H = output-&gt;dims().at(1);
+<span class="lineNum">     223 </span>                :            :   size_t C = output-&gt;dims().at(2);
+<span class="lineNum">     224 </span>                :            : 
+<span class="lineNum">     225 </span>                :            :   // Get classes
+<span class="lineNum">     226 </span>                :            :   const float * outData = output-&gt;data();
+<span class="lineNum">     227 </span>                :            :   for (unsigned h = 0; h &lt; H; h++) {
+<span class="lineNum">     228 </span>                :            :     std::vector&lt;size_t&gt; row;
+<span class="lineNum">     229 </span>                :            :     for (unsigned w = 0; w &lt; W; w++) {
+<span class="lineNum">     230 </span>                :            :       float max_value = outData[h * W + w];
+<span class="lineNum">     231 </span>                :            :       size_t index = 0;
+<span class="lineNum">     232 </span>                :            :       for (size_t c = 1; c &lt; C; c++) {
+<span class="lineNum">     233 </span>                :            :         size_t dataIndex = c * H * W + h * W + w;
+<span class="lineNum">     234 </span>                :            :         if (outData[dataIndex] &gt; max_value) {
+<span class="lineNum">     235 </span>                :            :           index = c;
+<span class="lineNum">     236 </span>                :            :           max_value = outData[dataIndex];
+<span class="lineNum">     237 </span>                :            :         }
+<span class="lineNum">     238 </span>                :            :       }
+<span class="lineNum">     239 </span>                :            :       row.push_back(index);
+<span class="lineNum">     240 </span>                :            :     }
+<span class="lineNum">     241 </span>                :            :     outArray.push_back(row);
+<span class="lineNum">     242 </span>                :            :   }
+<span class="lineNum">     243 </span>                :            : 
+<span class="lineNum">     244 </span>                :            :   if (pWidth != nullptr) {
+<span class="lineNum">     245 </span>                :            :     *pWidth = W;
+<span class="lineNum">     246 </span>                :            :   }
+<span class="lineNum">     247 </span>                :            :   if (pHeight != nullptr) {
+<span class="lineNum">     248 </span>                :            :     *pHeight = H;
+<span class="lineNum">     249 </span>                :            :   }
+<span class="lineNum">     250 </span>                :            :   if (pChannels != nullptr) {
+<span class="lineNum">     251 </span>                :            :     *pChannels = C;
+<span class="lineNum">     252 </span>                :            :   }
+<span class="lineNum">     253 </span>                :            : 
+<span class="lineNum">     254 </span>                :            :   return outArray;
+<span class="lineNum">     255 </span>                :            : }
+<span class="lineNum">     256 </span>                :            : 
+<span class="lineNum">     257 </span>                :            : /**
+<span class="lineNum">     258 </span>                :            :  * @class Color
+<span class="lineNum">     259 </span>                :            :  * @brief A Color class stores channels of a given color
+<span class="lineNum">     260 </span>                :            :  */
+<span class="lineNum">     261 </span>                :            : class Color
+<span class="lineNum">     262 </span>                :            : {
+<span class="lineNum">     263 </span>                :            : private:
+<span class="lineNum">     264 </span>                :            :   unsigned char _r;
+<span class="lineNum">     265 </span>                :            :   unsigned char _g;
+<span class="lineNum">     266 </span>                :            :   unsigned char _b;
+<span class="lineNum">     267 </span>                :            : 
+<span class="lineNum">     268 </span>                :            : public:
+<span class="lineNum">     269 </span>                :            :   /**
+<span class="lineNum">     270 </span>                :            :    * A default constructor.
+<span class="lineNum">     271 </span>                :            :    * @param r - value for red channel
+<span class="lineNum">     272 </span>                :            :    * @param g - value for green channel
+<span class="lineNum">     273 </span>                :            :    * @param b - value for blue channel
+<span class="lineNum">     274 </span>                :            :    */
+<span class="lineNum">     275 </span>                :            :   Color(unsigned char r, unsigned char g, unsigned char b)
+<span class="lineNum">     276 </span>                :            :   : _r(r), _g(g), _b(b)
+<span class="lineNum">     277 </span>                :            :   {
+<span class="lineNum">     278 </span>                :            :   }
+<span class="lineNum">     279 </span>                :            : 
+<span class="lineNum">     280 </span>                :            :   inline unsigned char red()
+<span class="lineNum">     281 </span>                :            :   {
+<span class="lineNum">     282 </span>                :            :     return _r;
+<span class="lineNum">     283 </span>                :            :   }
+<span class="lineNum">     284 </span>                :            : 
+<span class="lineNum">     285 </span>                :            :   inline unsigned char blue()
+<span class="lineNum">     286 </span>                :            :   {
+<span class="lineNum">     287 </span>                :            :     return _b;
+<span class="lineNum">     288 </span>                :            :   }
+<span class="lineNum">     289 </span>                :            : 
+<span class="lineNum">     290 </span>                :            :   inline unsigned char green()
+<span class="lineNum">     291 </span>                :            :   {
+<span class="lineNum">     292 </span>                :            :     return _g;
+<span class="lineNum">     293 </span>                :            :   }
+<span class="lineNum">     294 </span>                :            : };
+<span class="lineNum">     295 </span>                :            : 
+<span class="lineNum">     296 </span>                :            : // TODO(image_name) : keep only one version of writeOutputBMP
+<span class="lineNum">     297 </span>                :            : 
+<span class="lineNum">     298 </span>                :            : /**
+<span class="lineNum">     299 </span>                :            :  * @brief Writes output data to image
+<span class="lineNum">     300 </span>                :            :  * @param name - image name
+<span class="lineNum">     301 </span>                :            :  * @param data - output data
+<span class="lineNum">     302 </span>                :            :  * @param classesNum - the number of classes
+<span class="lineNum">     303 </span>                :            :  * @return false if error else true
+<span class="lineNum">     304 </span>                :            :  */
+<span class="lineNum">     305 </span>                :            : static UNUSED void writeOutputBmp(
+<span class="lineNum">     306 </span>                :            :   std::vector&lt;std::vector&lt;size_t&gt;&gt; data, size_t classesNum,
+<span class="lineNum">     307 </span>                :            :   std::ostream &amp; outFile)
+<span class="lineNum">     308 </span>                :            : {
+<span class="lineNum">     309 </span>                :            :   unsigned int seed = (unsigned int)time(NULL);
+<span class="lineNum">     310 </span>                :            :   // Known colors for training classes from Cityscape dataset
+<span class="lineNum">     311 </span>                :            :   static std::vector&lt;Color&gt; colors = {{128, 64, 128}, {232, 35, 244}, {70, 70, 70},
+<span class="lineNum">     312 </span>                :            :     {156, 102, 102}, {153, 153, 190}, {153, 153, 153},
+<span class="lineNum">     313 </span>                :            :     {30, 170, 250}, {0, 220, 220}, {35, 142, 107},
+<span class="lineNum">     314 </span>                :            :     {152, 251, 152}, {180, 130, 70}, {60, 20, 220},
+<span class="lineNum">     315 </span>                :            :     {0, 0, 255}, {142, 0, 0}, {70, 0, 0},
+<span class="lineNum">     316 </span>                :            :     {100, 60, 0}, {90, 0, 0}, {230, 0, 0},
+<span class="lineNum">     317 </span>                :            :     {32, 11, 119}, {0, 74, 111}, {81, 0, 81}};
+<span class="lineNum">     318 </span>                :            : 
+<span class="lineNum">     319 </span>                :            :   while (classesNum &gt; colors.size()) {
+<span class="lineNum">     320 </span>                :            :     static std::mt19937 rng(seed);
+<span class="lineNum">     321 </span>                :            :     std::uniform_int_distribution&lt;int&gt; dist(0, 255);
+<span class="lineNum">     322 </span>                :            :     Color color(dist(rng), dist(rng), dist(rng));
+<span class="lineNum">     323 </span>                :            :     colors.push_back(color);
+<span class="lineNum">     324 </span>                :            :   }
+<span class="lineNum">     325 </span>                :            : 
+<span class="lineNum">     326 </span>                :            :   unsigned char file[14] = {
+<span class="lineNum">     327 </span>                :            :     'B', 'M',            // magic
+<span class="lineNum">     328 </span>                :            :     0, 0, 0, 0,          // size in bytes
+<span class="lineNum">     329 </span>                :            :     0, 0,                // app data
+<span class="lineNum">     330 </span>                :            :     0, 0,                // app data
+<span class="lineNum">     331 </span>                :            :     40 + 14, 0, 0, 0     // start of data offset
+<span class="lineNum">     332 </span>                :            :   };
+<span class="lineNum">     333 </span>                :            :   unsigned char info[40] = {
+<span class="lineNum">     334 </span>                :            :     40, 0, 0, 0,       // info hd size
+<span class="lineNum">     335 </span>                :            :     0, 0, 0, 0,        // width
+<span class="lineNum">     336 </span>                :            :     0, 0, 0, 0,        // height
+<span class="lineNum">     337 </span>                :            :     1, 0,              // number color planes
+<span class="lineNum">     338 </span>                :            :     24, 0,             // bits per pixel
+<span class="lineNum">     339 </span>                :            :     0, 0, 0, 0,        // compression is none
+<span class="lineNum">     340 </span>                :            :     0, 0, 0, 0,        // image bits size
+<span class="lineNum">     341 </span>                :            :     0x13, 0x0B, 0, 0,  // horz resolution in pixel / m
+<span class="lineNum">     342 </span>                :            :     0x13, 0x0B, 0, 0,  // vert resolution (0x03C3 = 96 dpi, 0x0B13 = 72 dpi)
+<span class="lineNum">     343 </span>                :            :     0, 0, 0, 0,        // #colors in palette
+<span class="lineNum">     344 </span>                :            :     0, 0, 0, 0,        // #important colors
+<span class="lineNum">     345 </span>                :            :   };
+<span class="lineNum">     346 </span>                :            : 
+<span class="lineNum">     347 </span>                :            :   auto height = data.size();
+<span class="lineNum">     348 </span>                :            :   auto width = data.at(0).size();
+<span class="lineNum">     349 </span>                :            : 
+<span class="lineNum">     350 </span>                :            :   if (height &gt; (size_t)std::numeric_limits&lt;int32_t&gt;::max ||
+<span class="lineNum">     351 </span>                :            :     width &gt; (size_t)std::numeric_limits&lt;int32_t&gt;::max)
+<span class="lineNum">     352 </span>                :            :   {
+<span class="lineNum">     353 </span>                :            :     THROW_IE_EXCEPTION &lt;&lt; &quot;File size is too big: &quot; &lt;&lt; height &lt;&lt; &quot; X &quot; &lt;&lt; width;
+<span class="lineNum">     354 </span>                :            :   }
+<span class="lineNum">     355 </span>                :            : 
+<span class="lineNum">     356 </span>                :            :   int padSize = static_cast&lt;int&gt;(4 - (width * 3) % 4) % 4;
+<span class="lineNum">     357 </span>                :            :   int sizeData = static_cast&lt;int&gt;(width * height * 3 + height * padSize);
+<span class="lineNum">     358 </span>                :            :   int sizeAll = sizeData + sizeof(file) + sizeof(info);
+<span class="lineNum">     359 </span>                :            : 
+<span class="lineNum">     360 </span>                :            :   file[2] = (unsigned char)(sizeAll);
+<span class="lineNum">     361 </span>                :            :   file[3] = (unsigned char)(sizeAll &gt;&gt; 8);
+<span class="lineNum">     362 </span>                :            :   file[4] = (unsigned char)(sizeAll &gt;&gt; 16);
+<span class="lineNum">     363 </span>                :            :   file[5] = (unsigned char)(sizeAll &gt;&gt; 24);
+<span class="lineNum">     364 </span>                :            : 
+<span class="lineNum">     365 </span>                :            :   info[4] = (unsigned char)(width);
+<span class="lineNum">     366 </span>                :            :   info[5] = (unsigned char)(width &gt;&gt; 8);
+<span class="lineNum">     367 </span>                :            :   info[6] = (unsigned char)(width &gt;&gt; 16);
+<span class="lineNum">     368 </span>                :            :   info[7] = (unsigned char)(width &gt;&gt; 24);
+<span class="lineNum">     369 </span>                :            : 
+<span class="lineNum">     370 </span>                :            :   int32_t negativeHeight = -(int32_t)height;
+<span class="lineNum">     371 </span>                :            :   info[8] = (unsigned char)(negativeHeight);
+<span class="lineNum">     372 </span>                :            :   info[9] = (unsigned char)(negativeHeight &gt;&gt; 8);
+<span class="lineNum">     373 </span>                :            :   info[10] = (unsigned char)(negativeHeight &gt;&gt; 16);
+<span class="lineNum">     374 </span>                :            :   info[11] = (unsigned char)(negativeHeight &gt;&gt; 24);
+<span class="lineNum">     375 </span>                :            : 
+<span class="lineNum">     376 </span>                :            :   info[20] = (unsigned char)(sizeData);
+<span class="lineNum">     377 </span>                :            :   info[21] = (unsigned char)(sizeData &gt;&gt; 8);
+<span class="lineNum">     378 </span>                :            :   info[22] = (unsigned char)(sizeData &gt;&gt; 16);
+<span class="lineNum">     379 </span>                :            :   info[23] = (unsigned char)(sizeData &gt;&gt; 24);
+<span class="lineNum">     380 </span>                :            : 
+<span class="lineNum">     381 </span>                :            :   outFile.write(reinterpret_cast&lt;char *&gt;(file), sizeof(file));
+<span class="lineNum">     382 </span>                :            :   outFile.write(reinterpret_cast&lt;char *&gt;(info), sizeof(info));
+<span class="lineNum">     383 </span>                :            : 
+<span class="lineNum">     384 </span>                :            :   unsigned char pad[3] = {0, 0, 0};
+<span class="lineNum">     385 </span>                :            : 
+<span class="lineNum">     386 </span>                :            :   for (size_t y = 0; y &lt; height; y++) {
+<span class="lineNum">     387 </span>                :            :     for (size_t x = 0; x &lt; width; x++) {
+<span class="lineNum">     388 </span>                :            :       unsigned char pixel[3];
+<span class="lineNum">     389 </span>                :            :       size_t index = data.at(y).at(x);
+<span class="lineNum">     390 </span>                :            :       pixel[0] = colors.at(index).red();
+<span class="lineNum">     391 </span>                :            :       pixel[1] = colors.at(index).green();
+<span class="lineNum">     392 </span>                :            :       pixel[2] = colors.at(index).blue();
+<span class="lineNum">     393 </span>                :            :       outFile.write(reinterpret_cast&lt;char *&gt;(pixel), 3);
+<span class="lineNum">     394 </span>                :            :     }
+<span class="lineNum">     395 </span>                :            :     outFile.write(reinterpret_cast&lt;char *&gt;(pad), padSize);
+<span class="lineNum">     396 </span>                :            :   }
+<span class="lineNum">     397 </span>                :            : }
+<span class="lineNum">     398 </span>                :            : 
+<span class="lineNum">     399 </span>                :            : /**
+<span class="lineNum">     400 </span>                :            : * @brief Writes output data to BMP image
+<span class="lineNum">     401 </span>                :            : * @param name - image name
+<span class="lineNum">     402 </span>                :            : * @param data - output data
+<span class="lineNum">     403 </span>                :            : * @param height - height of the target image
+<span class="lineNum">     404 </span>                :            : * @param width - width of the target image
+<span class="lineNum">     405 </span>                :            : * @return false if error else true
+<span class="lineNum">     406 </span>                :            : */
+<span class="lineNum">     407 </span>                :            : static UNUSED bool writeOutputBmp(
+<span class="lineNum">     408 </span>                :            :   std::string name, unsigned char * data, size_t height,
+<span class="lineNum">     409 </span>                :            :   size_t width)
+<span class="lineNum">     410 </span>                :            : {
+<span class="lineNum">     411 </span>                :            :   std::ofstream outFile;
+<span class="lineNum">     412 </span>                :            :   outFile.open(name, std::ofstream::binary);
+<span class="lineNum">     413 </span>                :            :   if (!outFile.is_open()) {
+<span class="lineNum">     414 </span>                :            :     return false;
+<span class="lineNum">     415 </span>                :            :   }
+<span class="lineNum">     416 </span>                :            : 
+<span class="lineNum">     417 </span>                :            :   unsigned char file[14] = {
+<span class="lineNum">     418 </span>                :            :     'B', 'M',            // magic
+<span class="lineNum">     419 </span>                :            :     0, 0, 0, 0,          // size in bytes
+<span class="lineNum">     420 </span>                :            :     0, 0,                // app data
+<span class="lineNum">     421 </span>                :            :     0, 0,                // app data
+<span class="lineNum">     422 </span>                :            :     40 + 14, 0, 0, 0     // start of data offset
+<span class="lineNum">     423 </span>                :            :   };
+<span class="lineNum">     424 </span>                :            :   unsigned char info[40] = {
+<span class="lineNum">     425 </span>                :            :     40, 0, 0, 0,       // info hd size
+<span class="lineNum">     426 </span>                :            :     0, 0, 0, 0,        // width
+<span class="lineNum">     427 </span>                :            :     0, 0, 0, 0,        // height
+<span class="lineNum">     428 </span>                :            :     1, 0,              // number color planes
+<span class="lineNum">     429 </span>                :            :     24, 0,             // bits per pixel
+<span class="lineNum">     430 </span>                :            :     0, 0, 0, 0,        // compression is none
+<span class="lineNum">     431 </span>                :            :     0, 0, 0, 0,        // image bits size
+<span class="lineNum">     432 </span>                :            :     0x13, 0x0B, 0, 0,  // horz resolution in pixel / m
+<span class="lineNum">     433 </span>                :            :     0x13, 0x0B, 0, 0,  // vert resolution (0x03C3 = 96 dpi, 0x0B13 = 72 dpi)
+<span class="lineNum">     434 </span>                :            :     0, 0, 0, 0,        // #colors in palette
+<span class="lineNum">     435 </span>                :            :     0, 0, 0, 0,        // #important colors
+<span class="lineNum">     436 </span>                :            :   };
+<span class="lineNum">     437 </span>                :            : 
+<span class="lineNum">     438 </span>                :            :   if (height &gt; (size_t)std::numeric_limits&lt;int32_t&gt;::max ||
+<span class="lineNum">     439 </span>                :            :     width &gt; (size_t)std::numeric_limits&lt;int32_t&gt;::max)
+<span class="lineNum">     440 </span>                :            :   {
+<span class="lineNum">     441 </span>                :            :     THROW_IE_EXCEPTION &lt;&lt; &quot;File size is too big: &quot; &lt;&lt; height &lt;&lt; &quot; X &quot; &lt;&lt; width;
+<span class="lineNum">     442 </span>                :            :   }
+<span class="lineNum">     443 </span>                :            : 
+<span class="lineNum">     444 </span>                :            :   int padSize = static_cast&lt;int&gt;(4 - (width * 3) % 4) % 4;
+<span class="lineNum">     445 </span>                :            :   int sizeData = static_cast&lt;int&gt;(width * height * 3 + height * padSize);
+<span class="lineNum">     446 </span>                :            :   int sizeAll = sizeData + sizeof(file) + sizeof(info);
+<span class="lineNum">     447 </span>                :            : 
+<span class="lineNum">     448 </span>                :            :   file[2] = (unsigned char)(sizeAll);
+<span class="lineNum">     449 </span>                :            :   file[3] = (unsigned char)(sizeAll &gt;&gt; 8);
+<span class="lineNum">     450 </span>                :            :   file[4] = (unsigned char)(sizeAll &gt;&gt; 16);
+<span class="lineNum">     451 </span>                :            :   file[5] = (unsigned char)(sizeAll &gt;&gt; 24);
+<span class="lineNum">     452 </span>                :            : 
+<span class="lineNum">     453 </span>                :            :   info[4] = (unsigned char)(width);
+<span class="lineNum">     454 </span>                :            :   info[5] = (unsigned char)(width &gt;&gt; 8);
+<span class="lineNum">     455 </span>                :            :   info[6] = (unsigned char)(width &gt;&gt; 16);
+<span class="lineNum">     456 </span>                :            :   info[7] = (unsigned char)(width &gt;&gt; 24);
+<span class="lineNum">     457 </span>                :            : 
+<span class="lineNum">     458 </span>                :            :   int32_t negativeHeight = -(int32_t)height;
+<span class="lineNum">     459 </span>                :            :   info[8] = (unsigned char)(negativeHeight);
+<span class="lineNum">     460 </span>                :            :   info[9] = (unsigned char)(negativeHeight &gt;&gt; 8);
+<span class="lineNum">     461 </span>                :            :   info[10] = (unsigned char)(negativeHeight &gt;&gt; 16);
+<span class="lineNum">     462 </span>                :            :   info[11] = (unsigned char)(negativeHeight &gt;&gt; 24);
+<span class="lineNum">     463 </span>                :            : 
+<span class="lineNum">     464 </span>                :            :   info[20] = (unsigned char)(sizeData);
+<span class="lineNum">     465 </span>                :            :   info[21] = (unsigned char)(sizeData &gt;&gt; 8);
+<span class="lineNum">     466 </span>                :            :   info[22] = (unsigned char)(sizeData &gt;&gt; 16);
+<span class="lineNum">     467 </span>                :            :   info[23] = (unsigned char)(sizeData &gt;&gt; 24);
+<span class="lineNum">     468 </span>                :            : 
+<span class="lineNum">     469 </span>                :            :   outFile.write(reinterpret_cast&lt;char *&gt;(file), sizeof(file));
+<span class="lineNum">     470 </span>                :            :   outFile.write(reinterpret_cast&lt;char *&gt;(info), sizeof(info));
+<span class="lineNum">     471 </span>                :            : 
+<span class="lineNum">     472 </span>                :            :   unsigned char pad[3] = {0, 0, 0};
+<span class="lineNum">     473 </span>                :            : 
+<span class="lineNum">     474 </span>                :            :   for (size_t y = 0; y &lt; height; y++) {
+<span class="lineNum">     475 </span>                :            :     for (size_t x = 0; x &lt; width; x++) {
+<span class="lineNum">     476 </span>                :            :       unsigned char pixel[3];
+<span class="lineNum">     477 </span>                :            :       pixel[0] = data[y * width * 3 + x * 3];
+<span class="lineNum">     478 </span>                :            :       pixel[1] = data[y * width * 3 + x * 3 + 1];
+<span class="lineNum">     479 </span>                :            :       pixel[2] = data[y * width * 3 + x * 3 + 2];
+<span class="lineNum">     480 </span>                :            : 
+<span class="lineNum">     481 </span>                :            :       outFile.write(reinterpret_cast&lt;char *&gt;(pixel), 3);
+<span class="lineNum">     482 </span>                :            :     }
+<span class="lineNum">     483 </span>                :            :     outFile.write(reinterpret_cast&lt;char *&gt;(pad), padSize);
+<span class="lineNum">     484 </span>                :            :   }
+<span class="lineNum">     485 </span>                :            :   return true;
+<span class="lineNum">     486 </span>                :            : }
+<span class="lineNum">     487 </span>                :            : 
+<span class="lineNum">     488 </span>                :            : /**
+<span class="lineNum">     489 </span>                :            : * @brief Adds colored rectangles to the image
+<span class="lineNum">     490 </span>                :            : * @param data - data where rectangles are put
+<span class="lineNum">     491 </span>                :            : * @param height - height of the rectangle
+<span class="lineNum">     492 </span>                :            : * @param width - width of the rectangle
+<span class="lineNum">     493 </span>                :            : * @param rectangles - vector points for the rectangle, should be 4x compared to num classes
+<span class="lineNum">     494 </span>                :            : * @param classes - vector of classes
+<span class="lineNum">     495 </span>                :            : */
+<span class="lineNum">     496 </span>                :            : static UNUSED void addRectangles(
+<span class="lineNum">     497 </span>                :            :   unsigned char * data, size_t height, size_t width,
+<span class="lineNum">     498 </span>                :            :   std::vector&lt;int&gt; rectangles, std::vector&lt;int&gt; classes)
+<span class="lineNum">     499 </span>                :            : {
+<span class="lineNum">     500 </span>                :            :   std::vector&lt;Color&gt; colors = {{128, 64, 128}, {232, 35, 244}, {70, 70, 70},
+<span class="lineNum">     501 </span>                :            :     {156, 102, 102}, {153, 153, 190}, {153, 153, 153},
+<span class="lineNum">     502 </span>                :            :     {30, 170, 250}, {0, 220, 220}, {35, 142, 107},
+<span class="lineNum">     503 </span>                :            :     {152, 251, 152}, {180, 130, 70}, {60, 20, 220},
+<span class="lineNum">     504 </span>                :            :     {0, 0, 255}, {142, 0, 0}, {70, 0, 0},
+<span class="lineNum">     505 </span>                :            :     {100, 60, 0}, {90, 0, 0}, {230, 0, 0},
+<span class="lineNum">     506 </span>                :            :     {32, 11, 119}, {0, 74, 111}, {81, 0, 81}};
+<span class="lineNum">     507 </span>                :            :   if (rectangles.size() % 4 != 0 || rectangles.size() / 4 != classes.size()) {
+<span class="lineNum">     508 </span>                :            :     return;
+<span class="lineNum">     509 </span>                :            :   }
+<span class="lineNum">     510 </span>                :            : 
+<span class="lineNum">     511 </span>                :            :   for (size_t i = 0; i &lt; classes.size(); i++) {
+<span class="lineNum">     512 </span>                :            :     int x = rectangles.at(i * 4);
+<span class="lineNum">     513 </span>                :            :     int y = rectangles.at(i * 4 + 1);
+<span class="lineNum">     514 </span>                :            :     int w = rectangles.at(i * 4 + 2);
+<span class="lineNum">     515 </span>                :            :     int h = rectangles.at(i * 4 + 3);
+<span class="lineNum">     516 </span>                :            : 
+<span class="lineNum">     517 </span>                :            :     if (x &lt; 0) {
+<span class="lineNum">     518 </span>                :            :       x = 0;
+<span class="lineNum">     519 </span>                :            :     }
+<span class="lineNum">     520 </span>                :            :     if (y &lt; 0) {
+<span class="lineNum">     521 </span>                :            :       y = 0;
+<span class="lineNum">     522 </span>                :            :     }
+<span class="lineNum">     523 </span>                :            :     if (w &lt; 0) {
+<span class="lineNum">     524 </span>                :            :       w = 0;
+<span class="lineNum">     525 </span>                :            :     }
+<span class="lineNum">     526 </span>                :            :     if (h &lt; 0) {
+<span class="lineNum">     527 </span>                :            :       h = 0;
+<span class="lineNum">     528 </span>                :            :     }
+<span class="lineNum">     529 </span>                :            : 
+<span class="lineNum">     530 </span>                :            :     if (x &gt;= width) {
+<span class="lineNum">     531 </span>                :            :       x = width - 1;
+<span class="lineNum">     532 </span>                :            :       w = 0;
+<span class="lineNum">     533 </span>                :            :     }
+<span class="lineNum">     534 </span>                :            :     if (y &gt;= height) {
+<span class="lineNum">     535 </span>                :            :       y = height - 1;
+<span class="lineNum">     536 </span>                :            :       h = 0;
+<span class="lineNum">     537 </span>                :            :     }
+<span class="lineNum">     538 </span>                :            : 
+<span class="lineNum">     539 </span>                :            :     if (x + w &gt;= width) {
+<span class="lineNum">     540 </span>                :            :       w = width - x - 1;
+<span class="lineNum">     541 </span>                :            :     }
+<span class="lineNum">     542 </span>                :            :     if (y + h &gt;= height) {
+<span class="lineNum">     543 </span>                :            :       h = height - y - 1;
+<span class="lineNum">     544 </span>                :            :     }
+<span class="lineNum">     545 </span>                :            : 
+<span class="lineNum">     546 </span>                :            :     size_t shift_first = y * width * 3;
+<span class="lineNum">     547 </span>                :            :     size_t shift_second = (y + h) * width * 3;
+<span class="lineNum">     548 </span>                :            :     int cls = classes.at(i) % colors.size();
+<span class="lineNum">     549 </span>                :            :     for (int i = x; i &lt; x + w; i++) {
+<span class="lineNum">     550 </span>                :            :       data[shift_first + i * 3] = colors.at(cls).red();
+<span class="lineNum">     551 </span>                :            :       data[shift_first + i * 3 + 1] = colors.at(cls).green();
+<span class="lineNum">     552 </span>                :            :       data[shift_first + i * 3 + 2] = colors.at(cls).blue();
+<span class="lineNum">     553 </span>                :            :       data[shift_second + i * 3] = colors.at(cls).red();
+<span class="lineNum">     554 </span>                :            :       data[shift_second + i * 3 + 1] = colors.at(cls).green();
+<span class="lineNum">     555 </span>                :            :       data[shift_second + i * 3 + 2] = colors.at(cls).blue();
+<span class="lineNum">     556 </span>                :            :     }
+<span class="lineNum">     557 </span>                :            : 
+<span class="lineNum">     558 </span>                :            :     shift_first = x * 3;
+<span class="lineNum">     559 </span>                :            :     shift_second = (x + w) * 3;
+<span class="lineNum">     560 </span>                :            :     for (int i = y; i &lt; y + h; i++) {
+<span class="lineNum">     561 </span>                :            :       data[shift_first + i * width * 3] = colors.at(cls).red();
+<span class="lineNum">     562 </span>                :            :       data[shift_first + i * width * 3 + 1] = colors.at(cls).green();
+<span class="lineNum">     563 </span>                :            :       data[shift_first + i * width * 3 + 2] = colors.at(cls).blue();
+<span class="lineNum">     564 </span>                :            :       data[shift_second + i * width * 3] = colors.at(cls).red();
+<span class="lineNum">     565 </span>                :            :       data[shift_second + i * width * 3 + 1] = colors.at(cls).green();
+<span class="lineNum">     566 </span>                :            :       data[shift_second + i * width * 3 + 2] = colors.at(cls).blue();
+<span class="lineNum">     567 </span>                :            :     }
+<span class="lineNum">     568 </span>                :            :   }
+<span class="lineNum">     569 </span>                :            : }
+<span class="lineNum">     570 </span>                :            : 
+<span class="lineNum">     571 </span>                :            : /**
+<span class="lineNum">     572 </span>                :            :  * Write output data to image
+<span class="lineNum">     573 </span>                :            :  * \param name - image name
+<span class="lineNum">     574 </span>                :            :  * \param data - output data
+<span class="lineNum">     575 </span>                :            :  * \param classesNum - the number of classes
+<span class="lineNum">     576 </span>                :            :  * \return false if error else true
+<span class="lineNum">     577 </span>                :            :  */
+<span class="lineNum">     578 </span>                :            : 
+<span class="lineNum">     579 </span>                :            : static UNUSED bool writeOutputBmp(
+<span class="lineNum">     580 </span>                :            :   unsigned char * data, size_t height, size_t width,
+<span class="lineNum">     581 </span>                :            :   std::ostream &amp; outFile)
+<span class="lineNum">     582 </span>                :            : {
+<span class="lineNum">     583 </span>                :            :   unsigned char file[14] = {
+<span class="lineNum">     584 </span>                :            :     'B', 'M',            // magic
+<span class="lineNum">     585 </span>                :            :     0, 0, 0, 0,          // size in bytes
+<span class="lineNum">     586 </span>                :            :     0, 0,                // app data
+<span class="lineNum">     587 </span>                :            :     0, 0,                // app data
+<span class="lineNum">     588 </span>                :            :     40 + 14, 0, 0, 0     // start of data offset
+<span class="lineNum">     589 </span>                :            :   };
+<span class="lineNum">     590 </span>                :            :   unsigned char info[40] = {
+<span class="lineNum">     591 </span>                :            :     40, 0, 0, 0,       // info hd size
+<span class="lineNum">     592 </span>                :            :     0, 0, 0, 0,        // width
+<span class="lineNum">     593 </span>                :            :     0, 0, 0, 0,        // height
+<span class="lineNum">     594 </span>                :            :     1, 0,              // number color planes
+<span class="lineNum">     595 </span>                :            :     24, 0,             // bits per pixel
+<span class="lineNum">     596 </span>                :            :     0, 0, 0, 0,        // compression is none
+<span class="lineNum">     597 </span>                :            :     0, 0, 0, 0,        // image bits size
+<span class="lineNum">     598 </span>                :            :     0x13, 0x0B, 0, 0,  // horz resolution in pixel / m
+<span class="lineNum">     599 </span>                :            :     0x13, 0x0B, 0, 0,  // vert resolution (0x03C3 = 96 dpi, 0x0B13 = 72 dpi)
+<span class="lineNum">     600 </span>                :            :     0, 0, 0, 0,        // #colors in palette
+<span class="lineNum">     601 </span>                :            :     0, 0, 0, 0,        // #important colors
+<span class="lineNum">     602 </span>                :            :   };
+<span class="lineNum">     603 </span>                :            : 
+<span class="lineNum">     604 </span>                :            :   if (height &gt; (size_t)std::numeric_limits&lt;int32_t&gt;::max ||
+<span class="lineNum">     605 </span>                :            :     width &gt; (size_t)std::numeric_limits&lt;int32_t&gt;::max)
+<span class="lineNum">     606 </span>                :            :   {
+<span class="lineNum">     607 </span>                :            :     THROW_IE_EXCEPTION &lt;&lt; &quot;File size is too big: &quot; &lt;&lt; height &lt;&lt; &quot; X &quot; &lt;&lt; width;
+<span class="lineNum">     608 </span>                :            :   }
+<span class="lineNum">     609 </span>                :            : 
+<span class="lineNum">     610 </span>                :            :   int padSize = static_cast&lt;int&gt;(4 - (width * 3) % 4) % 4;
+<span class="lineNum">     611 </span>                :            :   int sizeData = static_cast&lt;int&gt;(width * height * 3 + height * padSize);
+<span class="lineNum">     612 </span>                :            :   int sizeAll = sizeData + sizeof(file) + sizeof(info);
+<span class="lineNum">     613 </span>                :            : 
+<span class="lineNum">     614 </span>                :            :   file[2] = (unsigned char)(sizeAll);
+<span class="lineNum">     615 </span>                :            :   file[3] = (unsigned char)(sizeAll &gt;&gt; 8);
+<span class="lineNum">     616 </span>                :            :   file[4] = (unsigned char)(sizeAll &gt;&gt; 16);
+<span class="lineNum">     617 </span>                :            :   file[5] = (unsigned char)(sizeAll &gt;&gt; 24);
+<span class="lineNum">     618 </span>                :            : 
+<span class="lineNum">     619 </span>                :            :   info[4] = (unsigned char)(width);
+<span class="lineNum">     620 </span>                :            :   info[5] = (unsigned char)(width &gt;&gt; 8);
+<span class="lineNum">     621 </span>                :            :   info[6] = (unsigned char)(width &gt;&gt; 16);
+<span class="lineNum">     622 </span>                :            :   info[7] = (unsigned char)(width &gt;&gt; 24);
+<span class="lineNum">     623 </span>                :            : 
+<span class="lineNum">     624 </span>                :            :   int32_t negativeHeight = -(int32_t)height;
+<span class="lineNum">     625 </span>                :            :   info[8] = (unsigned char)(negativeHeight);
+<span class="lineNum">     626 </span>                :            :   info[9] = (unsigned char)(negativeHeight &gt;&gt; 8);
+<span class="lineNum">     627 </span>                :            :   info[10] = (unsigned char)(negativeHeight &gt;&gt; 16);
+<span class="lineNum">     628 </span>                :            :   info[11] = (unsigned char)(negativeHeight &gt;&gt; 24);
+<span class="lineNum">     629 </span>                :            : 
+<span class="lineNum">     630 </span>                :            :   info[20] = (unsigned char)(sizeData);
+<span class="lineNum">     631 </span>                :            :   info[21] = (unsigned char)(sizeData &gt;&gt; 8);
+<span class="lineNum">     632 </span>                :            :   info[22] = (unsigned char)(sizeData &gt;&gt; 16);
+<span class="lineNum">     633 </span>                :            :   info[23] = (unsigned char)(sizeData &gt;&gt; 24);
+<span class="lineNum">     634 </span>                :            : 
+<span class="lineNum">     635 </span>                :            :   outFile.write(reinterpret_cast&lt;char *&gt;(file), sizeof(file));
+<span class="lineNum">     636 </span>                :            :   outFile.write(reinterpret_cast&lt;char *&gt;(info), sizeof(info));
+<span class="lineNum">     637 </span>                :            : 
+<span class="lineNum">     638 </span>                :            :   unsigned char pad[3] = {0, 0, 0};
+<span class="lineNum">     639 </span>                :            : 
+<span class="lineNum">     640 </span>                :            :   for (size_t y = 0; y &lt; height; y++) {
+<span class="lineNum">     641 </span>                :            :     for (size_t x = 0; x &lt; width; x++) {
+<span class="lineNum">     642 </span>                :            :       unsigned char pixel[3];
+<span class="lineNum">     643 </span>                :            :       pixel[0] = data[y * width * 3 + x * 3];
+<span class="lineNum">     644 </span>                :            :       pixel[1] = data[y * width * 3 + x * 3 + 1];
+<span class="lineNum">     645 </span>                :            :       pixel[2] = data[y * width * 3 + x * 3 + 2];
+<span class="lineNum">     646 </span>                :            :       outFile.write(reinterpret_cast&lt;char *&gt;(pixel), 3);
+<span class="lineNum">     647 </span>                :            :     }
+<span class="lineNum">     648 </span>                :            :     outFile.write(reinterpret_cast&lt;char *&gt;(pad), padSize);
+<span class="lineNum">     649 </span>                :            :   }
+<span class="lineNum">     650 </span>                :            : 
+<span class="lineNum">     651 </span>                :            :   return true;
+<span class="lineNum">     652 </span>                :            : }
+<span class="lineNum">     653 </span>                :            : 
+<span class="lineNum">     654 </span>                :            : inline double getDurationOf(std::function&lt;void()&gt; func)
+<span class="lineNum">     655 </span>                :            : {
+<span class="lineNum">     656 </span>                :            :   auto t0 = std::chrono::high_resolution_clock::now();
+<span class="lineNum">     657 </span>                :            :   func();
+<span class="lineNum">     658 </span>                :            :   auto t1 = std::chrono::high_resolution_clock::now();
+<span class="lineNum">     659 </span>                :            :   std::chrono::duration&lt;float&gt; fs = t1 - t0;
+<span class="lineNum">     660 </span>                :            :   return std::chrono::duration_cast&lt;std::chrono::duration&lt;double, std::ratio&lt;1, 1000&gt;&gt;&gt;(fs).count();
+<span class="lineNum">     661 </span>                :            : }
+<span class="lineNum">     662 </span>                :            : 
+<span class="lineNum">     663 </span>                :            : static UNUSED void printPerformanceCounts(
+<span class="lineNum">     664 </span>                :            :   const std::map&lt;std::string, InferenceEngine::InferenceEngineProfileInfo&gt; &amp; performanceMap,
+<span class="lineNum">     665 </span>                :            :   std::ostream &amp; stream, bool bshowHeader = true)
+<span class="lineNum">     666 </span>                :            : {
+<span class="lineNum">     667 </span>                :            :   int64_t totalTime = 0;
+<span class="lineNum">     668 </span>                :            :   // Print performance counts
+<span class="lineNum">     669 </span>                :            :   if (bshowHeader) {
+<span class="lineNum">     670 </span>                :            :     stream &lt;&lt; std::endl &lt;&lt; &quot;performance counts:&quot; &lt;&lt; std::endl &lt;&lt; std::endl;
+<span class="lineNum">     671 </span>                :            :   }
+<span class="lineNum">     672 </span>                :            :   for (const auto &amp; it : performanceMap) {
+<span class="lineNum">     673 </span>                :            :     std::string toPrint(it.first);
+<span class="lineNum">     674 </span>                :            :     const int maxLayerName = 30;
+<span class="lineNum">     675 </span>                :            : 
+<span class="lineNum">     676 </span>                :            :     if (it.first.length() &gt;= maxLayerName) {
+<span class="lineNum">     677 </span>                :            :       toPrint = it.first.substr(0, maxLayerName - 4);
+<span class="lineNum">     678 </span>                :            :       toPrint += &quot;...&quot;;
+<span class="lineNum">     679 </span>                :            :     }
+<span class="lineNum">     680 </span>                :            : 
+<span class="lineNum">     681 </span>                :            :     stream &lt;&lt; std::setw(maxLayerName) &lt;&lt; std::left &lt;&lt; toPrint;
+<span class="lineNum">     682 </span>                :            :     switch (it.second.status) {
+<span class="lineNum">     683 </span>                :            :       case InferenceEngine::InferenceEngineProfileInfo::EXECUTED:
+<span class="lineNum">     684 </span>                :            :         stream &lt;&lt; std::setw(15) &lt;&lt; std::left &lt;&lt; &quot;EXECUTED&quot;;
+<span class="lineNum">     685 </span>                :            :         break;
+<span class="lineNum">     686 </span>                :            :       case InferenceEngine::InferenceEngineProfileInfo::NOT_RUN:
+<span class="lineNum">     687 </span>                :            :         stream &lt;&lt; std::setw(15) &lt;&lt; std::left &lt;&lt; &quot;NOT_RUN&quot;;
+<span class="lineNum">     688 </span>                :            :         break;
+<span class="lineNum">     689 </span>                :            :       case InferenceEngine::InferenceEngineProfileInfo::OPTIMIZED_OUT:
+<span class="lineNum">     690 </span>                :            :         stream &lt;&lt; std::setw(15) &lt;&lt; std::left &lt;&lt; &quot;OPTIMIZED_OUT&quot;;
+<span class="lineNum">     691 </span>                :            :         break;
+<span class="lineNum">     692 </span>                :            :     }
+<span class="lineNum">     693 </span>                :            :     stream &lt;&lt; std::setw(30) &lt;&lt; std::left &lt;&lt; &quot;layerType: &quot; + std::string(it.second.layer_type) + &quot; &quot;;
+<span class="lineNum">     694 </span>                :            :     stream &lt;&lt; std::setw(20) &lt;&lt; std::left &lt;&lt; &quot;realTime: &quot; + std::to_string(it.second.realTime_uSec);
+<span class="lineNum">     695 </span>                :            :     stream &lt;&lt; std::setw(20) &lt;&lt; std::left &lt;&lt; &quot; cpu: &quot; + std::to_string(it.second.cpu_uSec);
+<span class="lineNum">     696 </span>                :            :     stream &lt;&lt; &quot; execType: &quot; &lt;&lt; it.second.exec_type &lt;&lt; std::endl;
+<span class="lineNum">     697 </span>                :            :     if (it.second.realTime_uSec &gt; 0) {
+<span class="lineNum">     698 </span>                :            :       totalTime += it.second.realTime_uSec;
+<span class="lineNum">     699 </span>                :            :     }
+<span class="lineNum">     700 </span>                :            :   }
+<span class="lineNum">     701 </span>                :            :   stream &lt;&lt; std::setw(20) &lt;&lt; std::left &lt;&lt; &quot;Total time: &quot; + std::to_string(totalTime) &lt;&lt;
+<span class="lineNum">     702 </span>                :            :     &quot; microseconds&quot; &lt;&lt; std::endl;
+<span class="lineNum">     703 </span>                :            : }
+<span class="lineNum">     704 </span>                :            : 
+<span class="lineNum">     705 </span>                :            : static UNUSED void printPerformanceCounts(
+<span class="lineNum">     706 </span>                :            :   InferenceEngine::InferRequest request,
+<span class="lineNum">     707 </span>                :            :   std::ostream &amp; stream)
+<span class="lineNum">     708 </span>                :            : {
+<span class="lineNum">     709 </span>                :            :   auto perfomanceMap = request.GetPerformanceCounts();
+<span class="lineNum">     710 </span>                :            :   printPerformanceCounts(perfomanceMap, stream);
+<span class="lineNum">     711 </span>                :            : }
+<span class="lineNum">     712 </span>                :            : 
+<span class="lineNum">     713 </span>                :            : /**
+<span class="lineNum">     714 </span>                :            :  * @deprecated
+<span class="lineNum">     715 </span>                :            :  */
+<span class="lineNum">     716 </span>                :            : static UNUSED void printPerformanceCountsPlugin(
+<span class="lineNum">     717 </span>                :            :   InferenceEngine::InferenceEnginePluginPtr plugin,
+<span class="lineNum">     718 </span>                :            :   std::ostream &amp; stream)
+<span class="lineNum">     719 </span>                :            : {
+<span class="lineNum">     720 </span>                :            :   std::map&lt;std::string, InferenceEngine::InferenceEngineProfileInfo&gt; perfomanceMap;
+<span class="lineNum">     721 </span>                :            :   plugin-&gt;GetPerformanceCounts(perfomanceMap, nullptr);
+<span class="lineNum">     722 </span>                :            :   printPerformanceCounts(perfomanceMap, stream);
+<span class="lineNum">     723 </span>                :            : }
+<span class="lineNum">     724 </span>                :            : 
+<span class="lineNum">     725 </span>                :            : /**
+<span class="lineNum">     726 </span>                :            :  * @brief This class represents an object that is found by an object detection net
+<span class="lineNum">     727 </span>                :            :  */
+<span class="lineNum">     728 </span>                :            : class DetectedObject
+<span class="lineNum">     729 </span>                :            : {
+<span class="lineNum">     730 </span>                :            : public:
+<span class="lineNum">     731 </span>                :            :   int objectType;
+<span class="lineNum">     732 </span>                :            :   float xmin, xmax, ymin, ymax, prob;
+<span class="lineNum">     733 </span>                :            :   bool difficult;
+<span class="lineNum">     734 </span>                :            : 
+<span class="lineNum">     735 </span>                :            :   DetectedObject(
+<span class="lineNum">     736 </span>                :            :     int objectType, float xmin, float ymin, float xmax, float ymax, float prob,
+<span class="lineNum">     737 </span>                :            :     bool difficult = false)
+<span class="lineNum">     738 </span>                :            :   : objectType(objectType),
+<span class="lineNum">     739 </span>                :            :     xmin(xmin),
+<span class="lineNum">     740 </span>                :            :     xmax(xmax),
+<span class="lineNum">     741 </span>                :            :     ymin(ymin),
+<span class="lineNum">     742 </span>                :            :     ymax(ymax),
+<span class="lineNum">     743 </span>                :            :     prob(prob),
+<span class="lineNum">     744 </span>                :            :     difficult(difficult)
+<span class="lineNum">     745 </span>                :            :   {
+<span class="lineNum">     746 </span>                :            :   }
+<span class="lineNum">     747 </span>                :            : 
+<span class="lineNum">     748 </span>                :            :   DetectedObject(const DetectedObject &amp; other) = default;
+<span class="lineNum">     749 </span>                :            : 
+<span class="lineNum">     750 </span>                :            :   static float ioU(const DetectedObject &amp; detectedObject1_, const DetectedObject &amp; detectedObject2_)
+<span class="lineNum">     751 </span>                :            :   {
+<span class="lineNum">     752 </span>                :            :     // Add small space to eliminate empty squares
+<span class="lineNum">     753 </span>                :            :     float epsilon = 0;  // 1e-5f;
+<span class="lineNum">     754 </span>                :            : 
+<span class="lineNum">     755 </span>                :            :     DetectedObject detectedObject1(detectedObject1_.objectType, (detectedObject1_.xmin - epsilon),
+<span class="lineNum">     756 </span>                :            :       (detectedObject1_.ymin - epsilon),
+<span class="lineNum">     757 </span>                :            :       (detectedObject1_.xmax - epsilon),
+<span class="lineNum">     758 </span>                :            :       (detectedObject1_.ymax - epsilon), detectedObject1_.prob);
+<span class="lineNum">     759 </span>                :            :     DetectedObject detectedObject2(detectedObject2_.objectType, (detectedObject2_.xmin + epsilon),
+<span class="lineNum">     760 </span>                :            :       (detectedObject2_.ymin + epsilon), (detectedObject2_.xmax),
+<span class="lineNum">     761 </span>                :            :       (detectedObject2_.ymax), detectedObject2_.prob);
+<span class="lineNum">     762 </span>                :            : 
+<span class="lineNum">     763 </span>                :            :     if (detectedObject1.objectType != detectedObject2.objectType) {
+<span class="lineNum">     764 </span>                :            :       // objects are different, so the result is 0
+<span class="lineNum">     765 </span>                :            :       return 0.0f;
+<span class="lineNum">     766 </span>                :            :     }
+<span class="lineNum">     767 </span>                :            : 
+<span class="lineNum">     768 </span>                :            :     if (detectedObject1.xmax &lt; detectedObject1.xmin) {
+<span class="lineNum">     769 </span>                :            :       return 0.0;
+<span class="lineNum">     770 </span>                :            :     }
+<span class="lineNum">     771 </span>                :            :     if (detectedObject1.ymax &lt; detectedObject1.ymin) {
+<span class="lineNum">     772 </span>                :            :       return 0.0;
+<span class="lineNum">     773 </span>                :            :     }
+<span class="lineNum">     774 </span>                :            :     if (detectedObject2.xmax &lt; detectedObject2.xmin) {
+<span class="lineNum">     775 </span>                :            :       return 0.0;
+<span class="lineNum">     776 </span>                :            :     }
+<span class="lineNum">     777 </span>                :            :     if (detectedObject2.ymax &lt; detectedObject2.ymin) {
+<span class="lineNum">     778 </span>                :            :       return 0.0;
+<span class="lineNum">     779 </span>                :            :     }
+<span class="lineNum">     780 </span>                :            : 
+<span class="lineNum">     781 </span>                :            :     float xmin = (std::max)(detectedObject1.xmin, detectedObject2.xmin);
+<span class="lineNum">     782 </span>                :            :     float ymin = (std::max)(detectedObject1.ymin, detectedObject2.ymin);
+<span class="lineNum">     783 </span>                :            :     float xmax = (std::min)(detectedObject1.xmax, detectedObject2.xmax);
+<span class="lineNum">     784 </span>                :            :     float ymax = (std::min)(detectedObject1.ymax, detectedObject2.ymax);
+<span class="lineNum">     785 </span>                :            : 
+<span class="lineNum">     786 </span>                :            :     // Caffe adds 1 to every length if the box isn't normalized. So do we...
+<span class="lineNum">     787 </span>                :            :     float addendum;
+<span class="lineNum">     788 </span>                :            :     if (xmax &gt; 1 || ymax &gt; 1) {
+<span class="lineNum">     789 </span>                :            :       addendum = 1;
+<span class="lineNum">     790 </span>                :            :     } else {
+<span class="lineNum">     791 </span>                :            :       addendum = 0;
+<span class="lineNum">     792 </span>                :            :     }
+<span class="lineNum">     793 </span>                :            : 
+<span class="lineNum">     794 </span>                :            :     // intersection
+<span class="lineNum">     795 </span>                :            :     float intr;
+<span class="lineNum">     796 </span>                :            :     if ((xmax &gt;= xmin) &amp;&amp; (ymax &gt;= ymin)) {
+<span class="lineNum">     797 </span>                :            :       intr = (addendum + xmax - xmin) * (addendum + ymax - ymin);
+<span class="lineNum">     798 </span>                :            :     } else {
+<span class="lineNum">     799 </span>                :            :       intr = 0.0f;
+<span class="lineNum">     800 </span>                :            :     }
+<span class="lineNum">     801 </span>                :            : 
+<span class="lineNum">     802 </span>                :            :     // union
+<span class="lineNum">     803 </span>                :            :     float square1 = (addendum + detectedObject1.xmax - detectedObject1.xmin) *
+<span class="lineNum">     804 </span>                :            :       (addendum + detectedObject1.ymax - detectedObject1.ymin);
+<span class="lineNum">     805 </span>                :            :     float square2 = (addendum + detectedObject2.xmax - detectedObject2.xmin) *
+<span class="lineNum">     806 </span>                :            :       (addendum + detectedObject2.ymax - detectedObject2.ymin);
+<span class="lineNum">     807 </span>                :            : 
+<span class="lineNum">     808 </span>                :            :     float unn = square1 + square2 - intr;
+<span class="lineNum">     809 </span>                :            : 
+<span class="lineNum">     810 </span>                :            :     return static_cast&lt;float&gt;(intr) / unn;
+<span class="lineNum">     811 </span>                :            :   }
+<span class="lineNum">     812 </span>                :            : 
+<span class="lineNum">     813 </span>                :            :   DetectedObject scale(float scale_x, float scale_y) const
+<span class="lineNum">     814 </span>                :            :   {
+<span class="lineNum">     815 </span>                :            :     return DetectedObject(objectType, xmin * scale_x, ymin * scale_y, xmax * scale_x,
+<span class="lineNum">     816 </span>                :            :              ymax * scale_y, prob, difficult);
+<span class="lineNum">     817 </span>                :            :   }
+<span class="lineNum">     818 </span>                :            : };
+<span class="lineNum">     819 </span>                :            : 
+<span class="lineNum">     820 </span>                :            : class ImageDescription
+<span class="lineNum">     821 </span>                :            : {
+<span class="lineNum">     822 </span>                :            : public:
+<span class="lineNum">     823 </span>                :            :   const std::list&lt;DetectedObject&gt; alist;
+<span class="lineNum">     824 </span>                :            :   const bool check_probs;
+<span class="lineNum">     825 </span>                :            : 
+<span class="lineNum">     826 </span>                :            :   explicit ImageDescription(const std::list&lt;DetectedObject&gt; &amp; alist, bool check_probs = false)
+<span class="lineNum">     827 </span>                :            :   : alist(alist), check_probs(check_probs)
+<span class="lineNum">     828 </span>                :            :   {
+<span class="lineNum">     829 </span>                :            :   }
+<span class="lineNum">     830 </span>                :            : 
+<span class="lineNum">     831 </span>                :            :   static float ioUMultiple(
+<span class="lineNum">     832 </span>                :            :     const ImageDescription &amp; detectedObjects,
+<span class="lineNum">     833 </span>                :            :     const ImageDescription &amp; desiredObjects)
+<span class="lineNum">     834 </span>                :            :   {
+<span class="lineNum">     835 </span>                :            :     const ImageDescription * detectedObjectsSmall, * detectedObjectsBig;
+<span class="lineNum">     836 </span>                :            :     bool check_probs = desiredObjects.check_probs;
+<span class="lineNum">     837 </span>                :            : 
+<span class="lineNum">     838 </span>                :            :     if (detectedObjects.alist.size() &lt; desiredObjects.alist.size()) {
+<span class="lineNum">     839 </span>                :            :       detectedObjectsSmall = &amp;detectedObjects;
+<span class="lineNum">     840 </span>                :            :       detectedObjectsBig = &amp;desiredObjects;
+<span class="lineNum">     841 </span>                :            :     } else {
+<span class="lineNum">     842 </span>                :            :       detectedObjectsSmall = &amp;desiredObjects;
+<span class="lineNum">     843 </span>                :            :       detectedObjectsBig = &amp;detectedObjects;
+<span class="lineNum">     844 </span>                :            :     }
+<span class="lineNum">     845 </span>                :            : 
+<span class="lineNum">     846 </span>                :            :     std::list&lt;DetectedObject&gt; doS = detectedObjectsSmall-&gt;alist;
+<span class="lineNum">     847 </span>                :            :     std::list&lt;DetectedObject&gt; doB = detectedObjectsBig-&gt;alist;
+<span class="lineNum">     848 </span>                :            : 
+<span class="lineNum">     849 </span>                :            :     float fullScore = 0.0f;
+<span class="lineNum">     850 </span>                :            :     while (doS.size() &gt; 0) {
+<span class="lineNum">     851 </span>                :            :       float score = 0.0f;
+<span class="lineNum">     852 </span>                :            :       std::list&lt;DetectedObject&gt;::iterator bestJ = doB.end();
+<span class="lineNum">     853 </span>                :            :       for (auto j = doB.begin(); j != doB.end(); j++) {
+<span class="lineNum">     854 </span>                :            :         float curscore = DetectedObject::ioU(*doS.begin(), *j);
+<span class="lineNum">     855 </span>                :            :         if (score &lt; curscore) {
+<span class="lineNum">     856 </span>                :            :           score = curscore;
+<span class="lineNum">     857 </span>                :            :           bestJ = j;
+<span class="lineNum">     858 </span>                :            :         }
+<span class="lineNum">     859 </span>                :            :       }
+<span class="lineNum">     860 </span>                :            : 
+<span class="lineNum">     861 </span>                :            :       float coeff = 1.0;
+<span class="lineNum">     862 </span>                :            :       if (check_probs) {
+<span class="lineNum">     863 </span>                :            :         if (bestJ != doB.end()) {
+<span class="lineNum">     864 </span>                :            :           DetectedObject test = *bestJ;
+<span class="lineNum">     865 </span>                :            :           DetectedObject test1 = *doS.begin();
+<span class="lineNum">     866 </span>                :            :           float mn = std::min((*bestJ).prob, (*doS.begin()).prob);
+<span class="lineNum">     867 </span>                :            :           float mx = std::max((*bestJ).prob, (*doS.begin()).prob);
+<span class="lineNum">     868 </span>                :            : 
+<span class="lineNum">     869 </span>                :            :           coeff = mn / mx;
+<span class="lineNum">     870 </span>                :            :         }
+<span class="lineNum">     871 </span>                :            :       }
+<span class="lineNum">     872 </span>                :            : 
+<span class="lineNum">     873 </span>                :            :       doS.pop_front();
+<span class="lineNum">     874 </span>                :            :       if (bestJ != doB.end()) {
+<span class="lineNum">     875 </span>                :            :         doB.erase(bestJ);
+<span class="lineNum">     876 </span>                :            :       }
+<span class="lineNum">     877 </span>                :            :       fullScore += coeff * score;
+<span class="lineNum">     878 </span>                :            :     }
+<span class="lineNum">     879 </span>                :            :     fullScore /= detectedObjectsBig-&gt;alist.size();
+<span class="lineNum">     880 </span>                :            : 
+<span class="lineNum">     881 </span>                :            :     return fullScore;
+<span class="lineNum">     882 </span>                :            :   }
+<span class="lineNum">     883 </span>                :            : 
+<span class="lineNum">     884 </span>                :            :   ImageDescription scale(float scale_x, float scale_y) const
+<span class="lineNum">     885 </span>                :            :   {
+<span class="lineNum">     886 </span>                :            :     std::list&lt;DetectedObject&gt; slist;
+<span class="lineNum">     887 </span>                :            :     for (auto &amp; dob : alist) {
+<span class="lineNum">     888 </span>                :            :       slist.push_back(dob.scale(scale_x, scale_y));
+<span class="lineNum">     889 </span>                :            :     }
+<span class="lineNum">     890 </span>                :            :     return ImageDescription(slist, check_probs);
+<span class="lineNum">     891 </span>                :            :   }
+<span class="lineNum">     892 </span>                :            : };
+<span class="lineNum">     893 </span>                :            : 
+<span class="lineNum">     894 </span>                :            : struct AveragePrecisionCalculator
+<span class="lineNum">     895 </span>                :            : {
+<span class="lineNum">     896 </span>                :            : private:
+<span class="lineNum">     897 </span>                :            :   enum MatchKind
+<span class="lineNum">     898 </span>                :            :   {
+<span class="lineNum">     899 </span>                :            :     TruePositive,
+<span class="lineNum">     900 </span>                :            :     FalsePositive
+<span class="lineNum">     901 </span>                :            :   };
+<span class="lineNum">     902 </span>                :            : 
+<span class="lineNum">     903 </span>                :            :   /**
+<span class="lineNum">     904 </span>                :            :    * Here we count all TP and FP matches for all the classes in all the images.
+<span class="lineNum">     905 </span>                :            :    */
+<span class="lineNum">     906 </span>                :            :   std::map&lt;int, std::vector&lt;std::pair&lt;double, MatchKind&gt;&gt;&gt; matches;
+<span class="lineNum">     907 </span>                :            : 
+<span class="lineNum">     908 </span>                :            :   std::map&lt;int, int&gt; N;
+<span class="lineNum">     909 </span>                :            : 
+<span class="lineNum">     910 </span>                :            :   double threshold;
+<span class="lineNum">     911 </span>                :            : 
+<span class="lineNum">     912 </span>                :            :   static bool SortBBoxDescend(const DetectedObject &amp; bbox1, const DetectedObject &amp; bbox2)
+<span class="lineNum">     913 </span>                :            :   {
+<span class="lineNum">     914 </span>                :            :     return bbox1.prob &gt; bbox2.prob;
+<span class="lineNum">     915 </span>                :            :   }
+<span class="lineNum">     916 </span>                :            : 
+<span class="lineNum">     917 </span>                :            :   static bool SortPairDescend(
+<span class="lineNum">     918 </span>                :            :     const std::pair&lt;double, MatchKind&gt; &amp; p1,
+<span class="lineNum">     919 </span>                :            :     const std::pair&lt;double, MatchKind&gt; &amp; p2)
+<span class="lineNum">     920 </span>                :            :   {
+<span class="lineNum">     921 </span>                :            :     return p1.first &gt; p2.first;
+<span class="lineNum">     922 </span>                :            :   }
+<span class="lineNum">     923 </span>                :            : 
+<span class="lineNum">     924 </span>                :            : public:
+<span class="lineNum">     925 </span>                :            :   explicit AveragePrecisionCalculator(double threshold)
+<span class="lineNum">     926 </span>                :            :   : threshold(threshold)
+<span class="lineNum">     927 </span>                :            :   {
+<span class="lineNum">     928 </span>                :            :   }
+<span class="lineNum">     929 </span>                :            : 
+<span class="lineNum">     930 </span>                :            :   // gt_bboxes -&gt; des
+<span class="lineNum">     931 </span>                :            :   // bboxes -&gt; det
+<span class="lineNum">     932 </span>                :            : 
+<span class="lineNum">     933 </span>                :            :   void consumeImage(
+<span class="lineNum">     934 </span>                :            :     const ImageDescription &amp; detectedObjects,
+<span class="lineNum">     935 </span>                :            :     const ImageDescription &amp; desiredObjects)
+<span class="lineNum">     936 </span>                :            :   {
+<span class="lineNum">     937 </span>                :            :     // Collecting IoU values
+<span class="lineNum">     938 </span>                :            :     int tp = 0, fp = 0;
+<span class="lineNum">     939 </span>                :            : 
+<span class="lineNum">     940 </span>                :            :     std::vector&lt;bool&gt; visited(desiredObjects.alist.size(), false);
+<span class="lineNum">     941 </span>                :            :     std::vector&lt;DetectedObject&gt; bboxes{std::begin(detectedObjects.alist),
+<span class="lineNum">     942 </span>                :            :       std::end(detectedObjects.alist)};
+<span class="lineNum">     943 </span>                :            :     std::sort(bboxes.begin(), bboxes.end(), SortBBoxDescend);
+<span class="lineNum">     944 </span>                :            : 
+<span class="lineNum">     945 </span>                :            :     for (auto &amp;&amp; detObj : bboxes) {
+<span class="lineNum">     946 </span>                :            :       // Searching for the best match to this detection
+<span class="lineNum">     947 </span>                :            : 
+<span class="lineNum">     948 </span>                :            :       // Searching for desired object
+<span class="lineNum">     949 </span>                :            :       float overlap_max = -1;
+<span class="lineNum">     950 </span>                :            :       int jmax = -1;
+<span class="lineNum">     951 </span>                :            :       auto desmax = desiredObjects.alist.end();
+<span class="lineNum">     952 </span>                :            : 
+<span class="lineNum">     953 </span>                :            :       int j = 0;
+<span class="lineNum">     954 </span>                :            :       for (auto desObj = desiredObjects.alist.begin(); desObj != desiredObjects.alist.end();
+<span class="lineNum">     955 </span>                :            :         desObj++, j++)
+<span class="lineNum">     956 </span>                :            :       {
+<span class="lineNum">     957 </span>                :            :         double iou = DetectedObject::ioU(detObj, *desObj);
+<span class="lineNum">     958 </span>                :            :         if (iou &gt; overlap_max) {
+<span class="lineNum">     959 </span>                :            :           overlap_max = iou;
+<span class="lineNum">     960 </span>                :            :           jmax = j;
+<span class="lineNum">     961 </span>                :            :           desmax = desObj;
+<span class="lineNum">     962 </span>                :            :         }
+<span class="lineNum">     963 </span>                :            :       }
+<span class="lineNum">     964 </span>                :            : 
+<span class="lineNum">     965 </span>                :            :       MatchKind mk;
+<span class="lineNum">     966 </span>                :            :       if (overlap_max &gt;= threshold) {
+<span class="lineNum">     967 </span>                :            :         if (!desmax-&gt;difficult) {
+<span class="lineNum">     968 </span>                :            :           if (!visited[jmax]) {
+<span class="lineNum">     969 </span>                :            :             mk = TruePositive;
+<span class="lineNum">     970 </span>                :            :             visited[jmax] = true;
+<span class="lineNum">     971 </span>                :            :           } else {
+<span class="lineNum">     972 </span>                :            :             mk = FalsePositive;
+<span class="lineNum">     973 </span>                :            :           }
+<span class="lineNum">     974 </span>                :            :           matches[detObj.objectType].push_back(std::make_pair(detObj.prob, mk));
+<span class="lineNum">     975 </span>                :            :         }
+<span class="lineNum">     976 </span>                :            :       } else {
+<span class="lineNum">     977 </span>                :            :         mk = FalsePositive;
+<span class="lineNum">     978 </span>                :            :         matches[detObj.objectType].push_back(std::make_pair(detObj.prob, mk));
+<span class="lineNum">     979 </span>                :            :       }
+<span class="lineNum">     980 </span>                :            :     }
+<span class="lineNum">     981 </span>                :            : 
+<span class="lineNum">     982 </span>                :            :     for (auto desObj = desiredObjects.alist.begin(); desObj != desiredObjects.alist.end();
+<span class="lineNum">     983 </span>                :            :       desObj++)
+<span class="lineNum">     984 </span>                :            :     {
+<span class="lineNum">     985 </span>                :            :       if (!desObj-&gt;difficult) {
+<span class="lineNum">     986 </span>                :            :         N[desObj-&gt;objectType]++;
+<span class="lineNum">     987 </span>                :            :       }
+<span class="lineNum">     988 </span>                :            :     }
+<span class="lineNum">     989 </span>                :            :   }
+<span class="lineNum">     990 </span>                :            : 
+<span class="lineNum">     991 </span>                :            :   std::map&lt;int, double&gt; calculateAveragePrecisionPerClass() const
+<span class="lineNum">     992 </span>                :            :   {
+<span class="lineNum">     993 </span>                :            :     /**
+<span class="lineNum">     994 </span>                :            :      * Precision-to-TP curve per class (a variation of precision-to-recall curve without dividing
+<span class="lineNum">     995 </span>                :            :      * into N)
+<span class="lineNum">     996 </span>                :            :      */
+<span class="lineNum">     997 </span>                :            :     std::map&lt;int, std::map&lt;int, double&gt;&gt; precisionToTP;
+<span class="lineNum">     998 </span>                :            : 
+<span class="lineNum">     999 </span>                :            :     std::map&lt;int, double&gt; res;
+<span class="lineNum">    1000 </span>                :            : 
+<span class="lineNum">    1001 </span>                :            :     double AP = 0;
+<span class="lineNum">    1002 </span>                :            :     double q = 0;
+<span class="lineNum">    1003 </span>                :            :     for (auto m : matches) {
+<span class="lineNum">    1004 </span>                :            :       // Sorting
+<span class="lineNum">    1005 </span>                :            :       std::sort(m.second.begin(), m.second.end(), SortPairDescend);
+<span class="lineNum">    1006 </span>                :            : 
+<span class="lineNum">    1007 </span>                :            :       int clazz = m.first;
+<span class="lineNum">    1008 </span>                :            :       int TP = 0, FP = 0;
+<span class="lineNum">    1009 </span>                :            : 
+<span class="lineNum">    1010 </span>                :            :       std::vector&lt;double&gt; prec;
+<span class="lineNum">    1011 </span>                :            :       std::vector&lt;double&gt; rec;
+<span class="lineNum">    1012 </span>                :            : 
+<span class="lineNum">    1013 </span>                :            :       for (auto mm : m.second) {
+<span class="lineNum">    1014 </span>                :            :         // Here we are descending in a probability value
+<span class="lineNum">    1015 </span>                :            :         MatchKind mk = mm.second;
+<span class="lineNum">    1016 </span>                :            :         if (mk == TruePositive) {
+<span class="lineNum">    1017 </span>                :            :           TP++;
+<span class="lineNum">    1018 </span>                :            :         } else if (mk == FalsePositive) {
+<span class="lineNum">    1019 </span>                :            :           FP++;
+<span class="lineNum">    1020 </span>                :            :         }
+<span class="lineNum">    1021 </span>                :            : 
+<span class="lineNum">    1022 </span>                :            :         double precision = static_cast&lt;double&gt;(TP) / (TP + FP);
+<span class="lineNum">    1023 </span>                :            :         double recall = 0;
+<span class="lineNum">    1024 </span>                :            :         if (N.find(clazz) != N.end()) {
+<span class="lineNum">    1025 </span>                :            :           recall = static_cast&lt;double&gt;(TP) / N.at(clazz);
+<span class="lineNum">    1026 </span>                :            :         }
+<span class="lineNum">    1027 </span>                :            : 
+<span class="lineNum">    1028 </span>                :            :         prec.push_back(precision);
+<span class="lineNum">    1029 </span>                :            :         rec.push_back(recall);
+<span class="lineNum">    1030 </span>                :            :       }
+<span class="lineNum">    1031 </span>                :            : 
+<span class="lineNum">    1032 </span>                :            :       int num = rec.size();
+<span class="lineNum">    1033 </span>                :            : 
+<span class="lineNum">    1034 </span>                :            :       // 11point from Caffe
+<span class="lineNum">    1035 </span>                :            :       double ap = 0;
+<span class="lineNum">    1036 </span>                :            :       std::vector&lt;float&gt; max_precs(11, 0.);
+<span class="lineNum">    1037 </span>                :            :       int start_idx = num - 1;
+<span class="lineNum">    1038 </span>                :            :       for (int j = 10; j &gt;= 0; --j) {
+<span class="lineNum">    1039 </span>                :            :         for (int i = start_idx; i &gt;= 0; --i) {
+<span class="lineNum">    1040 </span>                :            :           if (rec[i] &lt; j / 10.) {
+<span class="lineNum">    1041 </span>                :            :             start_idx = i;
+<span class="lineNum">    1042 </span>                :            :             if (j &gt; 0) {
+<span class="lineNum">    1043 </span>                :            :               max_precs[j - 1] = max_precs[j];
+<span class="lineNum">    1044 </span>                :            :             }
+<span class="lineNum">    1045 </span>                :            :             break;
+<span class="lineNum">    1046 </span>                :            :           } else {
+<span class="lineNum">    1047 </span>                :            :             if (max_precs[j] &lt; prec[i]) {
+<span class="lineNum">    1048 </span>                :            :               max_precs[j] = prec[i];
+<span class="lineNum">    1049 </span>                :            :             }
+<span class="lineNum">    1050 </span>                :            :           }
+<span class="lineNum">    1051 </span>                :            :         }
+<span class="lineNum">    1052 </span>                :            :       }
+<span class="lineNum">    1053 </span>                :            :       for (int j = 10; j &gt;= 0; --j) {
+<span class="lineNum">    1054 </span>                :            :         ap += max_precs[j] / 11;
+<span class="lineNum">    1055 </span>                :            :       }
+<span class="lineNum">    1056 </span>                :            :       res[clazz] = ap;
+<span class="lineNum">    1057 </span>                :            :     }
+<span class="lineNum">    1058 </span>                :            : 
+<span class="lineNum">    1059 </span>                :            :     return res;
+<span class="lineNum">    1060 </span>                :            :   }
+<span class="lineNum">    1061 </span>                :            : };
+<span class="lineNum">    1062 </span>                :            : 
+<span class="lineNum">    1063 </span>                :            : /**
+<span class="lineNum">    1064 </span>                :            : * @brief Adds colored rectangles to the image
+<span class="lineNum">    1065 </span>                :            : * @param data - data where rectangles are put
+<span class="lineNum">    1066 </span>                :            : * @param height - height of the rectangle
+<span class="lineNum">    1067 </span>                :            : * @param width - width of the rectangle
+<span class="lineNum">    1068 </span>                :            : * @param detectedObjects - vector of detected objects
+<span class="lineNum">    1069 </span>                :            : */
+<span class="lineNum">    1070 </span>                :            : static UNUSED void addRectangles(
+<span class="lineNum">    1071 </span>                :            :   unsigned char * data, size_t height, size_t width,
+<span class="lineNum">    1072 </span>                :            :   std::vector&lt;DetectedObject&gt; detectedObjects)
+<span class="lineNum">    1073 </span>                :            : {
+<span class="lineNum">    1074 </span>                :            :   std::vector&lt;Color&gt; colors = {{128, 64, 128}, {232, 35, 244}, {70, 70, 70},
+<span class="lineNum">    1075 </span>                :            :     {156, 102, 102}, {153, 153, 190}, {153, 153, 153},
+<span class="lineNum">    1076 </span>                :            :     {30, 170, 250}, {0, 220, 220}, {35, 142, 107},
+<span class="lineNum">    1077 </span>                :            :     {152, 251, 152}, {180, 130, 70}, {60, 20, 220},
+<span class="lineNum">    1078 </span>                :            :     {0, 0, 255}, {142, 0, 0}, {70, 0, 0},
+<span class="lineNum">    1079 </span>                :            :     {100, 60, 0}, {90, 0, 0}, {230, 0, 0},
+<span class="lineNum">    1080 </span>                :            :     {32, 11, 119}, {0, 74, 111}, {81, 0, 81}};
+<span class="lineNum">    1081 </span>                :            : 
+<span class="lineNum">    1082 </span>                :            :   for (size_t i = 0; i &lt; detectedObjects.size(); i++) {
+<span class="lineNum">    1083 </span>                :            :     int cls = detectedObjects[i].objectType % colors.size();
+<span class="lineNum">    1084 </span>                :            : 
+<span class="lineNum">    1085 </span>                :            :     int xmin = detectedObjects[i].xmin * width;
+<span class="lineNum">    1086 </span>                :            :     int xmax = detectedObjects[i].xmax * width;
+<span class="lineNum">    1087 </span>                :            :     int ymin = detectedObjects[i].ymin * height;
+<span class="lineNum">    1088 </span>                :            :     int ymax = detectedObjects[i].ymax * height;
+<span class="lineNum">    1089 </span>                :            : 
+<span class="lineNum">    1090 </span>                :            :     size_t shift_first = ymin * width * 3;
+<span class="lineNum">    1091 </span>                :            :     size_t shift_second = ymax * width * 3;
+<span class="lineNum">    1092 </span>                :            :     for (int x = xmin; x &lt; xmax; x++) {
+<span class="lineNum">    1093 </span>                :            :       data[shift_first + x * 3] = colors.at(cls).red();
+<span class="lineNum">    1094 </span>                :            :       data[shift_first + x * 3 + 1] = colors.at(cls).green();
+<span class="lineNum">    1095 </span>                :            :       data[shift_first + x * 3 + 2] = colors.at(cls).blue();
+<span class="lineNum">    1096 </span>                :            :       data[shift_second + x * 3] = colors.at(cls).red();
+<span class="lineNum">    1097 </span>                :            :       data[shift_second + x * 3 + 1] = colors.at(cls).green();
+<span class="lineNum">    1098 </span>                :            :       data[shift_second + x * 3 + 2] = colors.at(cls).blue();
+<span class="lineNum">    1099 </span>                :            :     }
+<span class="lineNum">    1100 </span>                :            : 
+<span class="lineNum">    1101 </span>                :            :     shift_first = xmin * 3;
+<span class="lineNum">    1102 </span>                :            :     shift_second = xmax * 3;
+<span class="lineNum">    1103 </span>                :            :     for (int y = ymin; y &lt; ymax; y++) {
+<span class="lineNum">    1104 </span>                :            :       data[shift_first + y * width * 3] = colors.at(cls).red();
+<span class="lineNum">    1105 </span>                :            :       data[shift_first + y * width * 3 + 1] = colors.at(cls).green();
+<span class="lineNum">    1106 </span>                :            :       data[shift_first + y * width * 3 + 2] = colors.at(cls).blue();
+<span class="lineNum">    1107 </span>                :            :       data[shift_second + y * width * 3] = colors.at(cls).red();
+<span class="lineNum">    1108 </span>                :            :       data[shift_second + y * width * 3 + 1] = colors.at(cls).green();
+<span class="lineNum">    1109 </span>                :            :       data[shift_second + y * width * 3 + 2] = colors.at(cls).blue();
+<span class="lineNum">    1110 </span>                :            :     }
+<span class="lineNum">    1111 </span>                :            :   }
+<span class="lineNum">    1112 </span>                :            : }
+<span class="lineNum">    1113 </span>                :            : 
+<span class="lineNum">    1114 </span>                :            : #endif  // DYNAMIC_VINO_LIB__COMMON_HPP_
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.13</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

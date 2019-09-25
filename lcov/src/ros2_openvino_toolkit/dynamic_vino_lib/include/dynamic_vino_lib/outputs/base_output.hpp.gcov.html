@@ -1,0 +1,269 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - total_coverage.info - src/ros2_openvino_toolkit/dynamic_vino_lib/include/dynamic_vino_lib/outputs/base_output.hpp</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../../index.html">top level</a> - <a href="index.html">src/ros2_openvino_toolkit/dynamic_vino_lib/include/dynamic_vino_lib/outputs</a> - base_output.hpp<span style="font-size: 80%;"> (source / <a href="base_output.hpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">total_coverage.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">3</td>
+            <td class="headerCovTableEntry">42</td>
+            <td class="headerCovTableEntryLo">7.1 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-09-25 21:44:45</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">2</td>
+            <td class="headerCovTableEntry">22</td>
+            <td class="headerCovTableEntryLo">9.1 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+            | Branches:
+            <span class="coverLegendCov">+</span> taken
+            <span class="coverLegendNoCov">-</span> not taken
+            <span class="coverLegendNoCov">#</span> not executed
+</td>
+            <td></td>
+            <td class="headerItem">Branches:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntryHi">-</td>
+          </tr>
+          <tr><td><img src="../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>                :            : // Copyright (c) 2018 Intel Corporation</a>
+<span class="lineNum">       2 </span>                :            : //
+<span class="lineNum">       3 </span>                :            : // Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+<span class="lineNum">       4 </span>                :            : // you may not use this file except in compliance with the License.
+<span class="lineNum">       5 </span>                :            : // You may obtain a copy of the License at
+<span class="lineNum">       6 </span>                :            : //
+<span class="lineNum">       7 </span>                :            : //     http://www.apache.org/licenses/LICENSE-2.0
+<span class="lineNum">       8 </span>                :            : //
+<span class="lineNum">       9 </span>                :            : // Unless required by applicable law or agreed to in writing, software
+<span class="lineNum">      10 </span>                :            : // distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+<span class="lineNum">      11 </span>                :            : // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+<span class="lineNum">      12 </span>                :            : // See the License for the specific language governing permissions and
+<span class="lineNum">      13 </span>                :            : // limitations under the License.
+<span class="lineNum">      14 </span>                :            : 
+<span class="lineNum">      15 </span>                :            : /**
+<span class="lineNum">      16 </span>                :            :  * @brief A header file with declaration for HeadPoseDetectionModel Class
+<span class="lineNum">      17 </span>                :            :  * @file head_pose_detection_model.h
+<span class="lineNum">      18 </span>                :            :  */
+<span class="lineNum">      19 </span>                :            : 
+<span class="lineNum">      20 </span>                :            : #ifndef DYNAMIC_VINO_LIB__OUTPUTS__BASE_OUTPUT_HPP_
+<span class="lineNum">      21 </span>                :            : #define DYNAMIC_VINO_LIB__OUTPUTS__BASE_OUTPUT_HPP_
+<span class="lineNum">      22 </span>                :            : 
+<span class="lineNum">      23 </span>                :            : #include &lt;object_msgs/msg/object_in_box.hpp&gt;
+<span class="lineNum">      24 </span>                :            : #include &lt;object_msgs/msg/objects_in_boxes.hpp&gt;
+<span class="lineNum">      25 </span>                :            : #include &lt;people_msgs/msg/emotion.hpp&gt;
+<span class="lineNum">      26 </span>                :            : #include &lt;people_msgs/msg/emotions_stamped.hpp&gt;
+<span class="lineNum">      27 </span>                :            : #include &lt;people_msgs/msg/age_gender.hpp&gt;
+<span class="lineNum">      28 </span>                :            : #include &lt;people_msgs/msg/age_gender_stamped.hpp&gt;
+<span class="lineNum">      29 </span>                :            : #include &lt;people_msgs/msg/head_pose.hpp&gt;
+<span class="lineNum">      30 </span>                :            : #include &lt;people_msgs/msg/head_pose_stamped.hpp&gt;
+<span class="lineNum">      31 </span>                :            : #include &lt;people_msgs/srv/age_gender_srv.hpp&gt;
+<span class="lineNum">      32 </span>                :            : #include &lt;people_msgs/srv/emotion_srv.hpp&gt;
+<span class="lineNum">      33 </span>                :            : #include &lt;people_msgs/srv/people.hpp&gt;
+<span class="lineNum">      34 </span>                :            : #include &lt;people_msgs/srv/head_pose_srv.hpp&gt;
+<span class="lineNum">      35 </span>                :            : #include &lt;object_msgs/srv/detect_object.hpp&gt;
+<span class="lineNum">      36 </span>                :            : #include &lt;string&gt;
+<span class="lineNum">      37 </span>                :            : #include &lt;vector&gt;
+<span class="lineNum">      38 </span>                :            : #include &lt;memory&gt;
+<span class="lineNum">      39 </span>                :            : 
+<span class="lineNum">      40 </span>                :            : #include &quot;dynamic_vino_lib/inferences/age_gender_detection.hpp&quot;
+<span class="lineNum">      41 </span>                :            : #include &quot;dynamic_vino_lib/inferences/base_inference.hpp&quot;
+<span class="lineNum">      42 </span>                :            : #include &quot;dynamic_vino_lib/inferences/emotions_detection.hpp&quot;
+<span class="lineNum">      43 </span>                :            : #include &quot;dynamic_vino_lib/inferences/face_detection.hpp&quot;
+<span class="lineNum">      44 </span>                :            : #include &quot;dynamic_vino_lib/inferences/head_pose_detection.hpp&quot;
+<span class="lineNum">      45 </span>                :            : #include &quot;dynamic_vino_lib/inferences/object_detection.hpp&quot;
+<span class="lineNum">      46 </span>                :            : #include &quot;dynamic_vino_lib/inferences/object_segmentation.hpp&quot;
+<span class="lineNum">      47 </span>                :            : #include &quot;dynamic_vino_lib/inferences/person_reidentification.hpp&quot;
+<span class="lineNum">      48 </span>                :            : #include &quot;dynamic_vino_lib/inferences/person_attribs_detection.hpp&quot;
+<span class="lineNum">      49 </span>                :            : #include &quot;dynamic_vino_lib/inferences/landmarks_detection.hpp&quot;
+<span class="lineNum">      50 </span>                :            : #include &quot;dynamic_vino_lib/inferences/face_reidentification.hpp&quot;
+<span class="lineNum">      51 </span>                :            : #include &quot;dynamic_vino_lib/inferences/vehicle_attribs_detection.hpp&quot;
+<span class="lineNum">      52 </span>                :            : #include &quot;dynamic_vino_lib/inferences/license_plate_detection.hpp&quot;
+<span class="lineNum">      53 </span>                :            : #include &quot;opencv2/opencv.hpp&quot;
+<span class="lineNum">      54 </span>                :            : 
+<span class="lineNum">      55 </span>                :            : class Pipeline;
+<span class="lineNum">      56 </span>                :            : namespace Outputs
+<span class="lineNum">      57 </span>                :            : {
+<span class="lineNum">      58 </span>                :            : /**
+<span class="lineNum">      59 </span>                :            :  * @class BaseOutput
+<span class="lineNum">      60 </span>                :            :  * @brief This class is a base class for various output devices. It employs
+<span class="lineNum">      61 </span>                :            :  * visitor pattern to perform different operations to different inference
+<a name="62"><span class="lineNum">      62 </span>                :            :  * result with different output device</a>
+<span class="lineNum">      63 </span>                :            :  */
+<span class="lineNum">      64 </span>                :<span class="lineCov">         20 : class BaseOutput</span>
+<a name="65"><span class="lineNum">      65 </span>                :            : {</a>
+<span class="lineNum">      66 </span>                :            : public:
+<span class="lineNum">      67 </span>                :<span class="lineCov">         10 :   explicit BaseOutput(std::string output_name)</span>
+<span class="lineNum">      68 </span>                :<span class="lineCov">         10 :   : output_name_(output_name) {}</span>
+<span class="lineNum">      69 </span>                :            :   /**
+<a name="70"><span class="lineNum">      70 </span>                :            :    * @brief Generate output content according to the license plate detection result.</a>
+<span class="lineNum">      71 </span>                :            :    */
+<span class="lineNum">      72 </span>                :<span class="lineNoCov">          0 :   virtual void accept(const std::vector&lt;dynamic_vino_lib::LicensePlateDetectionResult&gt; &amp;)</span>
+<span class="lineNum">      73 </span>                :            :   {
+<span class="lineNum">      74 </span>                :<span class="lineNoCov">          0 :   }</span>
+<span class="lineNum">      75 </span>                :            :   /**
+<a name="76"><span class="lineNum">      76 </span>                :            :    * @brief Generate output content according to the vehicle attributes detection result.</a>
+<span class="lineNum">      77 </span>                :            :    */
+<span class="lineNum">      78 </span>                :<span class="lineNoCov">          0 :   virtual void accept(const std::vector&lt;dynamic_vino_lib::VehicleAttribsDetectionResult&gt; &amp;)</span>
+<span class="lineNum">      79 </span>                :            :   {
+<span class="lineNum">      80 </span>                :<span class="lineNoCov">          0 :   }</span>
+<span class="lineNum">      81 </span>                :            :   /**
+<a name="82"><span class="lineNum">      82 </span>                :            :    * @brief Generate output content according to the face reidentification result.</a>
+<span class="lineNum">      83 </span>                :            :    */
+<span class="lineNum">      84 </span>                :<span class="lineNoCov">          0 :   virtual void accept(const std::vector&lt;dynamic_vino_lib::FaceReidentificationResult&gt; &amp;)</span>
+<span class="lineNum">      85 </span>                :            :   {
+<span class="lineNum">      86 </span>                :<span class="lineNoCov">          0 :   }</span>
+<span class="lineNum">      87 </span>                :            :   /**
+<a name="88"><span class="lineNum">      88 </span>                :            :    * @brief Generate output content according to the landmarks detection result.</a>
+<span class="lineNum">      89 </span>                :            :    */
+<span class="lineNum">      90 </span>                :<span class="lineNoCov">          0 :   virtual void accept(const std::vector&lt;dynamic_vino_lib::LandmarksDetectionResult&gt; &amp;)</span>
+<span class="lineNum">      91 </span>                :            :   {
+<span class="lineNum">      92 </span>                :<span class="lineNoCov">          0 :   }</span>
+<span class="lineNum">      93 </span>                :            :   /**
+<a name="94"><span class="lineNum">      94 </span>                :            :    * @brief Generate output content according to the person reidentification result.</a>
+<span class="lineNum">      95 </span>                :            :    */
+<span class="lineNum">      96 </span>                :<span class="lineNoCov">          0 :   virtual void accept(const std::vector&lt;dynamic_vino_lib::PersonAttribsDetectionResult&gt; &amp;)</span>
+<span class="lineNum">      97 </span>                :            :   {
+<span class="lineNum">      98 </span>                :<span class="lineNoCov">          0 :   }</span>
+<span class="lineNum">      99 </span>                :            :   /**
+<a name="100"><span class="lineNum">     100 </span>                :            :    * @brief Generate output content according to the person reidentification result.</a>
+<span class="lineNum">     101 </span>                :            :    */
+<span class="lineNum">     102 </span>                :<span class="lineNoCov">          0 :   virtual void accept(const std::vector&lt;dynamic_vino_lib::PersonReidentificationResult&gt; &amp;)</span>
+<span class="lineNum">     103 </span>                :            :   {
+<span class="lineNum">     104 </span>                :<span class="lineNoCov">          0 :   }</span>
+<span class="lineNum">     105 </span>                :            :   /**
+<a name="106"><span class="lineNum">     106 </span>                :            :    * @brief Generate output content according to the object segmentation result.</a>
+<span class="lineNum">     107 </span>                :            :    */
+<span class="lineNum">     108 </span>                :<span class="lineNoCov">          0 :   virtual void accept(const std::vector&lt;dynamic_vino_lib::ObjectSegmentationResult&gt; &amp;)</span>
+<span class="lineNum">     109 </span>                :            :   {
+<span class="lineNum">     110 </span>                :<span class="lineNoCov">          0 :   }</span>
+<span class="lineNum">     111 </span>                :            :   /**
+<a name="112"><span class="lineNum">     112 </span>                :            :    * @brief Generate output content according to the object detection result.</a>
+<span class="lineNum">     113 </span>                :            :    */
+<span class="lineNum">     114 </span>                :<span class="lineNoCov">          0 :   virtual void accept(const std::vector&lt;dynamic_vino_lib::ObjectDetectionResult&gt; &amp;)</span>
+<span class="lineNum">     115 </span>                :            :   {
+<span class="lineNum">     116 </span>                :<span class="lineNoCov">          0 :   }</span>
+<span class="lineNum">     117 </span>                :            :   /**
+<a name="118"><span class="lineNum">     118 </span>                :            :    * @brief Generate output content according to the face detection result.</a>
+<span class="lineNum">     119 </span>                :            :    */
+<span class="lineNum">     120 </span>                :<span class="lineNoCov">          0 :   virtual void accept(const std::vector&lt;dynamic_vino_lib::FaceDetectionResult&gt; &amp;)</span>
+<span class="lineNum">     121 </span>                :            :   {
+<span class="lineNum">     122 </span>                :<span class="lineNoCov">          0 :   }</span>
+<span class="lineNum">     123 </span>                :            :   /**
+<a name="124"><span class="lineNum">     124 </span>                :            :    * @brief Generate output content according to the emotion detection result.</a>
+<span class="lineNum">     125 </span>                :            :    */
+<span class="lineNum">     126 </span>                :<span class="lineNoCov">          0 :   virtual void accept(const std::vector&lt;dynamic_vino_lib::EmotionsResult&gt; &amp;)</span>
+<span class="lineNum">     127 </span>                :            :   {
+<span class="lineNum">     128 </span>                :<span class="lineNoCov">          0 :   }</span>
+<span class="lineNum">     129 </span>                :            :   /**
+<span class="lineNum">     130 </span>                :            :    * @brief Generate output content according to the age and gender detection
+<a name="131"><span class="lineNum">     131 </span>                :            :    * result.</a>
+<span class="lineNum">     132 </span>                :            :    */
+<span class="lineNum">     133 </span>                :<span class="lineNoCov">          0 :   virtual void accept(const std::vector&lt;dynamic_vino_lib::AgeGenderResult&gt; &amp;)</span>
+<span class="lineNum">     134 </span>                :            :   {
+<span class="lineNum">     135 </span>                :<span class="lineNoCov">          0 :   }</span>
+<span class="lineNum">     136 </span>                :            :   /**
+<a name="137"><span class="lineNum">     137 </span>                :            :    * @brief Generate output content according to the headpose detection result.</a>
+<span class="lineNum">     138 </span>                :            :    */
+<span class="lineNum">     139 </span>                :<span class="lineNoCov">          0 :   virtual void accept(const std::vector&lt;dynamic_vino_lib::HeadPoseResult&gt; &amp;)</span>
+<span class="lineNum">     140 </span>                :            :   {
+<span class="lineNum">     141 </span>                :<span class="lineNoCov">          0 :   }</span>
+<span class="lineNum">     142 </span>                :            :   /**
+<span class="lineNum">     143 </span>                :            :    * @brief Calculate the camera matrix of a frame for image window output, no
+<a name="144"><span class="lineNum">     144 </span>                :            :          implementation for ros topic output.</a>
+<span class="lineNum">     145 </span>                :            :    */
+<span class="lineNum">     146 </span>                :<span class="lineNoCov">          0 :   virtual void feedFrame(const cv::Mat &amp;)</span>
+<span class="lineNum">     147 </span>                :            :   {
+<span class="lineNum">     148 </span>                :<span class="lineNoCov">          0 :   }</span>
+<span class="lineNum">     149 </span>                :            :   /**
+<span class="lineNum">     150 </span>                :            :    * @brief Show all the contents generated by the accept functions.
+<span class="lineNum">     151 </span>                :            :    */
+<span class="lineNum">     152 </span>                :            :   virtual void handleOutput() = 0;
+<a name="153"><span class="lineNum">     153 </span>                :            : </a>
+<span class="lineNum">     154 </span>                :            :   void setPipeline(Pipeline * const pipeline);
+<a name="155"><span class="lineNum">     155 </span>                :<span class="lineNoCov">          0 :   virtual void setServiceResponse(</span></a>
+<span class="lineNum">     156 </span>                :<span class="lineNoCov">          0 :     std::shared_ptr&lt;object_msgs::srv::DetectObject::Response&gt; response) {}</span>
+<a name="157"><span class="lineNum">     157 </span>                :<span class="lineNoCov">          0 :   virtual void setServiceResponseForFace(</span></a>
+<span class="lineNum">     158 </span>                :<span class="lineNoCov">          0 :     std::shared_ptr&lt;object_msgs::srv::DetectObject::Response&gt; response) {}</span>
+<a name="159"><span class="lineNum">     159 </span>                :<span class="lineNoCov">          0 :   virtual void setServiceResponse(</span></a>
+<span class="lineNum">     160 </span>                :<span class="lineNoCov">          0 :     std::shared_ptr&lt;people_msgs::srv::AgeGenderSrv::Response&gt; response) {}</span>
+<a name="161"><span class="lineNum">     161 </span>                :<span class="lineNoCov">          0 :   virtual void setServiceResponse(</span></a>
+<span class="lineNum">     162 </span>                :<span class="lineNoCov">          0 :     std::shared_ptr&lt;people_msgs::srv::EmotionSrv::Response&gt; response) {}</span>
+<a name="163"><span class="lineNum">     163 </span>                :<span class="lineNoCov">          0 :   virtual void setServiceResponse(</span></a>
+<span class="lineNum">     164 </span>                :<span class="lineNoCov">          0 :     std::shared_ptr&lt;people_msgs::srv::HeadPoseSrv::Response&gt; response) {}</span>
+<span class="lineNum">     165 </span>                :<span class="lineNoCov">          0 :   virtual void setServiceResponse(</span>
+<span class="lineNum">     166 </span>                :<span class="lineNoCov">          0 :     std::shared_ptr&lt;people_msgs::srv::People::Response&gt; response) {}</span>
+<a name="167"><span class="lineNum">     167 </span>                :            :   Pipeline * getPipeline() const;</a>
+<span class="lineNum">     168 </span>                :            :   cv::Mat getFrame() const;
+<span class="lineNum">     169 </span>                :<span class="lineNoCov">          0 :   virtual void clearData() {}</span>
+<span class="lineNum">     170 </span>                :            : 
+<span class="lineNum">     171 </span>                :            : protected:
+<span class="lineNum">     172 </span>                :            :   cv::Mat frame_;
+<span class="lineNum">     173 </span>                :            :   Pipeline * pipeline_;
+<span class="lineNum">     174 </span>                :            :   std::string output_name_;
+<span class="lineNum">     175 </span>                :            : };
+<span class="lineNum">     176 </span>                :            : }  // namespace Outputs
+<span class="lineNum">     177 </span>                :            : #endif  // DYNAMIC_VINO_LIB__OUTPUTS__BASE_OUTPUT_HPP_
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.13</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

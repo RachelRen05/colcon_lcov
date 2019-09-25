@@ -1,0 +1,186 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - total_coverage.info - src/ros2_openvino_toolkit/dynamic_vino_lib/src/factory.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../index.html">top level</a> - <a href="index.html">src/ros2_openvino_toolkit/dynamic_vino_lib/src</a> - factory.cpp<span style="font-size: 80%;"> (source / <a href="factory.cpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">total_coverage.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">10</td>
+            <td class="headerCovTableEntry">30</td>
+            <td class="headerCovTableEntryLo">33.3 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-09-25 21:44:45</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">3</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntryMed">75.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+            | Branches:
+            <span class="coverLegendCov">+</span> taken
+            <span class="coverLegendNoCov">-</span> not taken
+            <span class="coverLegendNoCov">#</span> not executed
+</td>
+            <td></td>
+            <td class="headerItem">Branches:</td>
+            <td class="headerCovTableEntry">15</td>
+            <td class="headerCovTableEntry">68</td>
+            <td class="headerCovTableEntryLo">22.1 %</td>
+          </tr>
+          <tr><td><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>                :            : // Copyright (c) 2018 Intel Corporation</a>
+<span class="lineNum">       2 </span>                :            : //
+<span class="lineNum">       3 </span>                :            : // Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+<span class="lineNum">       4 </span>                :            : // you may not use this file except in compliance with the License.
+<span class="lineNum">       5 </span>                :            : // You may obtain a copy of the License at
+<span class="lineNum">       6 </span>                :            : //
+<span class="lineNum">       7 </span>                :            : //     http://www.apache.org/licenses/LICENSE-2.0
+<span class="lineNum">       8 </span>                :            : //
+<span class="lineNum">       9 </span>                :            : // Unless required by applicable law or agreed to in writing, software
+<span class="lineNum">      10 </span>                :            : // distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+<span class="lineNum">      11 </span>                :            : // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+<span class="lineNum">      12 </span>                :            : // See the License for the specific language governing permissions and
+<span class="lineNum">      13 </span>                :            : // limitations under the License.
+<span class="lineNum">      14 </span>                :            : 
+<span class="lineNum">      15 </span>                :            : /**
+<span class="lineNum">      16 </span>                :            :  * @brief a header file with declaration of Factory class
+<span class="lineNum">      17 </span>                :            :  * @file factory.cpp
+<span class="lineNum">      18 </span>                :            :  */
+<span class="lineNum">      19 </span>                :            : 
+<span class="lineNum">      20 </span>                :            : #include &lt;memory&gt;
+<span class="lineNum">      21 </span>                :            : #include &lt;string&gt;
+<span class="lineNum">      22 </span>                :            : 
+<span class="lineNum">      23 </span>                :            : #include &quot;dynamic_vino_lib/factory.hpp&quot;
+<span class="lineNum">      24 </span>                :            : #include &quot;dynamic_vino_lib/inputs/realsense_camera.hpp&quot;
+<span class="lineNum">      25 </span>                :            : #include &quot;dynamic_vino_lib/inputs/standard_camera.hpp&quot;
+<span class="lineNum">      26 </span>                :            : #include &quot;dynamic_vino_lib/inputs/ip_camera.hpp&quot;
+<span class="lineNum">      27 </span>                :            : #include &quot;dynamic_vino_lib/inputs/video_input.hpp&quot;
+<span class="lineNum">      28 </span>                :            : #include &quot;dynamic_vino_lib/inputs/realsense_camera_topic.hpp&quot;
+<span class="lineNum">      29 </span>                :            : #include &quot;dynamic_vino_lib/inputs/image_input.hpp&quot;
+<a name="30"><span class="lineNum">      30 </span>                :            : #include &quot;inference_engine.hpp&quot;</a>
+<span class="lineNum">      31 </span>                :            : 
+<span class="lineNum">      32 </span>                :<span class="lineNoCov">          0 : std::shared_ptr&lt;Input::BaseInputDevice&gt; Factory::makeInputDeviceByName(</span>
+<span class="lineNum">      33 </span>                :            :   const std::string &amp; input_device_name, const std::string &amp; input_file_path)
+<span class="lineNum">      34 </span>                :            : {
+<span class="lineNum">      35 </span>                :            :   std::cout &lt;&lt; &quot;InputDvice: &quot; &lt;&lt; input_device_name &lt;&lt; std::endl;
+<span class="lineNum">      36 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if (input_device_name == &quot;RealSenseCamera&quot;) {</span>
+<span class="lineNum">      37 </span>                :<span class="lineNoCov">          0 :     return std::make_unique&lt;Input::RealSenseCamera&gt;();</span>
+<span class="lineNum">      38 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   } else if (input_device_name == &quot;StandardCamera&quot;) {</span>
+<span class="lineNum">      39 </span>                :<span class="lineNoCov">          0 :     return std::make_unique&lt;Input::StandardCamera&gt;();</span>
+<span class="lineNum">      40 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   } else if (input_device_name == &quot;Video&quot;) {</span>
+<span class="lineNum">      41 </span>                :<span class="lineNoCov">          0 :     return std::make_unique&lt;Input::IpCamera&gt;(input_file_path);</span>
+<span class="lineNum">      42 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   } else if (input_device_name == &quot;RealSenseCameraTopic&quot;) {</span>
+<span class="lineNum">      43 </span>                :            :     std::cout &lt;&lt; &quot;tring to create instance for &quot; &lt;&lt; input_device_name &lt;&lt; std::endl;
+<span class="lineNum">      44 </span>                :<span class="lineNoCov">          0 :     return std::make_unique&lt;Input::RealSenseCameraTopic&gt;();</span>
+<span class="lineNum">      45 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   } else if (input_device_name == &quot;Video&quot;) {</span>
+<span class="lineNum">      46 </span>                :<span class="lineNoCov">          0 :     return std::make_unique&lt;Input::Video&gt;(input_file_path);</span>
+<span class="lineNum">      47 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   } else if (input_device_name == &quot;Image&quot;) {</span>
+<span class="lineNum">      48 </span>                :<span class="lineNoCov">          0 :     return std::make_unique&lt;Input::Image&gt;(input_file_path);</span>
+<span class="lineNum">      49 </span>                :            :   } else {
+<span class="lineNum">      50 </span>        [<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :     throw std::logic_error(&quot;Unsupported input category&quot;);</span>
+<span class="lineNum">      51 </span>                :            :   }
+<span class="lineNum">      52 </span>                :            : }
+<span class="lineNum">      53 </span>                :            : 
+<span class="lineNum">      54 </span>                :            : std::unique_ptr&lt;InferenceEngine::InferencePlugin&gt;
+<span class="lineNum">      55 </span>                :<span class="lineCov">         10 : Factory::makePluginByName(</span>
+<span class="lineNum">      56 </span>                :            :   const std::string &amp; device_name,
+<span class="lineNum">      57 </span>                :            :   const std::string &amp; custom_cpu_library_message,                         // FLAGS_l
+<span class="lineNum">      58 </span>                :            :   const std::string &amp; custom_cldnn_message,                               // FLAGS_c
+<span class="lineNum">      59 </span>                :            :   bool performance_message)
+<span class="lineNum">      60 </span>                :            : {  // FLAGS_pc
+<span class="lineNum">      61 </span>                :            :   InferenceEngine::InferencePlugin plugin =
+<span class="lineNum">      62 </span>[<span class="branchCov" title="Branch 1 was taken 10 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 4 was taken 10 times"> + </span><span class="branchNoCov" title="Branch 5 was not taken"> - </span>]:<span class="lineCov">         40 :     InferenceEngine::PluginDispatcher({&quot;../../../lib/intel64&quot;, &quot;&quot;})</span>
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 7 was taken 10 times"> + </span><span class="branchNoCov" title="Branch 8 was not taken"> - </span>][<span class="branchCov" title="Branch 10 was taken 10 times"> + </span><span class="branchNoCov" title="Branch 11 was not taken"> - </span>]
+<span class="lineNum">         </span>  [<span class="branchCov" title="Branch 13 was taken 20 times"> + </span><span class="branchCov" title="Branch 14 was taken 10 times"> + </span><span class="branchNoExec" title="Branch 16 was not executed"> # </span><span class="branchNoExec" title="Branch 17 was not executed"> # </span>]
+<span class="lineNum">      63 </span>        [<span class="branchCov" title="Branch 1 was taken 10 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">         10 :     .getPluginByDevice(device_name);</span>
+<span class="lineNum">      64 </span>                :            :   /** Printing plugin version **/
+<span class="lineNum">      65 </span>        [<span class="branchCov" title="Branch 1 was taken 10 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">         10 :   printPluginVersion(plugin, std::cout);</span>
+<span class="lineNum">      66 </span>                :            :   /** Load extensions for the CPU plugin **/
+<span class="lineNum">      67 </span>        [<span class="branchCov" title="Branch 0 was taken 10 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>]:<span class="lineCov">         10 :   if ((device_name.find(&quot;CPU&quot;) != std::string::npos)) {</span>
+<span class="lineNum">      68 </span>        [<span class="branchCov" title="Branch 1 was taken 10 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">         10 :     plugin.AddExtension(std::make_shared&lt;InferenceEngine::Extensions::Cpu::CpuExtensions&gt;());</span>
+<span class="lineNum">      69 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 10 times"> + </span>]:<span class="lineCov">         10 :     if (!custom_cpu_library_message.empty()) {</span>
+<span class="lineNum">      70 </span>                :            :       // CPU(MKLDNN) extensions are loaded as a shared library and passed as a
+<span class="lineNum">      71 </span>                :            :       // pointer to base
+<span class="lineNum">      72 </span>                :            :       // extension
+<span class="lineNum">      73 </span>                :            :       auto extension_ptr =
+<span class="lineNum">      74 </span>                :            :         InferenceEngine::make_so_pointer&lt;InferenceEngine::IExtension&gt;(custom_cpu_library_message);
+<span class="lineNum">      75 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :       plugin.AddExtension(extension_ptr);</span>
+<span class="lineNum">      76 </span>                :            :     }
+<span class="lineNum">      77 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   } else if (!custom_cldnn_message.empty()) {</span>
+<span class="lineNum">      78 </span>                :            :     // Load Extensions for other plugins not CPU
+<span class="lineNum">      79 </span>[<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineNoCov">          0 :     plugin.SetConfig(</span>
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 7 was not executed"> # </span><span class="branchNoExec" title="Branch 8 was not executed"> # </span>][<span class="branchNoExec" title="Branch 9 was not executed"> # </span><span class="branchNoExec" title="Branch 10 was not executed"> # </span>]
+<span class="lineNum">         </span>        [<span class="branchNoExec" title="Branch 11 was not executed"> # </span><span class="branchNoExec" title="Branch 12 was not executed"> # </span>]
+<span class="lineNum">      80 </span>                :<span class="lineNoCov">          0 :       {{InferenceEngine::PluginConfigParams::KEY_CONFIG_FILE, custom_cldnn_message}});</span>
+<span class="lineNum">      81 </span>                :            :   }
+<span class="lineNum">      82 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 10 times"> + </span>]:<span class="lineCov">         10 :   if (performance_message) {</span>
+<span class="lineNum">      83 </span>[<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineNoCov">          0 :     plugin.SetConfig({{InferenceEngine::PluginConfigParams::KEY_PERF_COUNT,</span>
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 7 was not executed"> # </span><span class="branchNoExec" title="Branch 8 was not executed"> # </span>][<span class="branchNoExec" title="Branch 9 was not executed"> # </span><span class="branchNoExec" title="Branch 10 was not executed"> # </span>]
+<span class="lineNum">         </span>        [<span class="branchNoExec" title="Branch 11 was not executed"> # </span><span class="branchNoExec" title="Branch 12 was not executed"> # </span>]
+<span class="lineNum">      84 </span>                :<span class="lineNoCov">          0 :         InferenceEngine::PluginConfigParams::YES}});</span>
+<span class="lineNum">      85 </span>                :            :   }
+<a name="86"><span class="lineNum">      86 </span>                :            :   return std::make_unique&lt;InferenceEngine::InferencePlugin&gt;(</a>
+<span class="lineNum">      87 </span>        [<span class="branchCov" title="Branch 1 was taken 10 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">         20 :     InferenceEngine::InferenceEnginePluginPtr(plugin));</span>
+<span class="lineNum">      88 </span>[<span class="branchCov" title="Branch 1 was taken 20 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 3 was taken 20 times"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>]:<span class="lineCov">         80 : }</span>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.13</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

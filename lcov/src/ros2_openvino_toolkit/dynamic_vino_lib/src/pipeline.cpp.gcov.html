@@ -1,0 +1,426 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - total_coverage.info - src/ros2_openvino_toolkit/dynamic_vino_lib/src/pipeline.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../index.html">top level</a> - <a href="index.html">src/ros2_openvino_toolkit/dynamic_vino_lib/src</a> - pipeline.cpp<span style="font-size: 80%;"> (source / <a href="pipeline.cpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">total_coverage.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">116</td>
+            <td class="headerCovTableEntry">139</td>
+            <td class="headerCovTableEntryMed">83.5 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-09-25 21:44:45</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">18</td>
+            <td class="headerCovTableEntry">20</td>
+            <td class="headerCovTableEntryHi">90.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+            | Branches:
+            <span class="coverLegendCov">+</span> taken
+            <span class="coverLegendNoCov">-</span> not taken
+            <span class="coverLegendNoCov">#</span> not executed
+</td>
+            <td></td>
+            <td class="headerItem">Branches:</td>
+            <td class="headerCovTableEntry">62</td>
+            <td class="headerCovTableEntry">142</td>
+            <td class="headerCovTableEntryLo">43.7 %</td>
+          </tr>
+          <tr><td><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>                :            : // Copyright (c) 2018 Intel Corporation</a>
+<span class="lineNum">       2 </span>                :            : //
+<span class="lineNum">       3 </span>                :            : // Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+<span class="lineNum">       4 </span>                :            : // you may not use this file except in compliance with the License.
+<span class="lineNum">       5 </span>                :            : // You may obtain a copy of the License at
+<span class="lineNum">       6 </span>                :            : //
+<span class="lineNum">       7 </span>                :            : //     http://www.apache.org/licenses/LICENSE-2.0
+<span class="lineNum">       8 </span>                :            : //
+<span class="lineNum">       9 </span>                :            : // Unless required by applicable law or agreed to in writing, software
+<span class="lineNum">      10 </span>                :            : // distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+<span class="lineNum">      11 </span>                :            : // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+<span class="lineNum">      12 </span>                :            : // See the License for the specific language governing permissions and
+<span class="lineNum">      13 </span>                :            : // limitations under the License.
+<span class="lineNum">      14 </span>                :            : 
+<span class="lineNum">      15 </span>                :            : /**
+<span class="lineNum">      16 </span>                :            :  * @brief a header file with declaration of Pipeline class
+<span class="lineNum">      17 </span>                :            :  * @file pipeline.cpp
+<span class="lineNum">      18 </span>                :            :  */
+<span class="lineNum">      19 </span>                :            : 
+<span class="lineNum">      20 </span>                :            : #include &lt;vino_param_lib/param_manager.hpp&gt;
+<span class="lineNum">      21 </span>                :            : #include &lt;memory&gt;
+<span class="lineNum">      22 </span>                :            : #include &lt;string&gt;
+<span class="lineNum">      23 </span>                :            : #include &lt;utility&gt;
+<span class="lineNum">      24 </span>                :            : #include &lt;vector&gt;
+<span class="lineNum">      25 </span>                :            : #include &lt;map&gt;
+<span class="lineNum">      26 </span>                :            : 
+<span class="lineNum">      27 </span>                :            : #include &quot;dynamic_vino_lib/inputs/base_input.hpp&quot;
+<span class="lineNum">      28 </span>                :            : #include &quot;dynamic_vino_lib/inputs/image_input.hpp&quot;
+<span class="lineNum">      29 </span>                :            : #include &quot;dynamic_vino_lib/pipeline.hpp&quot;
+<span class="lineNum">      30 </span>                :            : 
+<span class="lineNum">      31 </span>                :<span class="lineCov">         20 : Pipeline::Pipeline(const std::string &amp; name)</span>
+<span class="lineNum">      32 </span>                :            : {
+<span class="lineNum">      33 </span>        [<span class="branchCov" title="Branch 0 was taken 10 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>]:<span class="lineCov">         10 :   if (!name.empty()) {</span>
+<span class="lineNum">      34 </span>                :<span class="lineCov">         10 :     params_ = std::make_shared&lt;PipelineParams&gt;(name);</span>
+<span class="lineNum">      35 </span>                :            :   }
+<span class="lineNum">      36 </span>                :            :   counter_ = 0;
+<span class="lineNum">      37 </span>                :<span class="lineCov">         10 : }</span>
+<span class="lineNum">      38 </span>                :            : 
+<span class="lineNum">      39 </span>                :<span class="lineCov">         10 : bool Pipeline::add(const std::string &amp; name, std::shared_ptr&lt;Input::BaseInputDevice&gt; input_device)</span>
+<span class="lineNum">      40 </span>                :            : {
+<span class="lineNum">      41 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 10 times"> + </span>]:<span class="lineCov">         10 :   if (name.empty()) {</span>
+<span class="lineNum">      42 </span>                :<span class="lineNoCov">          0 :     slog::err &lt;&lt; &quot;Item name can't be empty!&quot; &lt;&lt; slog::endl;</span>
+<span class="lineNum">      43 </span>                :<span class="lineNoCov">          0 :     return false;</span>
+<span class="lineNum">      44 </span>                :            :   }
+<span class="lineNum">      45 </span>                :<span class="lineCov">         10 :   slog::info &lt;&lt; &quot;Adding Input Device into Pipeline: &quot; &lt;&lt; name &lt;&lt; slog::endl;</span>
+<span class="lineNum">      46 </span>                :<span class="lineCov">         10 :   input_device_name_ = name;</span>
+<span class="lineNum">      47 </span>                :            :   input_device_ = input_device;
+<span class="lineNum">      48 </span>                :            : 
+<span class="lineNum">      49 </span>[<span class="branchCov" title="Branch 1 was taken 10 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 4 was taken 10 times"> + </span><span class="branchNoCov" title="Branch 5 was not taken"> - </span>]:<span class="lineCov">         10 :   addConnect(&quot;&quot;, name);</span>
+<span class="lineNum">      50 </span>                :<span class="lineCov">         10 :   return true;</span>
+<span class="lineNum">      51 </span>                :            : }
+<span class="lineNum">      52 </span>                :            : 
+<span class="lineNum">      53 </span>                :<span class="lineNoCov">          0 : bool Pipeline::add(</span>
+<span class="lineNum">      54 </span>                :            :   const std::string &amp; parent, const std::string &amp; name,
+<span class="lineNum">      55 </span>                :            :   std::shared_ptr&lt;Outputs::BaseOutput&gt; output)
+<span class="lineNum">      56 </span>                :            : {
+<span class="lineNum">      57 </span>[<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>][<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if (parent.empty() || name.empty() || !isLegalConnect(parent, name) || output == nullptr) {</span>
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 5 was not executed"> # </span><span class="branchNoExec" title="Branch 6 was not executed"> # </span>][<span class="branchNoExec" title="Branch 7 was not executed"> # </span><span class="branchNoExec" title="Branch 8 was not executed"> # </span>]
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 9 was not executed"> # </span><span class="branchNoExec" title="Branch 10 was not executed"> # </span>][<span class="branchNoExec" title="Branch 11 was not executed"> # </span><span class="branchNoExec" title="Branch 12 was not executed"> # </span>]
+<span class="lineNum">         </span>        [<span class="branchNoExec" title="Branch 13 was not executed"> # </span><span class="branchNoExec" title="Branch 14 was not executed"> # </span>]
+<span class="lineNum">         </span>  [<span class="branchNoExec" title="Branch 15 was not executed"> # </span><span class="branchNoExec" title="Branch 16 was not executed"> # </span><span class="branchNoExec" title="Branch 17 was not executed"> # </span><span class="branchNoExec" title="Branch 18 was not executed"> # </span>]
+<span class="lineNum">      58 </span>                :<span class="lineNoCov">          0 :     slog::err &lt;&lt; &quot;ARGuments ERROR when adding output instance!&quot; &lt;&lt; slog::endl;</span>
+<span class="lineNum">      59 </span>                :<span class="lineNoCov">          0 :     return false;</span>
+<span class="lineNum">      60 </span>                :            :   }
+<span class="lineNum">      61 </span>                :            : 
+<span class="lineNum">      62 </span>[<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>][<span class="branchNoExec" title="Branch 3 was not executed"> # </span><span class="branchNoExec" title="Branch 4 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if (add(name, output)) {</span>
+<span class="lineNum">      63 </span>                :<span class="lineNoCov">          0 :     addConnect(parent, name);</span>
+<span class="lineNum">      64 </span>                :            : 
+<span class="lineNum">      65 </span>                :<span class="lineNoCov">          0 :     return true;</span>
+<span class="lineNum">      66 </span>                :            :   }
+<span class="lineNum">      67 </span>                :            : 
+<span class="lineNum">      68 </span>                :            :   return false;
+<a name="69"><span class="lineNum">      69 </span>                :            : }</a>
+<span class="lineNum">      70 </span>                :            : 
+<span class="lineNum">      71 </span>                :<span class="lineCov">         28 : bool Pipeline::add(const std::string &amp; parent, const std::string &amp; name)</span>
+<span class="lineNum">      72 </span>                :            : {
+<span class="lineNum">      73 </span>[<span class="branchCov" title="Branch 1 was taken 28 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 3 was taken 28 times"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>]:<span class="lineCov">         56 :   if (isLegalConnect(parent, name)) {</span>
+<span class="lineNum">      74 </span>                :<span class="lineCov">         28 :     addConnect(parent, name);</span>
+<span class="lineNum">      75 </span>                :<span class="lineCov">         28 :     return true;</span>
+<span class="lineNum">      76 </span>                :            :   }
+<span class="lineNum">      77 </span>                :            : 
+<span class="lineNum">      78 </span>                :            :   return false;
+<span class="lineNum">      79 </span>                :            : }
+<span class="lineNum">      80 </span>                :            : 
+<span class="lineNum">      81 </span>                :<span class="lineCov">         10 : bool Pipeline::add(const std::string &amp; name, std::shared_ptr&lt;Outputs::BaseOutput&gt; output)</span>
+<span class="lineNum">      82 </span>                :            : {
+<span class="lineNum">      83 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 10 times"> + </span>]:<span class="lineCov">         10 :   if (name.empty()) {</span>
+<span class="lineNum">      84 </span>                :<span class="lineNoCov">          0 :     slog::err &lt;&lt; &quot;Item name can't be empty!&quot; &lt;&lt; slog::endl;</span>
+<span class="lineNum">      85 </span>                :            :     return false;
+<span class="lineNum">      86 </span>                :            :   }
+<span class="lineNum">      87 </span>                :            : 
+<span class="lineNum">      88 </span>                :            :   std::map&lt;std::string, std::shared_ptr&lt;Outputs::BaseOutput&gt;&gt;::iterator it =
+<span class="lineNum">      89 </span>                :            :     name_to_output_map_.find(name);
+<span class="lineNum">      90 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 10 times"> + </span>]:<span class="lineCov">         10 :   if (it != name_to_output_map_.end()) {</span>
+<span class="lineNum">      91 </span>                :<span class="lineNoCov">          0 :     slog::warn &lt;&lt; &quot;inferance instance for [&quot; &lt;&lt; name &lt;&lt;</span>
+<span class="lineNum">      92 </span>                :<span class="lineNoCov">          0 :       &quot;] already exists, update it with new instance.&quot; &lt;&lt; slog::endl;</span>
+<span class="lineNum">      93 </span>                :            :   }
+<span class="lineNum">      94 </span>                :<span class="lineCov">         10 :   name_to_output_map_[name] = output;</span>
+<span class="lineNum">      95 </span>                :            :   output_names_.insert(name);
+<span class="lineNum">      96 </span>                :            :   /**&lt; Add pipeline instance to Output instance &gt;**/
+<span class="lineNum">      97 </span>                :<span class="lineCov">         10 :   output-&gt;setPipeline(this);</span>
+<span class="lineNum">      98 </span>                :            : 
+<span class="lineNum">      99 </span>                :            :   return true;
+<a name="100"><span class="lineNum">     100 </span>                :            : }</a>
+<span class="lineNum">     101 </span>                :            : 
+<span class="lineNum">     102 </span>                :<span class="lineCov">         38 : void Pipeline::addConnect(const std::string &amp; parent, const std::string &amp; name)</span>
+<span class="lineNum">     103 </span>                :            : {
+<span class="lineNum">     104 </span>                :            :   std::pair&lt;std::multimap&lt;std::string, std::string&gt;::iterator,
+<span class="lineNum">     105 </span>                :            :     std::multimap&lt;std::string, std::string&gt;::iterator&gt;
+<span class="lineNum">     106 </span>                :            :   ret;
+<span class="lineNum">     107 </span>                :            :   ret = next_.equal_range(parent);
+<span class="lineNum">     108 </span>                :            : 
+<span class="lineNum">     109 </span>        [<span class="branchCov" title="Branch 0 was taken 18 times"> + </span><span class="branchCov" title="Branch 1 was taken 38 times"> + </span>]:<span class="lineCov">         56 :   for (std::multimap&lt;std::string, std::string&gt;::iterator it = ret.first; it != ret.second; ++it) {</span>
+<span class="lineNum">     110 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 18 times"> + </span>]:<span class="lineCov">         18 :     if (it-&gt;second == name) {</span>
+<span class="lineNum">     111 </span>                :<span class="lineNoCov">          0 :       slog::warn &lt;&lt; &quot;The connect [&quot; &lt;&lt; parent &lt;&lt; &quot;&lt;--&gt;&quot; &lt;&lt; name &lt;&lt; &quot;] already exists.&quot; &lt;&lt;</span>
+<span class="lineNum">     112 </span>                :            :         slog::endl;
+<span class="lineNum">     113 </span>                :            :       return;
+<span class="lineNum">     114 </span>                :            :     }
+<span class="lineNum">     115 </span>                :            :   }
+<span class="lineNum">     116 </span>                :<span class="lineCov">         38 :   slog::info &lt;&lt; &quot;Adding connection into pipeline:[&quot; &lt;&lt; parent &lt;&lt; &quot;&lt;--&gt;&quot; &lt;&lt; name &lt;&lt; &quot;]&quot; &lt;&lt;</span>
+<span class="lineNum">     117 </span>                :            :     slog::endl;
+<span class="lineNum">     118 </span>                :<span class="lineCov">         76 :   next_.insert({parent, name});</span>
+<span class="lineNum">     119 </span>                :            : }
+<span class="lineNum">     120 </span>                :            : 
+<span class="lineNum">     121 </span>                :<span class="lineNoCov">          0 : bool Pipeline::add(</span>
+<span class="lineNum">     122 </span>                :            :   const std::string &amp; parent, const std::string &amp; name,
+<span class="lineNum">     123 </span>                :            :   std::shared_ptr&lt;dynamic_vino_lib::BaseInference&gt; inference)
+<span class="lineNum">     124 </span>                :            : {
+<span class="lineNum">     125 </span>[<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>][<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if (parent.empty() || name.empty() || !isLegalConnect(parent, name)) {</span>
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 5 was not executed"> # </span><span class="branchNoExec" title="Branch 6 was not executed"> # </span>][<span class="branchNoExec" title="Branch 7 was not executed"> # </span><span class="branchNoExec" title="Branch 8 was not executed"> # </span>]
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 9 was not executed"> # </span><span class="branchNoExec" title="Branch 10 was not executed"> # </span>][<span class="branchNoExec" title="Branch 11 was not executed"> # </span><span class="branchNoExec" title="Branch 12 was not executed"> # </span>]
+<span class="lineNum">         </span>  [<span class="branchNoExec" title="Branch 13 was not executed"> # </span><span class="branchNoExec" title="Branch 14 was not executed"> # </span><span class="branchNoExec" title="Branch 15 was not executed"> # </span><span class="branchNoExec" title="Branch 16 was not executed"> # </span>]
+<span class="lineNum">     126 </span>                :<span class="lineNoCov">          0 :     slog::err &lt;&lt; &quot;ARGuments ERROR when adding inference instance!&quot; &lt;&lt; slog::endl;</span>
+<span class="lineNum">     127 </span>                :<span class="lineNoCov">          0 :     return false;</span>
+<span class="lineNum">     128 </span>                :            :   }
+<span class="lineNum">     129 </span>                :            : 
+<span class="lineNum">     130 </span>[<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>][<span class="branchNoExec" title="Branch 3 was not executed"> # </span><span class="branchNoExec" title="Branch 4 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if (add(name, inference)) {</span>
+<span class="lineNum">     131 </span>                :<span class="lineNoCov">          0 :     addConnect(parent, name);</span>
+<span class="lineNum">     132 </span>                :<span class="lineNoCov">          0 :     return true;</span>
+<span class="lineNum">     133 </span>                :            :   }
+<span class="lineNum">     134 </span>                :            : 
+<span class="lineNum">     135 </span>                :            :   return false;
+<span class="lineNum">     136 </span>                :            : }
+<span class="lineNum">     137 </span>                :            : 
+<span class="lineNum">     138 </span>                :<span class="lineCov">         14 : bool Pipeline::add(</span>
+<span class="lineNum">     139 </span>                :            :   const std::string &amp; name,
+<span class="lineNum">     140 </span>                :            :   std::shared_ptr&lt;dynamic_vino_lib::BaseInference&gt; inference)
+<span class="lineNum">     141 </span>                :            : {
+<span class="lineNum">     142 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 14 times"> + </span>]:<span class="lineCov">         14 :   if (name.empty()) {</span>
+<span class="lineNum">     143 </span>                :<span class="lineNoCov">          0 :     slog::err &lt;&lt; &quot;Item name can't be empty!&quot; &lt;&lt; slog::endl;</span>
+<span class="lineNum">     144 </span>                :            :     return false;
+<span class="lineNum">     145 </span>                :            :   }
+<span class="lineNum">     146 </span>                :            : 
+<span class="lineNum">     147 </span>                :            :   std::map&lt;std::string, std::shared_ptr&lt;dynamic_vino_lib::BaseInference&gt;&gt;::iterator it =
+<span class="lineNum">     148 </span>                :            :     name_to_detection_map_.find(name);
+<span class="lineNum">     149 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 14 times"> + </span>]:<span class="lineCov">         14 :   if (it != name_to_detection_map_.end()) {</span>
+<span class="lineNum">     150 </span>                :<span class="lineNoCov">          0 :     slog::warn &lt;&lt; &quot;inferance instance for [&quot; &lt;&lt; name &lt;&lt;</span>
+<span class="lineNum">     151 </span>                :<span class="lineNoCov">          0 :       &quot;] already exists, update it with new instance.&quot; &lt;&lt; slog::endl;</span>
+<span class="lineNum">     152 </span>                :            :   } else {
+<span class="lineNum">     153 </span>                :<span class="lineCov">         14 :     ++total_inference_;</span>
+<span class="lineNum">     154 </span>                :            :   }
+<span class="lineNum">     155 </span>                :<span class="lineCov">         14 :   name_to_detection_map_[name] = inference;</span>
+<span class="lineNum">     156 </span>                :            : 
+<span class="lineNum">     157 </span>                :<span class="lineCov">         14 :   return true;</span>
+<a name="158"><span class="lineNum">     158 </span>                :            : }</a>
+<span class="lineNum">     159 </span>                :            : 
+<span class="lineNum">     160 </span>                :<span class="lineCov">         28 : bool Pipeline::isLegalConnect(const std::string parent, const std::string child)</span>
+<span class="lineNum">     161 </span>                :            : {
+<span class="lineNum">     162 </span>        [<span class="branchCov" title="Branch 1 was taken 28 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">         28 :   int parent_order = getCatagoryOrder(parent);</span>
+<span class="lineNum">     163 </span>        [<span class="branchCov" title="Branch 1 was taken 28 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">         28 :   int child_order = getCatagoryOrder(child);</span>
+<span class="lineNum">     164 </span>                :<span class="lineCov">         28 :   slog::info &lt;&lt; &quot;Checking connection into pipeline:[&quot; &lt;&lt; parent &lt;&lt; &quot;(&quot; &lt;&lt; parent_order &lt;&lt; &quot;)&quot; &lt;&lt;</span>
+<span class="lineNum">     165 </span>                :<span class="lineCov">         28 :     &quot;&lt;--&gt;&quot; &lt;&lt; child &lt;&lt; &quot;(&quot; &lt;&lt; child_order &lt;&lt; &quot;)&quot; &lt;&lt;</span>
+<span class="lineNum">     166 </span>                :<span class="lineCov">         28 :     &quot;]&quot; &lt;&lt; slog::endl;</span>
+<span class="lineNum">     167 </span>[<span class="branchCov" title="Branch 0 was taken 28 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>][<span class="branchCov" title="Branch 2 was taken 28 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">         28 :   return (parent_order != kCatagoryOrder_Unknown) &amp;&amp; (child_order != kCatagoryOrder_Unknown) &amp;&amp;</span>
+<span class="lineNum">         </span>        [<span class="branchNoCov" title="Branch 4 was not taken"> - </span><span class="branchCov" title="Branch 5 was taken 28 times"> + </span>]
+<span class="lineNum">     168 </span>                :<span class="lineCov">         28 :          (parent_order &lt;= child_order);</span>
+<a name="169"><span class="lineNum">     169 </span>                :            : }</a>
+<span class="lineNum">     170 </span>                :            : 
+<span class="lineNum">     171 </span>                :<span class="lineCov">         56 : int Pipeline::getCatagoryOrder(const std::string name)</span>
+<span class="lineNum">     172 </span>                :            : {
+<span class="lineNum">     173 </span>                :<span class="lineCov">         56 :   int order = kCatagoryOrder_Unknown;</span>
+<span class="lineNum">     174 </span>        [<span class="branchCov" title="Branch 0 was taken 5 times"> + </span><span class="branchCov" title="Branch 1 was taken 51 times"> + </span>]:<span class="lineCov">         56 :   if (name == input_device_name_) {</span>
+<span class="lineNum">     175 </span>                :<span class="lineCov">          5 :     order = kCatagoryOrder_Input;</span>
+<span class="lineNum">     176 </span>        [<span class="branchCov" title="Branch 0 was taken 37 times"> + </span><span class="branchCov" title="Branch 1 was taken 14 times"> + </span>]:<span class="lineCov">         51 :   } else if (name_to_detection_map_.find(name) != name_to_detection_map_.end()) {</span>
+<span class="lineNum">     177 </span>                :<span class="lineCov">         37 :     order = kCatagoryOrder_Inference;</span>
+<span class="lineNum">     178 </span>        [<span class="branchCov" title="Branch 0 was taken 14 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>]:<span class="lineCov">         14 :   } else if (name_to_output_map_.find(name) != name_to_output_map_.end()) {</span>
+<span class="lineNum">     179 </span>                :<span class="lineCov">         14 :     order = kCatagoryOrder_Output;</span>
+<span class="lineNum">     180 </span>                :            :   }
+<span class="lineNum">     181 </span>                :            : 
+<span class="lineNum">     182 </span>                :<span class="lineCov">         56 :   return order;</span>
+<span class="lineNum">     183 </span>                :            : }
+<span class="lineNum">     184 </span>                :            : 
+<span class="lineNum">     185 </span>                :<span class="lineCov">          4 : void Pipeline::runOnce()</span>
+<span class="lineNum">     186 </span>                :            : {
+<span class="lineNum">     187 </span>                :<span class="lineCov">          4 :   initInferenceCounter();</span>
+<span class="lineNum">     188 </span>                :            : 
+<span class="lineNum">     189 </span>        [<span class="branchCov" title="Branch 1 was taken 4 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          4 :   if (!input_device_-&gt;read(&amp;frame_)) {</span>
+<span class="lineNum">     190 </span>                :            :     // throw std::logic_error(&quot;Failed to get frame from cv::VideoCapture&quot;);
+<span class="lineNum">     191 </span>                :            :     // slog::warn &lt;&lt; &quot;Failed to get frame from input_device.&quot; &lt;&lt; slog::endl;
+<span class="lineNum">     192 </span>                :<span class="lineCov">          4 :     return;</span>
+<span class="lineNum">     193 </span>                :            :   }
+<span class="lineNum">     194 </span>                :            : 
+<span class="lineNum">     195 </span>                :<span class="lineCov">          4 :   countFPS();</span>
+<span class="lineNum">     196 </span>                :<span class="lineCov">          4 :   width_ = frame_.cols;</span>
+<span class="lineNum">     197 </span>                :<span class="lineCov">          4 :   height_ = frame_.rows;</span>
+<span class="lineNum">     198 </span>                :            : 
+<span class="lineNum">     199 </span>        [<span class="branchCov" title="Branch 0 was taken 4 times"> + </span><span class="branchCov" title="Branch 1 was taken 4 times"> + </span>]:<span class="lineCov">          8 :   for (auto &amp; pair : name_to_output_map_) {</span>
+<span class="lineNum">     200 </span>                :<span class="lineCov">          4 :     pair.second-&gt;feedFrame(frame_);</span>
+<span class="lineNum">     201 </span>                :            :   }
+<span class="lineNum">     202 </span>                :            : 
+<span class="lineNum">     203 </span>                :<span class="lineCov">          4 :   auto t0 = std::chrono::high_resolution_clock::now();</span>
+<span class="lineNum">     204 </span>        [<span class="branchCov" title="Branch 0 was taken 4 times"> + </span><span class="branchCov" title="Branch 1 was taken 4 times"> + </span>]:<span class="lineCov">          8 :   for (auto pos = next_.equal_range(input_device_name_); pos.first != pos.second; ++pos.first) {</span>
+<span class="lineNum">     205 </span>                :            :     std::string detection_name = pos.first-&gt;second;
+<span class="lineNum">     206 </span>        [<span class="branchCov" title="Branch 1 was taken 4 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          4 :     auto detection_ptr = name_to_detection_map_[detection_name];</span>
+<span class="lineNum">     207 </span>        [<span class="branchCov" title="Branch 1 was taken 4 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          4 :     detection_ptr-&gt;enqueue(frame_, cv::Rect(width_ / 2, height_ / 2, width_, height_));</span>
+<span class="lineNum">     208 </span>        [<span class="branchCov" title="Branch 1 was taken 4 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          4 :     increaseInferenceCounter();</span>
+<span class="lineNum">     209 </span>        [<span class="branchCov" title="Branch 1 was taken 4 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          4 :     detection_ptr-&gt;submitRequest();</span>
+<span class="lineNum">     210 </span>                :            :   }
+<span class="lineNum">     211 </span>                :            : 
+<span class="lineNum">     212 </span>                :<span class="lineCov">          4 :   std::unique_lock&lt;std::mutex&gt; lock(counter_mutex_);</span>
+<span class="lineNum">     213 </span>                :<span class="lineCov">          4 :   cv_.wait(lock, [self = this]() {return self-&gt;counter_ == 0;});</span>
+<span class="lineNum">     214 </span>                :            : 
+<span class="lineNum">     215 </span>                :<span class="lineCov">          4 :   auto t1 = std::chrono::high_resolution_clock::now();</span>
+<span class="lineNum">     216 </span>                :            :   typedef std::chrono::duration&lt;double, std::ratio&lt;1, 1000&gt;&gt; ms;
+<span class="lineNum">     217 </span>                :            : 
+<span class="lineNum">     218 </span>        [<span class="branchCov" title="Branch 0 was taken 4 times"> + </span><span class="branchCov" title="Branch 1 was taken 4 times"> + </span>]:<span class="lineCov">          8 :   for (auto &amp; pair : name_to_output_map_) {</span>
+<span class="lineNum">     219 </span>                :            :     // slog::info &lt;&lt; &quot;Handling Output ...&quot; &lt;&lt; pair.first &lt;&lt; slog::endl;
+<span class="lineNum">     220 </span>        [<span class="branchCov" title="Branch 1 was taken 4 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          4 :     pair.second-&gt;handleOutput();</span>
+<span class="lineNum">     221 </span>                :            :   }
+<a name="222"><span class="lineNum">     222 </span>                :            : }</a>
+<span class="lineNum">     223 </span>                :            : 
+<span class="lineNum">     224 </span>                :<span class="lineCov">          5 : void Pipeline::printPipeline()</span>
+<span class="lineNum">     225 </span>                :            : {
+<span class="lineNum">     226 </span>        [<span class="branchCov" title="Branch 0 was taken 33 times"> + </span><span class="branchCov" title="Branch 1 was taken 5 times"> + </span>]:<span class="lineCov">         38 :   for (auto &amp; current_node : next_) {</span>
+<span class="lineNum">     227 </span>                :            :     printf(&quot;%s --&gt; %s\n&quot;, current_node.first.c_str(), current_node.second.c_str());
+<span class="lineNum">     228 </span>                :            :   }
+<span class="lineNum">     229 </span>                :<span class="lineCov">          5 : }</span>
+<span class="lineNum">     230 </span>                :            : 
+<span class="lineNum">     231 </span>                :<span class="lineCov">          5 : void Pipeline::setCallback()</span>
+<span class="lineNum">     232 </span>                :            : {
+<span class="lineNum">     233 </span>                :            : #if 0
+<span class="lineNum">     234 </span>                :            :   if (!input_device_-&gt;read(&amp;frame_)) {
+<span class="lineNum">     235 </span>                :            :     throw std::logic_error(&quot;Failed to get frame from cv::VideoCapture&quot;);
+<span class="lineNum">     236 </span>                :            :   }
+<span class="lineNum">     237 </span>                :            :   width_ = frame_.cols;
+<span class="lineNum">     238 </span>                :            :   height_ = frame_.rows;
+<span class="lineNum">     239 </span>                :            :   for (auto &amp; pair : name_to_output_map_) {
+<span class="lineNum">     240 </span>                :            :     pair.second-&gt;feedFrame(frame_);
+<span class="lineNum">     241 </span>                :            :   }
+<span class="lineNum">     242 </span>                :            : #endif
+<span class="lineNum">     243 </span>        [<span class="branchCov" title="Branch 0 was taken 14 times"> + </span><span class="branchCov" title="Branch 1 was taken 5 times"> + </span>]:<span class="lineCov">         19 :   for (auto &amp; pair : name_to_detection_map_) {</span>
+<span class="lineNum">     244 </span>                :            :     std::string detection_name = pair.first;
+<span class="lineNum">     245 </span>                :            :     std::function&lt;void(void)&gt; callb;
+<span class="lineNum">     246 </span>        [<span class="branchCov" title="Branch 1 was taken 14 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">         14 :     callb = [detection_name, self = this]()</span>
+<span class="lineNum">     247 </span>                :<span class="lineCov">         10 :       {</span>
+<span class="lineNum">     248 </span>                :<span class="lineCov">         10 :         self-&gt;callback(detection_name);</span>
+<span class="lineNum">     249 </span>                :            :         return;
+<span class="lineNum">     250 </span>                :<span class="lineCov">         28 :       };</span>
+<span class="lineNum">     251 </span>        [<span class="branchCov" title="Branch 1 was taken 14 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">         14 :     pair.second-&gt;getEngine()-&gt;getRequest()-&gt;SetCompletionCallback(callb);</span>
+<span class="lineNum">     252 </span>                :            :   }
+<span class="lineNum">     253 </span>                :<span class="lineCov">          5 : }</span>
+<span class="lineNum">     254 </span>                :            : 
+<span class="lineNum">     255 </span>                :<span class="lineCov">         10 : void Pipeline::callback(const std::string &amp; detection_name)</span>
+<span class="lineNum">     256 </span>                :            : {
+<span class="lineNum">     257 </span>                :            :   // slog::info&lt;&lt;&quot;Hello callback ----&gt; &quot; &lt;&lt; detection_name &lt;&lt;slog::endl;
+<span class="lineNum">     258 </span>                :<span class="lineCov">         10 :   auto detection_ptr = name_to_detection_map_[detection_name];</span>
+<span class="lineNum">     259 </span>        [<span class="branchCov" title="Branch 1 was taken 10 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">         10 :   detection_ptr-&gt;fetchResults();</span>
+<span class="lineNum">     260 </span>                :            :   // set output
+<span class="lineNum">     261 </span>        [<span class="branchCov" title="Branch 0 was taken 16 times"> + </span><span class="branchCov" title="Branch 1 was taken 10 times"> + </span>]:<span class="lineCov">         26 :   for (auto pos = next_.equal_range(detection_name); pos.first != pos.second; ++pos.first) {</span>
+<span class="lineNum">     262 </span>                :            :     std::string next_name = pos.first-&gt;second;
+<span class="lineNum">     263 </span>                :            : 
+<span class="lineNum">     264 </span>                :            :     std::string filter_conditions = findFilterConditions(detection_name, next_name);
+<span class="lineNum">     265 </span>                :            : 
+<span class="lineNum">     266 </span>        [<span class="branchCov" title="Branch 0 was taken 10 times"> + </span><span class="branchCov" title="Branch 1 was taken 6 times"> + </span>]:<span class="lineCov">         16 :     if (output_names_.find(next_name) != output_names_.end()) {</span>
+<span class="lineNum">     267 </span>[<span class="branchCov" title="Branch 1 was taken 10 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 4 was taken 10 times"> + </span><span class="branchNoCov" title="Branch 5 was not taken"> - </span>]:<span class="lineCov">         10 :       detection_ptr-&gt;observeOutput(name_to_output_map_[next_name]);</span>
+<span class="lineNum">     268 </span>                :            :     } else {
+<span class="lineNum">     269 </span>                :            :       auto detection_ptr_iter = name_to_detection_map_.find(next_name);
+<span class="lineNum">     270 </span>        [<span class="branchCov" title="Branch 0 was taken 6 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>]:<span class="lineCov">          6 :       if (detection_ptr_iter != name_to_detection_map_.end()) {</span>
+<span class="lineNum">     271 </span>                :            :         auto next_detection_ptr = detection_ptr_iter-&gt;second;
+<span class="lineNum">     272 </span>                :<span class="lineCov">          6 :         size_t batch_size = next_detection_ptr-&gt;getMaxBatchSize();</span>
+<span class="lineNum">     273 </span>        [<span class="branchCov" title="Branch 1 was taken 6 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">         12 :         std::vector&lt;cv::Rect&gt; next_rois = detection_ptr-&gt;getFilteredROIs(filter_conditions);</span>
+<span class="lineNum">     274 </span>        [<span class="branchCov" title="Branch 0 was taken 48 times"> + </span><span class="branchCov" title="Branch 1 was taken 6 times"> + </span>]:<span class="lineCov">         54 :         for (size_t i = 0; i &lt; next_rois.size(); i++) {</span>
+<span class="lineNum">     275 </span>                :            :           auto roi = next_rois[i];
+<span class="lineNum">     276 </span>                :<span class="lineCov">         48 :           auto clippedRect = roi &amp; cv::Rect(0, 0, width_, height_);</span>
+<span class="lineNum">     277 </span>                :<span class="lineCov">         48 :           cv::Mat next_input = frame_(clippedRect);</span>
+<span class="lineNum">     278 </span>        [<span class="branchCov" title="Branch 1 was taken 48 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">         48 :           next_detection_ptr-&gt;enqueue(next_input, roi);</span>
+<span class="lineNum">     279 </span>[<span class="branchCov" title="Branch 0 was taken 42 times"> + </span><span class="branchCov" title="Branch 1 was taken 6 times"> + </span>][<span class="branchNoCov" title="Branch 2 was not taken"> - </span><span class="branchCov" title="Branch 3 was taken 42 times"> + </span>]:<span class="lineCov">         48 :           if ((i + 1) == next_rois.size() || (i + 1) % batch_size == 0) {</span>
+<span class="lineNum">     280 </span>        [<span class="branchCov" title="Branch 1 was taken 6 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          6 :             increaseInferenceCounter();</span>
+<span class="lineNum">     281 </span>        [<span class="branchCov" title="Branch 1 was taken 6 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          6 :             next_detection_ptr-&gt;submitRequest();</span>
+<span class="lineNum">     282 </span>                :<span class="lineCov">          6 :             auto request = next_detection_ptr-&gt;getEngine()-&gt;getRequest();</span>
+<span class="lineNum">     283 </span>                :            :             request-&gt;Wait(InferenceEngine::IInferRequest::WaitMode::RESULT_READY);
+<span class="lineNum">     284 </span>                :            :           }
+<span class="lineNum">     285 </span>                :            :         }
+<span class="lineNum">     286 </span>                :            :       }
+<span class="lineNum">     287 </span>                :            :     }
+<span class="lineNum">     288 </span>                :            :   }
+<span class="lineNum">     289 </span>                :            : 
+<span class="lineNum">     290 </span>        [<span class="branchCov" title="Branch 1 was taken 10 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">         10 :   decreaseInferenceCounter();</span>
+<span class="lineNum">     291 </span>                :<span class="lineCov">         10 :   cv_.notify_all();</span>
+<a name="292"><span class="lineNum">     292 </span>                :<span class="lineCov">         10 : }</span></a>
+<span class="lineNum">     293 </span>                :            : 
+<span class="lineNum">     294 </span>                :<span class="lineCov">          4 : void Pipeline::initInferenceCounter()</span>
+<span class="lineNum">     295 </span>                :            : {
+<span class="lineNum">     296 </span>                :<span class="lineCov">          4 :   std::lock_guard&lt;std::mutex&gt; lk(counter_mutex_);</span>
+<span class="lineNum">     297 </span>                :            :   counter_ = 0;
+<span class="lineNum">     298 </span>                :<span class="lineCov">          4 :   cv_.notify_all();</span>
+<a name="299"><span class="lineNum">     299 </span>                :<span class="lineCov">          4 : }</span></a>
+<span class="lineNum">     300 </span>                :            : 
+<span class="lineNum">     301 </span>                :<span class="lineCov">         10 : void Pipeline::increaseInferenceCounter()</span>
+<span class="lineNum">     302 </span>                :            : {
+<span class="lineNum">     303 </span>                :<span class="lineCov">         10 :   std::lock_guard&lt;std::mutex&gt; lk(counter_mutex_);</span>
+<span class="lineNum">     304 </span>                :            :   ++counter_;
+<span class="lineNum">     305 </span>                :            :   // slog::info &lt;&lt; &quot;counter = &quot; &lt;&lt; counter_ &lt;&lt; slog::endl;
+<a name="306"><span class="lineNum">     306 </span>                :<span class="lineCov">         10 : }</span></a>
+<span class="lineNum">     307 </span>                :            : 
+<span class="lineNum">     308 </span>                :<span class="lineCov">         10 : void Pipeline::decreaseInferenceCounter()</span>
+<span class="lineNum">     309 </span>                :            : {
+<span class="lineNum">     310 </span>                :<span class="lineCov">         10 :   std::lock_guard&lt;std::mutex&gt; lk(counter_mutex_);</span>
+<span class="lineNum">     311 </span>                :            :   --counter_;
+<span class="lineNum">     312 </span>                :            :   // slog::info &lt;&lt; &quot;counter = &quot; &lt;&lt; counter_ &lt;&lt; slog::endl;
+<a name="313"><span class="lineNum">     313 </span>                :<span class="lineCov">         10 : }</span></a>
+<span class="lineNum">     314 </span>                :            : 
+<span class="lineNum">     315 </span>                :<span class="lineCov">          4 : void Pipeline::countFPS()</span>
+<span class="lineNum">     316 </span>                :            : {  
+<span class="lineNum">     317 </span>                :<span class="lineCov">          4 :   frame_cnt_++;</span>
+<span class="lineNum">     318 </span>                :<span class="lineCov">          4 :   auto t_end = std::chrono::high_resolution_clock::now();</span>
+<span class="lineNum">     319 </span>                :            :   typedef std::chrono::duration&lt;double, std::ratio&lt;1, 1000&gt;&gt; ms;
+<span class="lineNum">     320 </span>                :            :   ms secondDetection = std::chrono::duration_cast&lt;ms&gt;(t_end - t_start_);
+<span class="lineNum">     321 </span>        [<span class="branchCov" title="Branch 0 was taken 4 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>]:<span class="lineCov">          4 :   if (secondDetection.count() &gt; 1000) {  </span>
+<span class="lineNum">     322 </span>                :<span class="lineCov">          4 :     setFPS(frame_cnt_);</span>
+<span class="lineNum">     323 </span>                :<span class="lineCov">          4 :     frame_cnt_ = 0;</span>
+<a name="324"><span class="lineNum">     324 </span>                :<span class="lineCov">          4 :     t_start_ = t_end;</span></a>
+<span class="lineNum">     325 </span>                :            :   }
+<span class="lineNum">     326 </span>[<span class="branchCov" title="Branch 1 was taken 20 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 3 was taken 20 times"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>]:<span class="lineCov">         80 : }</span>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.13</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

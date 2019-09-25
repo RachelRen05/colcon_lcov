@@ -1,0 +1,267 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - total_coverage.info - src/ros2_openvino_toolkit/dynamic_vino_lib/include/dynamic_vino_lib/pipeline.hpp</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../index.html">top level</a> - <a href="index.html">src/ros2_openvino_toolkit/dynamic_vino_lib/include/dynamic_vino_lib</a> - pipeline.hpp<span style="font-size: 80%;"> (source / <a href="pipeline.hpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">total_coverage.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">3</td>
+            <td class="headerCovTableEntry">3</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-09-25 21:44:45</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+            | Branches:
+            <span class="coverLegendCov">+</span> taken
+            <span class="coverLegendNoCov">-</span> not taken
+            <span class="coverLegendNoCov">#</span> not executed
+</td>
+            <td></td>
+            <td class="headerItem">Branches:</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntry">2</td>
+            <td class="headerCovTableEntryLo">50.0 %</td>
+          </tr>
+          <tr><td><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>                :            : // Copyright (c) 2018 Intel Corporation</a>
+<span class="lineNum">       2 </span>                :            : //
+<span class="lineNum">       3 </span>                :            : // Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+<span class="lineNum">       4 </span>                :            : // you may not use this file except in compliance with the License.
+<span class="lineNum">       5 </span>                :            : // You may obtain a copy of the License at
+<span class="lineNum">       6 </span>                :            : //
+<span class="lineNum">       7 </span>                :            : //     http://www.apache.org/licenses/LICENSE-2.0
+<span class="lineNum">       8 </span>                :            : //
+<span class="lineNum">       9 </span>                :            : // Unless required by applicable law or agreed to in writing, software
+<span class="lineNum">      10 </span>                :            : // distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+<span class="lineNum">      11 </span>                :            : // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+<span class="lineNum">      12 </span>                :            : // See the License for the specific language governing permissions and
+<span class="lineNum">      13 </span>                :            : // limitations under the License.
+<span class="lineNum">      14 </span>                :            : 
+<span class="lineNum">      15 </span>                :            : /**
+<span class="lineNum">      16 </span>                :            :  * @brief a header file with declaration of Pipeline class
+<span class="lineNum">      17 </span>                :            :  * @file pipeline.h
+<span class="lineNum">      18 </span>                :            :  */
+<span class="lineNum">      19 </span>                :            : #ifndef DYNAMIC_VINO_LIB__PIPELINE_HPP_
+<span class="lineNum">      20 </span>                :            : #define DYNAMIC_VINO_LIB__PIPELINE_HPP_
+<span class="lineNum">      21 </span>                :            : 
+<span class="lineNum">      22 </span>                :            : #include &lt;atomic&gt;
+<span class="lineNum">      23 </span>                :            : #include &lt;future&gt;
+<span class="lineNum">      24 </span>                :            : #include &lt;map&gt;
+<span class="lineNum">      25 </span>                :            : #include &lt;memory&gt;
+<span class="lineNum">      26 </span>                :            : #include &lt;mutex&gt;
+<span class="lineNum">      27 </span>                :            : #include &lt;set&gt;
+<span class="lineNum">      28 </span>                :            : #include &lt;string&gt;
+<span class="lineNum">      29 </span>                :            : 
+<span class="lineNum">      30 </span>                :            : #include &quot;dynamic_vino_lib/inferences/base_inference.hpp&quot;
+<span class="lineNum">      31 </span>                :            : #include &quot;dynamic_vino_lib/inputs/standard_camera.hpp&quot;
+<span class="lineNum">      32 </span>                :            : #include &quot;dynamic_vino_lib/outputs/base_output.hpp&quot;
+<span class="lineNum">      33 </span>                :            : #include &quot;dynamic_vino_lib/pipeline_params.hpp&quot;
+<span class="lineNum">      34 </span>                :            : // #include &quot;dynamic_vino_lib/pipeline_filters.hpp&quot;
+<span class="lineNum">      35 </span>                :            : #include &quot;opencv2/opencv.hpp&quot;
+<span class="lineNum">      36 </span>                :            : 
+<span class="lineNum">      37 </span>                :            : /**
+<span class="lineNum">      38 </span>                :            :  * @class Pipeline
+<span class="lineNum">      39 </span>                :            :  * @brief This class is a pipeline class that stores the topology of
+<span class="lineNum">      40 </span>                :            :  * the input device, output device and networks and make inference. One pipeline
+<span class="lineNum">      41 </span>                :            :  * should have only one input device.
+<span class="lineNum">      42 </span>                :            :  */
+<span class="lineNum">      43 </span>                :<span class="lineCov">         20 : class Pipeline</span>
+<span class="lineNum">      44 </span>                :            : {
+<span class="lineNum">      45 </span>                :            : public:
+<span class="lineNum">      46 </span>                :            :   explicit Pipeline(const std::string &amp; name = &quot;pipeline&quot;);
+<span class="lineNum">      47 </span>                :            :   /**
+<span class="lineNum">      48 </span>                :            :    * @brief Add input device to the pipeline.
+<span class="lineNum">      49 </span>                :            :    * @param[in] name name of the current input device.
+<span class="lineNum">      50 </span>                :            :    * @param[in] input_device the input device instance to be added.
+<span class="lineNum">      51 </span>                :            :    * @return whether the add operation is successful
+<span class="lineNum">      52 </span>                :            :    */
+<span class="lineNum">      53 </span>                :            :   bool add(const std::string &amp; name, std::shared_ptr&lt;Input::BaseInputDevice&gt; input_device);
+<span class="lineNum">      54 </span>                :            :   /**
+<span class="lineNum">      55 </span>                :            :    * @brief Add inference network to the pipeline.
+<span class="lineNum">      56 </span>                :            :    * @param[in] parent name of the parent device or inference.
+<span class="lineNum">      57 </span>                :            :    * @param[in] name name of the current inference network.
+<span class="lineNum">      58 </span>                :            :    * @param[in] inference the inference instance to be added.
+<span class="lineNum">      59 </span>                :            :    * @return whether the add operation is successful
+<span class="lineNum">      60 </span>                :            :    */
+<span class="lineNum">      61 </span>                :            :   bool add(
+<span class="lineNum">      62 </span>                :            :     const std::string &amp; parent, const std::string &amp; name,
+<span class="lineNum">      63 </span>                :            :     std::shared_ptr&lt;dynamic_vino_lib::BaseInference&gt; inference);
+<span class="lineNum">      64 </span>                :            :   /**
+<span class="lineNum">      65 </span>                :            :    * @brief Add output device to the pipeline.
+<span class="lineNum">      66 </span>                :            :    * @param[in] parent name of the parent inference.
+<span class="lineNum">      67 </span>                :            :    * @param[in] name name of the current output device.
+<span class="lineNum">      68 </span>                :            :    * @param[in] output the output instance to be added.
+<span class="lineNum">      69 </span>                :            :    * @return whether the add operation is successful
+<span class="lineNum">      70 </span>                :            :    */
+<span class="lineNum">      71 </span>                :            :   bool add(
+<span class="lineNum">      72 </span>                :            :     const std::string &amp; parent, const std::string &amp; name,
+<span class="lineNum">      73 </span>                :            :     std::shared_ptr&lt;Outputs::BaseOutput&gt; output);
+<span class="lineNum">      74 </span>                :            : 
+<span class="lineNum">      75 </span>                :            :   bool add(const std::string &amp; name, std::shared_ptr&lt;Outputs::BaseOutput&gt; output);
+<span class="lineNum">      76 </span>                :            :   void addConnect(const std::string &amp; parent, const std::string &amp; name);
+<span class="lineNum">      77 </span>                :            :   // inline void addFilters(const std::vector&lt;Params::ParamManager::FilterRawData&gt;&amp; filters)
+<span class="lineNum">      78 </span>                :            :   // {
+<span class="lineNum">      79 </span>                :            :   //   filters_.add(filters);
+<span class="lineNum">      80 </span>                :            :   // }
+<span class="lineNum">      81 </span>                :            :   bool add(const std::string &amp; name, std::shared_ptr&lt;dynamic_vino_lib::BaseInference&gt; inference);
+<span class="lineNum">      82 </span>                :            :   /**
+<span class="lineNum">      83 </span>                :            :    * @brief Add inference network-output device edge to the pipeline.
+<span class="lineNum">      84 </span>                :            :    * @param[in] parent name of the parent inference.
+<span class="lineNum">      85 </span>                :            :    * @param[in] name name of the current output device.
+<span class="lineNum">      86 </span>                :            :    * @return whether the add operation is successful
+<span class="lineNum">      87 </span>                :            :    */
+<span class="lineNum">      88 </span>                :            :   bool add(const std::string &amp; parent, const std::string &amp; name);
+<span class="lineNum">      89 </span>                :            :   /**
+<span class="lineNum">      90 </span>                :            :    * @brief Do the inference once.
+<span class="lineNum">      91 </span>                :            :    * Data flow from input device to inference network, then to output device.
+<span class="lineNum">      92 </span>                :            :    */
+<span class="lineNum">      93 </span>                :            :   void runOnce();
+<span class="lineNum">      94 </span>                :            : 
+<span class="lineNum">      95 </span>                :            :   void callback(const std::string &amp; detection_name);
+<span class="lineNum">      96 </span>                :            :   /**
+<span class="lineNum">      97 </span>                :            :    * @brief Set the inference network to call the callback function as soon as
+<span class="lineNum">      98 </span>                :            :    * each inference is
+<span class="lineNum">      99 </span>                :            :    * finished.
+<span class="lineNum">     100 </span>                :            :    */
+<span class="lineNum">     101 </span>                :            :   void setCallback();
+<span class="lineNum">     102 </span>                :            :   void printPipeline();
+<span class="lineNum">     103 </span>                :            :   std::map&lt;std::string, std::shared_ptr&lt;Outputs::BaseOutput&gt;&gt; getOutputHandle()
+<span class="lineNum">     104 </span>                :            :   {
+<span class="lineNum">     105 </span>                :            :     return name_to_output_map_;
+<span class="lineNum">     106 </span>                :            :   }
+<span class="lineNum">     107 </span>                :            :   void setParams(PipelineParams pipeline_params)
+<span class="lineNum">     108 </span>                :            :   {
+<span class="lineNum">     109 </span>                :            :     params_ = std::make_shared&lt;PipelineParams&gt;(pipeline_params);
+<span class="lineNum">     110 </span>                :            :   }
+<span class="lineNum">     111 </span>                :            :   const std::shared_ptr&lt;PipelineParams&gt; getParameters()
+<span class="lineNum">     112 </span>                :            :   {
+<span class="lineNum">     113 </span>                :            :     return params_;
+<span class="lineNum">     114 </span>                :            :   }
+<span class="lineNum">     115 </span>                :            :   std::shared_ptr&lt;Input::BaseInputDevice&gt; getInputDevice()
+<span class="lineNum">     116 </span>                :            :   {
+<span class="lineNum">     117 </span>                :            :     return input_device_;
+<span class="lineNum">     118 </span>                :            :   }
+<span class="lineNum">     119 </span>                :            :   const std::multimap&lt;std::string, std::string&gt; getPipelineDetail()
+<span class="lineNum">     120 </span>                :            :   {
+<span class="lineNum">     121 </span>                :            :     return next_;
+<span class="lineNum">     122 </span>                :            :   }
+<span class="lineNum">     123 </span>                :            :   /**
+<span class="lineNum">     124 </span>                :            :   * @brief Get real time FPS (frames per second).
+<span class="lineNum">     125 </span>                :            :   */
+<span class="lineNum">     126 </span>                :            :   int getFPS() const
+<span class="lineNum">     127 </span>                :            :   {
+<span class="lineNum">     128 </span>                :            :     return fps_;
+<span class="lineNum">     129 </span>                :            :   }
+<span class="lineNum">     130 </span>                :            : 
+<span class="lineNum">     131 </span>                :            :   std::string findFilterConditions(const std::string &amp; input, const std::string &amp; output)
+<span class="lineNum">     132 </span>                :            :   {
+<span class="lineNum">     133 </span>        [<span class="branchCov" title="Branch 1 was taken 16 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">         16 :     return params_-&gt;findFilterConditions(input, output);</span>
+<span class="lineNum">     134 </span>                :            :   }
+<span class="lineNum">     135 </span>                :            : 
+<span class="lineNum">     136 </span>                :            : private:
+<span class="lineNum">     137 </span>                :            :   void initInferenceCounter();
+<span class="lineNum">     138 </span>                :            :   void increaseInferenceCounter();
+<span class="lineNum">     139 </span>                :            :   void decreaseInferenceCounter();
+<span class="lineNum">     140 </span>                :            :   bool isLegalConnect(const std::string parent, const std::string child);
+<span class="lineNum">     141 </span>                :            :   int getCatagoryOrder(const std::string name);
+<span class="lineNum">     142 </span>                :            :   void countFPS();
+<span class="lineNum">     143 </span>                :            :   void setFPS(int fps)
+<span class="lineNum">     144 </span>                :            :   {
+<span class="lineNum">     145 </span>                :<span class="lineCov">          4 :     fps_ = fps;</span>
+<span class="lineNum">     146 </span>                :            :   }
+<span class="lineNum">     147 </span>                :            : 
+<span class="lineNum">     148 </span>                :            :   const int kCatagoryOrder_Unknown = -1;
+<span class="lineNum">     149 </span>                :            :   const int kCatagoryOrder_Input = 1;
+<span class="lineNum">     150 </span>                :            :   const int kCatagoryOrder_Inference = 2;
+<span class="lineNum">     151 </span>                :            :   const int kCatagoryOrder_Output = 3;
+<span class="lineNum">     152 </span>                :            : 
+<span class="lineNum">     153 </span>                :            :   std::shared_ptr&lt;PipelineParams&gt; params_;
+<span class="lineNum">     154 </span>                :            :   // PipelineFilters filters_;
+<span class="lineNum">     155 </span>                :            : 
+<span class="lineNum">     156 </span>                :            :   std::shared_ptr&lt;Input::BaseInputDevice&gt; input_device_;
+<span class="lineNum">     157 </span>                :            :   std::string input_device_name_;
+<span class="lineNum">     158 </span>                :            :   std::multimap&lt;std::string, std::string&gt; next_;
+<span class="lineNum">     159 </span>                :            :   std::map&lt;std::string, std::shared_ptr&lt;dynamic_vino_lib::BaseInference&gt;&gt; name_to_detection_map_;
+<span class="lineNum">     160 </span>                :            :   std::map&lt;std::string, std::shared_ptr&lt;Outputs::BaseOutput&gt;&gt; name_to_output_map_;
+<span class="lineNum">     161 </span>                :            :   int total_inference_ = 0;
+<span class="lineNum">     162 </span>                :            :   std::set&lt;std::string&gt; output_names_;
+<span class="lineNum">     163 </span>                :            :   int width_ = 0;
+<span class="lineNum">     164 </span>                :            :   int height_ = 0;
+<span class="lineNum">     165 </span>                :            :   cv::Mat frame_;
+<span class="lineNum">     166 </span>                :            :   // for multi threads
+<span class="lineNum">     167 </span>                :            :   std::atomic&lt;int&gt; counter_;
+<span class="lineNum">     168 </span>                :            :   std::mutex counter_mutex_;
+<span class="lineNum">     169 </span>                :            :   std::condition_variable cv_;
+<span class="lineNum">     170 </span>                :            :   int fps_ = 0;
+<span class="lineNum">     171 </span>                :            :   int frame_cnt_ = 0;
+<span class="lineNum">     172 </span>                :            :   std::chrono::time_point&lt;std::chrono::high_resolution_clock&gt; t_start_;
+<span class="lineNum">     173 </span>                :            : };
+<span class="lineNum">     174 </span>                :            : 
+<span class="lineNum">     175 </span>                :            : #endif  // DYNAMIC_VINO_LIB__PIPELINE_HPP_
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.13</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>
